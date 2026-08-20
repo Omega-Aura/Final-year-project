@@ -1,0 +1,29 @@
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 1  RMSD 7.25
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 2  RMSD 6.83
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 3  RMSD 7.33
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 4  RMSD 0.77
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 5  RMSD 6.57
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 6  RMSD 7.11
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 7  RMSD 1.83
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 8  RMSD 4.07
+04_docking\4BTK_native_DTQ_seed11\out.sdf  pose 9  RMSD 5.03
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 1  RMSD 7.23
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 2  RMSD 7.40
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 3  RMSD 6.84
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 4  RMSD 0.78
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 5  RMSD 7.15
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 6  RMSD 7.85
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 7  RMSD 4.29
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 8  RMSD 6.14
+04_docking\4BTK_native_DTQ_seed22\out.sdf  pose 9  RMSD 4.92
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 1  RMSD 7.24
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 2  RMSD 6.84
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 3  RMSD 7.33
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 4  RMSD 0.75
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 5  RMSD 7.17
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 6  RMSD 7.85
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 7  RMSD 1.84
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 8  RMSD 4.95
+04_docking\4BTK_native_DTQ_seed33\out.sdf  pose 9  RMSD 4.18
+
+BEST 04_docking\4BTK_native_DTQ_seed33\out.sdf:4  0.75 A  ->  PASS

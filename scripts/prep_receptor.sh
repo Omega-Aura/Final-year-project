@@ -8,7 +8,6 @@ if [ -n "${CONDA_PREFIX:-}" ]; then
     UNIX_PREFIX=$(cygpath -u "$CONDA_PREFIX" 2>/dev/null || echo "$CONDA_PREFIX")
     export PATH="$UNIX_PREFIX/Library/bin:$UNIX_PREFIX/Scripts:$UNIX_PREFIX:$PATH"
 fi
-export PATH="/c/Users/sayan/miniforge3/envs/dock/Library/bin:/c/Users/sayan/miniforge3/envs/dock/Scripts:/c/Users/sayan/miniforge3/envs/dock:$PATH"
 
 PDB=$1; CHAIN=$2; LIG=$3; COFACTORS=${4:-""}
 D="03_receptors/$PDB"; mkdir -p "$D"
@@ -48,7 +47,7 @@ else
     MK_REC="mk_prepare_receptor"
 fi
 
-$MK_REC -a --read_pdb "$D/clean_noH.pdb" -o "$D/receptor" -p
+$MK_REC -a --default_altloc A --read_pdb "$D/clean_noH.pdb" -o "$D/receptor" -p
 
 # 4. grid box from the native ligand: centroid + bounding box + 8 A padding
 python - "$D" "$LIG" <<'PY'

@@ -1,0 +1,29 @@
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 1  RMSD 0.71
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 2  RMSD 8.46
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 3  RMSD 8.71
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 4  RMSD 5.32
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 5  RMSD 6.77
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 6  RMSD 4.74
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 7  RMSD 5.68
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 8  RMSD 8.58
+04_docking\7JXX_native_VP7_seed11\out.sdf  pose 9  RMSD 7.37
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 1  RMSD 0.73
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 2  RMSD 8.45
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 3  RMSD 8.72
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 4  RMSD 5.30
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 5  RMSD 4.89
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 6  RMSD 6.76
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 7  RMSD 8.58
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 8  RMSD 6.47
+04_docking\7JXX_native_VP7_seed22\out.sdf  pose 9  RMSD 7.13
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 1  RMSD 0.71
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 2  RMSD 8.48
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 3  RMSD 8.76
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 4  RMSD 5.31
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 5  RMSD 4.93
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 6  RMSD 6.75
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 7  RMSD 2.09
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 8  RMSD 5.28
+04_docking\7JXX_native_VP7_seed33\out.sdf  pose 9  RMSD 8.42
+
+BEST 04_docking\7JXX_native_VP7_seed33\out.sdf:1  0.71 A  ->  PASS
