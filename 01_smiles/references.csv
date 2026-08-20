@@ -1,11 +1,15 @@
-ID,Target,Measured,Note,SMILES
-safinamide,MAO-B,7.67 nM,also the native ligand of 2V5Z
-selegiline,MAO-B,7.0 nM,approved drug
-rasagiline,MAO-B,4.4 nM,approved drug
-kaempferol,MAO-B,—,natural flavonol seed
-quercetin,MAO-B,—,natural flavonol seed
-harmine,MAO-A,—,native ligand of 2Z5X
-clorgyline,MAO-A,—,reference MAO-A inhibitor
-VP7,TTBK1,—,native ligand of 7JXX
-DTQ,TTBK1,240 nM,native ligand of 4BTK
-9IV,TTBK1/TTBK2,330–530 / 490 nM,native ligand of 7Q8V and 7Q8Y
+id,smiles,target,measured_value,measured_unit,source,role,native_of_pdb,expected_cip,formula,mw,notes,mechanism,use_in_correlation
+safinamide,C[C@H](NCc1ccc(OCc2cccc(F)c2)cc1)C(N)=O,MAO-B,7.67,nM,IC50; value as cited in project manuscript Introduction - CONFIRM primary source before submission,benchmark,,S,C17H19FN2O2,302.35,TRUE safinamide (secondary amine). NOT the same as PDB ligand SAG - see README,reversible,yes
+SAG_pdb,C[C@H](/N=C/c1ccc(OCc2cccc(F)c2)cc1)C(N)=O,MAO-B,,,"RCSB Chemical Component Dictionary, ligand SAG",redock_reference,2V5Z,S,C17H17FN2O2,300.33,"Imine (C=N) as modelled in 2V5Z. Use ONLY for redocking validation, never for the benchmark plot",reversible,no
+selegiline,C#CCN(C)[C@H](C)Cc1ccccc1,MAO-B,7.0,nM,IC50; value as cited in project manuscript Introduction - CONFIRM primary source,benchmark,,R,C13H17N,187.29,(R)-(-)-deprenyl. Approved drug. Irreversible covalent inhibitor - see README caveat,IRREVERSIBLE_covalent,no
+rasagiline,C#CCN[C@@H]1CCc2ccccc21,MAO-B,4.4,nM,IC50; value as cited in project manuscript Introduction - CONFIRM primary source,benchmark,,R,C12H13N,171.24,(R)-enantiomer. Approved drug. Irreversible covalent inhibitor - see README caveat,IRREVERSIBLE_covalent,no
+kaempferol,O=c1c(O)c(-c2ccc(O)cc2)oc2cc(O)cc(O)c12,MAO-B,,,TO FILL from Chaurasiya et al. 2020 Molecules 25:5358,benchmark,,achiral,C15H10O6,286.24,Natural flavonol seed compound from the project library,reversible,yes
+quercetin,O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12,MAO-B,,,TO FILL from Chaurasiya et al. 2020 Molecules 25:5358,benchmark,,achiral,C15H10O7,302.24,Natural flavonol seed compound from the project library,reversible,yes
+harmine,COc1ccc2c(c1)[nH]c1c(C)nccc12,MAO-A,,,"RCSB Chemical Component Dictionary, ligand HRM",redock_reference,2Z5X,achiral,C13H12N2O,212.25,Native ligand of 2Z5X. Reversible MAO-A selective inhibitor,reversible,no
+clorgyline,C#CCN(C)CCCOc1ccc(Cl)cc1Cl,MAO-A,,,Wikipedia chembox - CONFIRM against primary source,benchmark,,achiral,C13H15Cl2NO,272.17,Reference MAO-A selective inhibitor. Irreversible covalent - see README caveat,IRREVERSIBLE_covalent,no
+VP7,CC(C)(O)C#Cc1ccc2[nH]c3c(c2c1)-c1nc(N)ncc1CCC3,TTBK1,,,"RCSB Chemical Component Dictionary, ligand VP7",redock_reference,7JXX,achiral,C20H20N4O,332.41,Native ligand of 7JXX. Halkina et al. J Med Chem 2021 64:6358 (Biogen series),reversible,no
+DTQ,COc1cc2ncnc(Nc3cccc(O)c3)c2cc1OC,TTBK1,240.0,nM,RCSB entry 4BTK binding-affinity annotation - CONFIRM against Xue et al. ChemMedChem 2013 8:1846,redock_reference,4BTK,achiral,C16H15N3O3,297.31,Native ligand of 4BTK. ATP-competitive,reversible,no
+9IV_ttbk1,Clc1ccccc1Oc1ccc(Nc2ncnc3[nH]ccc23)cc1,TTBK1,430.0,nM,RCSB entry 7Q8V annotation: IC50 min 330 max 530 nM from 2 assays - CONFIRM against Nozal et al. J Med Chem 2022 65:1585,calibration,7Q8V,achiral,C18H13ClN4O,336.78,CALIBRATION PAIR. Same molecule as 9IV_ttbk2. Midpoint of reported range used,reversible,yes
+9IV_ttbk2,Clc1ccccc1Oc1ccc(Nc2ncnc3[nH]ccc23)cc1,TTBK2,490.0,nM,RCSB entry 7Q8Y annotation - CONFIRM against Nozal et al. J Med Chem 2022 65:1585,calibration,7Q8Y,achiral,C18H13ClN4O,336.78,CALIBRATION PAIR. Same molecule as 9IV_ttbk1. True dDG between paralogs is near zero,reversible,yes
+lazabemide,NCCNC(=O)c1ccc(Cl)cn1,MAO-B,,nM,"TO FILL - reversible MAO-B inhibitor, get IC50 from a primary source",benchmark,,achiral,C8H10ClN3O,199.64,REVERSIBLE - safe for the correlation plot. Added to strengthen a thin reversible set,reversible,yes
+isatin,O=C1Nc2ccccc2C1=O,MAO-B,,uM,"TO FILL - endogenous reversible MAO-B inhibitor, get IC50 from a primary source",benchmark,,achiral,C8H5NO2,147.13,"REVERSIBLE, weak (uM). Valuable as the weak-end anchor of the correlation",reversible,yes
