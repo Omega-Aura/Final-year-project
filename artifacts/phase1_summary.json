@@ -1,0 +1,45 @@
+{
+  "receptors_prepared": {
+    "2V5Z": {
+      "role": "MAO-B on-target",
+      "cofactor": "FAD (native, auto-typed)",
+      "status": "OK"
+    },
+    "4NFM": {
+      "role": "TTBK1 on-target (apo)",
+      "cofactor": "none",
+      "status": "OK - box transferred from 7Q8Y via structural alignment"
+    },
+    "2Z5X": {
+      "role": "MAO-A anti-target",
+      "cofactor": "FAD (covalently linked to Cys406, transplanted from 2V5Z template)",
+      "status": "OK - required custom splice workaround"
+    },
+    "6U0K": {
+      "role": "TTBK2 anti-target #2",
+      "cofactor": "none",
+      "status": "OK"
+    },
+    "7Q8Y": {
+      "role": "TTBK2 anti-target #1 (primary, provided box-transfer template)",
+      "cofactor": "none",
+      "status": "OK but FAILED redocking validation"
+    }
+  },
+  "ligand_set_prepared": 10,
+  "protonation_ph": 7.4,
+  "redocking_validation": {
+    "MAO-B_2V5Z_safinamide": {
+      "top1_rmsd_A": 1.57,
+      "best_rmsd_A": 1.57,
+      "pass_threshold_2.0A": true,
+      "note": "PASS -- initial CCD download was wrong tautomer (imine), corrected via literature SMILES template"
+    },
+    "TTBK2_7Q8Y_9IV": {
+      "top1_rmsd_A": 8.46,
+      "best_of_20_rmsd_A": 5.29,
+      "pass_threshold_2.0A": false,
+      "note": "FAIL -- no steric clash found, re-ran at exhaustiveness=32/20poses, still >5A. Vina scoring prefers an alternate pose/site over the crystal pose."
+    }
+  }
+}

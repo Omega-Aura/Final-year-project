@@ -1,0 +1,119 @@
+{
+  "smiles": [
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1Cc1ccccc1",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "O=c1c(O)c(-c2ccc(C(F)(F)F)c(CF)c2)oc2cccc(O)c12",
+    "CN1CCN(c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(F)(F)F)CC1",
+    "CCc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "C=Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1Cc1ccccc1",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(C)(C)C",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N1CCCCC1",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N1CCCC1",
+    "O=c1c(O)c(-c2ccc(C(F)F)c(C(F)F)c2)oc2cccc(O)c12",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1N1CCCCC1",
+    "C=C(F)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F",
+    "CCc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1N1CCCCC1"
+  ],
+  "results": [
+    {
+      "best_score": -10.654,
+      "consensus_score": -10.631,
+      "top1_std": 0.016872067646458055,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -10.179,
+      "consensus_score": -10.105333333333334,
+      "top1_std": 0.0544691553898987,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -9.983,
+      "consensus_score": -9.897666666666668,
+      "top1_std": 0.06272869270827301,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -10.218,
+      "consensus_score": -10.064333333333334,
+      "top1_std": 0.11267159752523646,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -10.192,
+      "consensus_score": -10.112666666666668,
+      "top1_std": 0.061543119481836286,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -10.21,
+      "consensus_score": -10.112,
+      "top1_std": 0.07179600731702813,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -10.259,
+      "consensus_score": -10.238,
+      "top1_std": 0.020999999999999908,
+      "n_seeds_ok": 2
+    },
+    {
+      "best_score": -10.098,
+      "consensus_score": -10.016666666666667,
+      "top1_std": 0.05751714720170207,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -10.017,
+      "consensus_score": -10.015666666666666,
+      "top1_std": 0.001885618083163919,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -9.816,
+      "consensus_score": -9.7965,
+      "top1_std": 0.01950000000000074,
+      "n_seeds_ok": 2
+    },
+    {
+      "best_score": -10.086,
+      "consensus_score": -10.081999999999999,
+      "top1_std": 0.004966554808584365,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -9.938,
+      "consensus_score": -9.833,
+      "top1_std": 0.1442705791213168,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -9.964,
+      "consensus_score": -9.922,
+      "top1_std": 0.041999999999999815,
+      "n_seeds_ok": 2
+    },
+    {
+      "best_score": -10.389,
+      "consensus_score": -10.291333333333334,
+      "top1_std": 0.06940861297818542,
+      "n_seeds_ok": 3
+    },
+    {
+      "best_score": -9.863,
+      "consensus_score": -9.771666666666667,
+      "top1_std": 0.08624126364771954,
+      "n_seeds_ok": 3
+    }
+  ],
+  "receptor": "../phase1_outputs/7Q8Y_rec.pdbqt",
+  "exhaustiveness": 32,
+  "n_poses": 9,
+  "seeds": [
+    11,
+    22,
+    33
+  ]
+}

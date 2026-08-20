@@ -1,0 +1,30 @@
+{
+  "candidate": "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+  "candidate_label": "cand_primary_CF3 (7-deoxyflavonol, 4-CF3/methyl B-ring)",
+  "docking_on_target": {
+    "TTBK1_consensus_best_kcal_mol": -7.951,
+    "MAOB_consensus_best_kcal_mol": -11.416
+  },
+  "docking_anti_target": {
+    "MAOA_consensus_best_kcal_mol": -11.509,
+    "TTBK2_6U0K_consensus_best_kcal_mol": -9.661,
+    "TTBK2_7Q8Y_consensus_best_kcal_mol": -10.179
+  },
+  "docking_selectivity_margins_kcal_mol": {
+    "MAOB_vs_MAOA": 0.0929999999999999,
+    "TTBK1_vs_TTBK2_6U0K": 1.71,
+    "TTBK1_vs_TTBK2_7Q8Y": 2.2280000000000006
+  },
+  "mmgbsa_on_target": {
+    "TTBK1_dG_kcal_mol": {
+      "mean": -26.3172,
+      "std": 5.3318,
+      "sem": 0.5332
+    },
+    "MAOB_dG_kcal_mol": {
+      "mean": -36.8492,
+      "std": 2.2956,
+      "sem": 0.2296
+    }
+  }
+}

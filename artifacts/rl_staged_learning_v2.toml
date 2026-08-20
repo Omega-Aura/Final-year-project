@@ -1,0 +1,95 @@
+run_type = "staged_learning"
+device = "cpu"
+tb_logdir = "tb_logs"
+json_out_config = "_rl_staged_learning.json"
+
+[parameters]
+summary_csv_prefix = "rl_staged_learning"
+use_checkpoint = false
+purge_memories = false
+
+## LibInvent
+prior_file = "REINVENT4/priors/libinvent.prior"
+agent_file = "REINVENT4/priors/libinvent.prior"
+smiles_file = "generation/flavonol_7deoxy_scaffold.smi"
+
+batch_size = 32
+randomize_smiles = true
+
+[learning_strategy]
+type = "dap"
+sigma = 128
+rate = 0.0001
+
+[diversity_filter]
+type = "IdenticalMurckoScaffold"
+bucket_size = 25
+minscore = 0.4
+
+### Stage 1: dual-target docking reward (TTBK1 + MAO-B) + synthetic accessibility
+[[stage]]
+chkpt_file = 'generation/rl_stage1.chkpt'
+termination = "simple"
+max_score = 0.9
+min_steps = 15
+max_steps = 40
+
+[stage.scoring]
+type = "geometric_mean"
+
+# --- TTBK1 on-target docking (4NFM) ---
+[[stage.scoring.component]]
+[stage.scoring.component.ExternalProcess]
+
+[[stage.scoring.component.ExternalProcess.endpoint]]
+name = "TTBK1_dock"
+weight = 0.35
+params.executable = "/home/aritra/.claude-science/conda/envs/flavodock/bin/python3"
+params.args = "/home/aritra/.claude-science/orgs/fb830cf6-d078-4892-a5de-2d09cfbe064c/workspaces/6b40bf21-1af3-4a19-b7ee-e172a8c4196b/generation/scoring/dock_score.py --receptor /home/aritra/.claude-science/orgs/fb830cf6-d078-4892-a5de-2d09cfbe064c/workspaces/6b40bf21-1af3-4a19-b7ee-e172a8c4196b/phase1_outputs/4NFM_rec.pdbqt --center 9.25 23.18 26.94 --box_size 20 20 20 --exhaustiveness 4 --n_workers 8"
+params.property = "dock_score"
+transform.type = "sigmoid"
+transform.high = 12.0
+transform.low = 4.0
+transform.k = 0.5
+
+# --- MAO-B on-target docking (2V5Z) ---
+[[stage.scoring.component]]
+[stage.scoring.component.ExternalProcess]
+
+[[stage.scoring.component.ExternalProcess.endpoint]]
+name = "MAOB_dock"
+weight = 0.35
+params.executable = "/home/aritra/.claude-science/conda/envs/flavodock/bin/python3"
+params.args = "/home/aritra/.claude-science/orgs/fb830cf6-d078-4892-a5de-2d09cfbe064c/workspaces/6b40bf21-1af3-4a19-b7ee-e172a8c4196b/generation/scoring/dock_score.py --receptor /home/aritra/.claude-science/orgs/fb830cf6-d078-4892-a5de-2d09cfbe064c/workspaces/6b40bf21-1af3-4a19-b7ee-e172a8c4196b/phase1_outputs/2V5Z_rec.pdbqt --center 51.89 156.45 28.56 --box_size 28 28 28 --exhaustiveness 4 --n_workers 8"
+params.property = "dock_score"
+transform.type = "sigmoid"
+transform.high = 12.0
+transform.low = 4.0
+transform.k = 0.5
+
+# --- Synthetic accessibility (built-in RDKit SAScore, lower=better -> invert with double_sigmoid) ---
+[[stage.scoring.component]]
+[stage.scoring.component.SAScore]
+
+[[stage.scoring.component.SAScore.endpoint]]
+name = "SA_score"
+weight = 0.15
+transform.type = "reverse_sigmoid"  # lower SA (easier synthesis) -> higher reward
+transform.high = 6.0
+transform.low = 2.0
+transform.k = 0.5
+
+# --- BBB permeability (signed distance to BOILED-Egg ellipse boundary; positive=inside) ---
+[[stage.scoring.component]]
+[stage.scoring.component.ExternalProcess]
+
+[[stage.scoring.component.ExternalProcess.endpoint]]
+name = "BBB_signed_dist"
+weight = 0.15
+params.executable = "/home/aritra/.claude-science/conda/envs/flavodock/bin/python3"
+params.args = "./generation/scoring/bbb_score.py"
+params.property = "bbb_signed_dist"
+transform.type = "sigmoid"
+transform.high = 5.0
+transform.low = -5.0
+transform.k = 0.5

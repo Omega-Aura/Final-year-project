@@ -1,0 +1,104 @@
+{
+  "smiles": [
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1Cc1ccccc1",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "O=c1c(O)c(-c2ccc(C(F)(F)F)c(CF)c2)oc2cccc(O)c12",
+    "CN1CCN(c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(F)(F)F)CC1",
+    "CCc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "C=Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1Cc1ccccc1",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(C)(C)C",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N1CCCCC1",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N1CCCC1",
+    "O=c1c(O)c(-c2ccc(C(F)F)c(C(F)F)c2)oc2cccc(O)c12",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1N1CCCCC1",
+    "C=C(F)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F",
+    "CCc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1N1CCCCC1"
+  ],
+  "results": [
+    {
+      "vinardo_best": -6.458,
+      "vinardo_mean": -6.188333333333333,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -8.73,
+      "vinardo_mean": -8.624333333333334,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -8.371,
+      "vinardo_mean": -8.223666666666666,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -7.493,
+      "vinardo_mean": -5.744,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -8.291,
+      "vinardo_mean": -8.256499999999999,
+      "n_seeds_ok": 2
+    },
+    {
+      "vinardo_best": -8.416,
+      "vinardo_mean": -8.386333333333333,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -9.507,
+      "vinardo_mean": -7.729333333333334,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -8.863,
+      "vinardo_mean": -8.8565,
+      "n_seeds_ok": 2
+    },
+    {
+      "vinardo_best": -7.962,
+      "vinardo_mean": -7.958,
+      "n_seeds_ok": 2
+    },
+    {
+      "vinardo_best": -8.178,
+      "vinardo_mean": -8.111,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -8.344,
+      "vinardo_mean": -8.269,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -8.336,
+      "vinardo_mean": -8.046,
+      "n_seeds_ok": 2
+    },
+    {
+      "vinardo_best": -8.74,
+      "vinardo_mean": -8.694,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -8.816,
+      "vinardo_mean": -8.733666666666666,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -7.672,
+      "vinardo_mean": -7.476,
+      "n_seeds_ok": 2
+    }
+  ],
+  "receptor": "../phase1_outputs/2V5Z_rec.pdbqt",
+  "exhaustiveness": 24,
+  "n_poses": 5,
+  "seeds": [
+    11,
+    22,
+    33
+  ]
+}

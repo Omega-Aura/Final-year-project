@@ -1,0 +1,67 @@
+{
+  "2V5Z": {
+    "center": [
+      51.89,
+      156.45,
+      28.56
+    ],
+    "size": [
+      20.0,
+      20.0,
+      20.0
+    ],
+    "role": "MAO-B on-target"
+  },
+  "2Z5X": {
+    "center": [
+      40.58,
+      26.93,
+      -14.54
+    ],
+    "size": [
+      20.0,
+      20.0,
+      20.0
+    ],
+    "role": "MAO-A anti-target"
+  },
+  "6U0K": {
+    "center": [
+      23.3,
+      29.5,
+      17.33
+    ],
+    "size": [
+      20.0,
+      20.0,
+      20.0
+    ],
+    "role": "TTBK2 anti-target opt1"
+  },
+  "7Q8Y": {
+    "center": [
+      21.2,
+      -26.41,
+      40.89
+    ],
+    "size": [
+      20.0,
+      20.0,
+      20.0
+    ],
+    "role": "TTBK2 anti-target opt2 (primary)"
+  },
+  "4NFM": {
+    "center": [
+      9.25,
+      23.18,
+      26.94
+    ],
+    "size": [
+      20.0,
+      20.0,
+      20.0
+    ],
+    "role": "TTBK1 on-target (apo; box transferred from 7Q8Y via kinase-domain superposition, RMSD=1.12 A, 84% seq id)"
+  }
+}

@@ -1,0 +1,11 @@
+name,smiles,class,role
+Kaempferol_7_O_glucoside,C1=CC(=CC=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O[C@H]4[C@@H]([C@H]([C@@H]([C@H](O4)CO)O)O)O)O)O)O,flavonoid,Evolvulus alsinoides flavonoid (flavone;flavonol)
+Kaempferol_3_O_glucoside,C1=CC(=CC=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O[C@H]4[C@@H]([C@H]([C@@H]([C@H](O4)CO)O)O)O)O,flavonoid,Evolvulus alsinoides flavonoid (flavone;flavonol)
+Isoquercitrin,C1=CC(=C(C=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O[C@H]4[C@@H]([C@H]([C@H](O4)[C@@H](CO)O)O)O)O)O,flavonoid,Evolvulus alsinoides flavonoid (flavone;flavonol)
+Evolvoside_C,C[C@H]1[C@@H]([C@H]([C@H]([C@@H](O1)OC[C@@H]2[C@H]([C@@H]([C@H]([C@@H](O2)OC3=CC=C(C=C3)C4=C(C(=O)C5=C(C=C(C=C5O4)O)O)O)O)O)O)O[C@H]6[C@@H]([C@H]([C@@H]([C@H](O6)CO)O)O)O)O)O,flavonoid,Evolvulus alsinoides flavonoid (flavone;flavonol)
+Kaempferol,C1=CC(=CC=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O)O,flavonoid,Evolvulus alsinoides flavonoid (flavone;flavonol)
+Quercetin,C1=CC(=C(C=C1C2=C(C(=O)C3=C(C=C(C=C3O2)O)O)O)O)O,flavonoid,Evolvulus alsinoides flavonoid (flavone;flavonol)
+Safinamide,C[C@@H](C(=O)N)NCC1=CC=C(C=C1)OCC2=CC(=CC=C2)F,reference_inhibitor,MAO-B reference inhibitor
+Selegiline,C[C@H](CC1=CC=CC=C1)N(C)CC#C,reference_inhibitor,MAO-B reference inhibitor
+Rasagiline,C#CCN[C@@H]1CCC2=CC=CC=C12,reference_inhibitor,MAO-B reference inhibitor
+Halkina,CC[C@@](C)(C#CC1=CC2=C(C=CN2C3=CC(=NC(=N3)N)OC)C=N1)O,reference_inhibitor,TTBK1 reference inhibitor

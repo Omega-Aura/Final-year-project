@@ -1,0 +1,222 @@
+{
+  "version": 3,
+  "created_at": "2026-08-17T12:25:03.073Z",
+  "task_summary": "Dual-target flavonoid CADD pipeline against TTBK1 and MAO-B (revised)",
+  "agents": [],
+  "phases": [
+    {
+      "name": "Phase 0 — Target validation & plant selection",
+      "delegations": [
+        {
+          "name": "Targets",
+          "steps": [
+            {
+              "title": "Review target disease biology",
+              "description": "Compile literature evidence for TTBK1 in pathological tau phosphorylation (AD/tauopathies, TDP-43/ALS) and MAO-B in dopaminergic and oxidative-stress pathways, using the PubMed and Scholar Gateway connectors. Note: OpenAlex/mcp-literature requires an API key not configured in this session, so do not rely on it. Record citations for the manuscript introduction."
+            },
+            {
+              "title": "Select reference inhibitors per target",
+              "description": "Identify 2-3 experimentally validated positive controls per target with measured potencies: a brain-penetrant TTBK1 azaindazole-class inhibitor, and safinamide plus selegiline for MAO-B. CORRECTED SOURCES: ChEMBL (mcp-chembl) and BindingDB (mcp-chemistry) ARE reachable in this session and are the primary route for IC50/Ki values; cross-check against primary literature via PubMed. Always fetch canonical SMILES programmatically from PubChem — never hand-type a structure from memory."
+            },
+            {
+              "title": "Fetch and inspect target and anti-target structures",
+              "description": "Download the on-targets 2V60 (MAO-B with safinamide and FAD) and 4NFM (TTBK1 kinase domain) from RCSB. ALSO download the anti-targets for selectivity: a human TTBK2 kinase-domain structure and a human MAO-A structure (e.g. 2Z5X), to be prepared identically later. For each, report resolution, chains, co-crystallized ligands, cofactors, gaps and the residues lining each active site. If no experimental TTBK2 kinase-domain structure exists, fall back to an AlphaFold model via mcp-structures-interactions and state the substitution explicitly."
+            }
+          ]
+        },
+        {
+          "name": "Phytochemistry",
+          "steps": [
+            {
+              "title": "Screen candidate underexplored species",
+              "description": "Assemble 5-6 candidate Indian medicinal species with traditional neurological indications and confirmed flavonoid content (e.g. Evolvulus alsinoides, Desmodium gangeticum, Clerodendrum serratum, Sida cordifolia, Celastrus paniculatus). For each, compile reported flavonoid constituents from PubChem and IMPPAT-type sources, and record the dominant flavonoid scaffold class present (flavanone / flavone / flavonol / isoflavone) — this determines the scaffold constraint used in Phase 3."
+            },
+            {
+              "title": "Quantify CADD literature footprint",
+              "description": "For each candidate species, count existing publications combining the species with docking/molecular-modelling terms, and separately with TTBK1 or MAO-B, using PubMed and Scholar Gateway. Report the exact query strings and hit counts so the novelty claim is reproducible rather than asserted."
+            },
+            {
+              "title": "Recommend species and build flavonoid library",
+              "description": "Rank candidates by flavonoid coverage against literature gap, recommend one species, and emit a curated SMILES library of its reported flavonoids with PubChem CIDs. Record the dominant scaffold class of the chosen species as an explicit parameter for downstream scaffold-constrained generation. Save the selection table as an artifact."
+            }
+          ]
+        }
+      ],
+      "id": "phase-0"
+    },
+    {
+      "name": "Phase 1-2 — Receptor prep & validated baseline docking",
+      "delegations": [
+        {
+          "name": "Docking baseline",
+          "steps": [
+            {
+              "title": "Prepare on-target and anti-target receptors",
+              "description": "Strip non-catalytic waters and crystallization additives while retaining the FAD cofactor in MAO-B (and in MAO-A), add polar hydrogens, assign Gasteiger charges, and write .pdbqt receptors with Meeko/OpenBabel for ALL four proteins: on-targets TTBK1 (4NFM) and MAO-B (2V60), and anti-targets TTBK2 and MAO-A. Define grid boxes centred on each co-crystallized ligand / catalytic site."
+            },
+            {
+              "title": "Enumerate ligand protonation and tautomer states",
+              "description": "Before conformer generation, enumerate dominant protonation and tautomer states of every ligand at physiological pH 7.4 (e.g. Dimorphite-DL, or OpenBabel -p 7.4). This is mandatory for polyphenolic flavonoids, whose phenolic-OH protonation and keto/enol tautomers materially change docking. Carry the correct state(s) forward into 3D generation."
+            },
+            {
+              "title": "Validate protocol by native redocking",
+              "description": "Re-dock each native co-crystal ligand into its own prepared receptor and compute heavy-atom RMSD against the experimental pose. Require RMSD below 2.0 A; if it fails, revise protonation or box size and re-run before proceeding. Report the achieved RMSD for both on-targets (and anti-targets where a co-crystal ligand exists)."
+            },
+            {
+              "title": "Dock flavonoid library and controls",
+              "description": "Generate 3D conformers from the protonation-corrected ligands, MMFF94-minimize, and dock the plant flavonoid library plus reference inhibitors against both on-target receptors at standard exhaustiveness. Record binding energies and set the benchmark score. NOTE: treat this Vina benchmark as a FILTER THRESHOLD, not proof of superiority — because Vina score is also used as the generative reward in Phase 3, final superiority is decided by the independent checks in Phases 5 and 7, not by Vina alone."
+            },
+            {
+              "title": "Map baseline interactions",
+              "description": "Profile protein-ligand contacts for the best baseline poses with ProLIF, checking TTBK1 hinge/catalytic contacts and the MAO-B FAD-adjacent aromatic cage (Tyr398/Tyr435). Save the baseline results table and interaction fingerprints."
+            }
+          ]
+        }
+      ],
+      "id": "phase-1"
+    },
+    {
+      "name": "Phase 3-4 — Generative design & pharmacokinetic filtering",
+      "delegations": [
+        {
+          "name": "Generation",
+          "steps": [
+            {
+              "title": "Stand up the generative route",
+              "description": "Attempt a REINVENT4 source install for scaffold-constrained generation on the chosen species' dominant flavonoid scaffold (parameterized from Phase 0 — do NOT hard-code flavanone; it may be a flavone, flavonol or isoflavone). If its dependencies cannot be satisfied in this sandbox, substitute RDKit scaffold-constrained R-group enumeration over medicinally relevant substituents and state the substitution explicitly in the methods."
+            },
+            {
+              "title": "Generate candidate library",
+              "description": "Produce several thousand novel candidates that retain the chosen flavonoid core while varying R-groups, scoring each against a composite reward of predicted affinity for both targets plus synthetic accessibility. Deduplicate against the starting library. NOTE: the docking-score reward is an optimization heuristic only; genuine ranking is established downstream by independent metrics (consensus rescoring in Phase 5, MM-PBSA in Phase 7)."
+            },
+            {
+              "title": "Pre-filter, then dock-score generated candidates",
+              "description": "FIRST apply the cheap drug-likeness / BBB / PAINS filters (see Filtering delegation) to the several-thousand generated candidates, THEN dock only the survivors against both on-target receptors, keeping molecules that improve on the Phase 2 benchmark for both targets. This avoids spending docking cycles on molecules that fail Ro5/BBB anyway. Save the scored candidate table."
+            }
+          ]
+        },
+        {
+          "name": "Filtering",
+          "steps": [
+            {
+              "title": "Compute drug-likeness and BBB filters",
+              "description": "Compute Lipinski and Veber descriptors, TPSA, WLOGP and the BOILED-Egg BBB-permeation criterion for all candidates, from published rule sets (SwissADME/pkCSM are web tools and cannot be scripted here). Eliminate non-BBB-permeant molecules, which is mandatory given both targets are intracranial. EXPECTATION: BOILED-Egg predicts only passive permeation, and flavonoids are frequently poor CNS penetrants (P-gp efflux, low metabolic stability) — anticipate that this filter removes a large fraction of the library and that the surviving set may be thin; do not assume 10-20 hits clear it comfortably."
+            },
+            {
+              "title": "Apply PAINS and reactive-group filters",
+              "description": "Screen with the RDKit PAINS, Brenk and NIH substructure catalogs to remove pan-assay-interference and reactive false positives, reporting which candidates were removed and why. Note that polyphenolic flavonoids themselves frequently trip catechol/quinone PAINS alerts — report this honestly rather than silently exempting the parent scaffold. Run this cascade BEFORE the full docking pass."
+            },
+            {
+              "title": "Run novelty check and select shortlist",
+              "description": "Query PubChem by exact structure and similarity to confirm shortlisted candidates are not already reported, so the novel-chemotype claim holds; additionally check ZINC22 (mcp-zinc) for purchasable near-neighbours, which both tests novelty and identifies commercially available analogues for future assays. Narrow to the top 10-20 dual-target hits that survived the filter cascade AND the docking pass, and save the filter-cascade table."
+            }
+          ]
+        }
+      ],
+      "id": "phase-2"
+    },
+    {
+      "name": "Phase 5 — Precision validation & interaction profiling",
+      "delegations": [
+        {
+          "name": "Precision docking",
+          "steps": [
+            {
+              "title": "Re-dock shortlist at high exhaustiveness with consensus rescoring",
+              "description": "Convert shortlisted SMILES to 3D from their pH-7.4 states, MMFF94-minimize, and re-dock at maximum exhaustiveness with multiple replicate seeds against both on-target receptors to assess score reproducibility and pose convergence. Add an INDEPENDENT rescoring of the top poses with a second scoring function (e.g. Smina/Vinardo or an RF-Score-type rescorer) so final ranking does not depend solely on the Vina function used as the generative reward — this breaks the docking-score circularity. Report replicate score spread, not just the best value."
+            },
+            {
+              "title": "Counter-screen against anti-targets for selectivity",
+              "description": "Dock the shortlist against the anti-targets TTBK2 and MAO-A (prepared in Phase 1) under identical settings, and compute the selectivity margin (on-target minus anti-target score) for each candidate. This converts the TTBK1/TTBK2 and MAO-B/MAO-A selectivity caveats from a qualitative discussion point into a measured, reportable result. Caveat to state: TTBK1 and TTBK2 kinase domains are highly similar, so a large computed margin should be interpreted cautiously."
+            },
+            {
+              "title": "Profile and verify new interactions",
+              "description": "Confirm that generated functional groups form genuine new contacts rather than merely improving score: hinge-region and catalytic-residue contacts for TTBK1, FAD-adjacent aromatic cage for MAO-B. Cluster replicate poses and report occupancy of key contacts."
+            },
+            {
+              "title": "Render pose and interaction figures",
+              "description": "Produce publication-grade binding-pose renders and 2D interaction diagrams for the leading complexes, loading the figure-style skill before rendering deliverables."
+            }
+          ]
+        }
+      ],
+      "id": "phase-3"
+    },
+    {
+      "name": "Phase 6-7 — Molecular dynamics & binding free energy",
+      "delegations": [
+        {
+          "name": "MD",
+          "steps": [
+            {
+              "title": "Build solvated MD systems",
+              "description": "Parameterize the top 2-3 complexes, solvate in a physiological water box with counter-ions, and write complete GROMACS topology and .mdp input sets for minimization, equilibration and production. Include correct FAD cofactor parameters for the MAO-B system. These are deliverables regardless of whether compute is attached."
+            },
+            {
+              "title": "Dispatch production MD to GPU compute",
+              "description": "Re-check available compute targets; once a GPU host is attached, dispatch production runs per complex and collect trajectories. REPLICA GUIDANCE: prefer triplicate ~100 ns runs per complex to demonstrate reproducibility where GPU time allows; fall back to a single 50-100 ns run only if compute is constrained, and state which was done in the methods. If no target is available, mark this step blocked and hand over the runnable input set rather than substituting synthetic trajectories."
+            },
+            {
+              "title": "Analyse trajectories and compute MM-PBSA",
+              "description": "Extract RMSD, RMSF and radius-of-gyration traces (averaged across replicas where available), hydrogen-bond occupancy, and run gmx_MMPBSA binding free energy with per-residue decomposition. Treat MM-PBSA as the primary INDEPENDENT ranking metric while stating its known limitations (no explicit entropy, solvent-model sensitivity); cross-check driving residues against the Phase 5 interaction map."
+            }
+          ]
+        }
+      ],
+      "id": "phase-4"
+    },
+    {
+      "name": "Phase 8-9 — Selectivity ranking & manuscript",
+      "delegations": [
+        {
+          "name": "Ranking",
+          "steps": [
+            {
+              "title": "Triangulate dual-target selectivity",
+              "description": "Quantitatively compare TTBK1 versus MAO-B engagement per candidate rather than asserting dual activity, using the measured on-target-vs-anti-target selectivity margins from the Phase 5 counter-screen (TTBK2, MAO-A) as the evidence base. Re-check toxicity liabilities (hERG, hepatotoxicity) with published rule-based models as a second pass beyond Phase 4."
+            },
+            {
+              "title": "Rank final leads and build dossiers",
+              "description": "Rank the final 2-3 leads with a full dossier each: structure, pose, interaction map, on/anti-target selectivity margins, consensus docking rank, MD stability where available, binding free energy where available, and ADMET profile. Flag them explicitly for future in-vitro enzyme-inhibition assays."
+            }
+          ]
+        },
+        {
+          "name": "Manuscript",
+          "steps": [
+            {
+              "title": "Assemble figures and tables",
+              "description": "Compile the complete figure and table set: plant selection table, redocking validation, docking poses with interaction diagrams, filter cascade, dual-target AND anti-target selectivity comparison chart, ADMET profile, and MD plots if available."
+            },
+            {
+              "title": "Draft the manuscript",
+              "description": "Write an IMRaD manuscript covering plant and target rationale, Phases 0-8 as the computational methods, results, and a discussion that explicitly states the limitations: docking-score predictiveness (and how consensus rescoring + MM-PBSA mitigate the reward circularity), flavonoid CNS-penetration risk, TTBK1/TTBK2 similarity constraining the selectivity claim, and absence of wet-lab validation. Frame throughout as hypothesis generation, not demonstrated activity."
+            },
+            {
+              "title": "Recommend target journals",
+              "description": "Identify candidate computational/medicinal-chemistry journals that publish in-silico-only studies framed as hypothesis generation, with scope and recent-precedent notes for each."
+            }
+          ]
+        }
+      ],
+      "id": "phase-5"
+    }
+  ],
+  "desired_outputs": [
+    "Plant selection table with flavonoid counts, dominant scaffold class, and CADD literature-gap metrics",
+    "Prepared receptor files for on-targets (2V60 with FAD, 4NFM) AND anti-targets (TTBK2, MAO-A) as .pdbqt, plus redocking RMSD validation report",
+    "pH-7.4 protonation/tautomer-enumerated ligand set",
+    "Baseline docking results table: plant flavonoids and reference inhibitors vs both targets",
+    "Generated candidate library with docking scores (pre-filtered before docking) and synthetic accessibility",
+    "ADMET/BBB/PAINS/novelty filter cascade table",
+    "On-target vs anti-target (TTBK2, MAO-A) selectivity margin table",
+    "Top dual-target candidate dossiers with poses, interaction maps, and consensus rescoring ranks",
+    "Publication-grade figures: poses, interaction diagrams, dual-target + anti-target selectivity chart, ADMET profile",
+    "Ready-to-run GROMACS MD input set for top complexes",
+    "Draft manuscript in IMRaD structure with methods, results and limitations"
+  ],
+  "feasibility": {
+    "confidence": "medium",
+    "rationale": "Adopts your revision's additions (anti-target counter-screening, pH-7.4 protonation/tautomer enumeration, de-circularized consensus scoring, pre-filter-before-dock ordering) — all computable here with the PyPI stack: Vina 1.2.7 has a cp312 wheel, plus RDKit, Meeko and ProLIF. Two data-source claims in your file are corrected: ChEMBL (mcp-chembl) and BindingDB (via mcp-chemistry) ARE reachable as connectors and will supply reference-inhibitor potencies; conversely OpenAlex requires an API key that is not configured, so literature-gap counts route through PubMed and Scholar Gateway. Remaining limits are real: REINVENT4 is not on PyPI and needs a source install (documented RDKit scaffold-constrained enumeration as fallback), SwissADME/pkCSM are unscriptable web tools so ADMET comes from published rule sets, and Phases 6-7 stay gated on the GPU compute you are attaching."
+  }
+}

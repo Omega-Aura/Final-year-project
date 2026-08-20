@@ -1,0 +1,51 @@
+receptor,receptor_role,ligand,best_vina_score_kcal_mol,n_poses,pose_file,box_size_A
+2V5Z,MAO-B (on-target),Evolvoside_C,-7.005,2,docking/2V5Z_28A__Evolvoside_C.pdbqt,28
+2Z5X,MAO-A (anti-target),Evolvoside_C,-4.935,9,docking/2Z5X_28A__Evolvoside_C.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Evolvoside_C,-8.227,9,docking/4NFM__Evolvoside_C.pdbqt,20
+6U0K,TTBK2 (anti-target),Evolvoside_C,-8.554,9,docking/6U0K__Evolvoside_C.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Evolvoside_C,-9.903,9,docking/7Q8Y__Evolvoside_C.pdbqt,20
+2V5Z,MAO-B (on-target),Halkina,-6.707,9,docking/2V5Z_28A__Halkina.pdbqt,28
+2Z5X,MAO-A (anti-target),Halkina,-9.218,8,docking/2Z5X_28A__Halkina.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Halkina,-7.511,9,docking/4NFM__Halkina.pdbqt,20
+6U0K,TTBK2 (anti-target),Halkina,-8.892,9,docking/6U0K__Halkina.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Halkina,-9.137,9,docking/7Q8Y__Halkina.pdbqt,20
+2V5Z,MAO-B (on-target),Isoquercitrin,-6.42,9,docking/2V5Z_28A__Isoquercitrin.pdbqt,28
+2Z5X,MAO-A (anti-target),Isoquercitrin,-6.198,9,docking/2Z5X_28A__Isoquercitrin.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Isoquercitrin,-7.452,9,docking/4NFM__Isoquercitrin.pdbqt,20
+6U0K,TTBK2 (anti-target),Isoquercitrin,-7.41,9,docking/6U0K__Isoquercitrin.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Isoquercitrin,-8.525,9,docking/7Q8Y__Isoquercitrin.pdbqt,20
+2V5Z,MAO-B (on-target),Kaempferol,-9.318,8,docking/2V5Z_28A__Kaempferol.pdbqt,28
+2Z5X,MAO-A (anti-target),Kaempferol,-9.795,9,docking/2Z5X_28A__Kaempferol.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Kaempferol,-7.141,9,docking/4NFM__Kaempferol.pdbqt,20
+6U0K,TTBK2 (anti-target),Kaempferol,-8.482,9,docking/6U0K__Kaempferol.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Kaempferol,-9.443,9,docking/7Q8Y__Kaempferol.pdbqt,20
+2V5Z,MAO-B (on-target),Kaempferol_3_O_glucoside,-6.414,8,docking/2V5Z_28A__Kaempferol_3_O_glucoside.pdbqt,28
+2Z5X,MAO-A (anti-target),Kaempferol_3_O_glucoside,-5.654,9,docking/2Z5X_28A__Kaempferol_3_O_glucoside.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Kaempferol_3_O_glucoside,-7.597,9,docking/4NFM__Kaempferol_3_O_glucoside.pdbqt,20
+6U0K,TTBK2 (anti-target),Kaempferol_3_O_glucoside,-7.396,9,docking/6U0K__Kaempferol_3_O_glucoside.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Kaempferol_3_O_glucoside,-8.083,9,docking/7Q8Y__Kaempferol_3_O_glucoside.pdbqt,20
+2V5Z,MAO-B (on-target),Kaempferol_7_O_glucoside,-7.751,9,docking/2V5Z_28A__Kaempferol_7_O_glucoside.pdbqt,28
+2Z5X,MAO-A (anti-target),Kaempferol_7_O_glucoside,-9.587,6,docking/2Z5X_28A__Kaempferol_7_O_glucoside.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Kaempferol_7_O_glucoside,-7.867,9,docking/4NFM__Kaempferol_7_O_glucoside.pdbqt,20
+6U0K,TTBK2 (anti-target),Kaempferol_7_O_glucoside,-8.38,9,docking/6U0K__Kaempferol_7_O_glucoside.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Kaempferol_7_O_glucoside,-8.941,9,docking/7Q8Y__Kaempferol_7_O_glucoside.pdbqt,20
+2V5Z,MAO-B (on-target),Quercetin,-9.318,9,docking/2V5Z_28A__Quercetin.pdbqt,28
+2Z5X,MAO-A (anti-target),Quercetin,-9.937,9,docking/2Z5X_28A__Quercetin.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Quercetin,-7.655,9,docking/4NFM__Quercetin.pdbqt,20
+6U0K,TTBK2 (anti-target),Quercetin,-8.882,9,docking/6U0K__Quercetin.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Quercetin,-9.872,9,docking/7Q8Y__Quercetin.pdbqt,20
+2V5Z,MAO-B (on-target),Rasagiline,-8.387,9,docking/2V5Z_28A__Rasagiline.pdbqt,28
+2Z5X,MAO-A (anti-target),Rasagiline,-8.225,9,docking/2Z5X_28A__Rasagiline.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Rasagiline,-5.919,9,docking/4NFM__Rasagiline.pdbqt,20
+6U0K,TTBK2 (anti-target),Rasagiline,-6.876,9,docking/6U0K__Rasagiline.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Rasagiline,-6.65,9,docking/7Q8Y__Rasagiline.pdbqt,20
+2V5Z,MAO-B (on-target),Safinamide,-10.046,9,docking/2V5Z_28A__Safinamide.pdbqt,28
+2Z5X,MAO-A (anti-target),Safinamide,-9.825,9,docking/2Z5X_28A__Safinamide.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Safinamide,-6.518,9,docking/4NFM__Safinamide.pdbqt,20
+6U0K,TTBK2 (anti-target),Safinamide,-8.351,9,docking/6U0K__Safinamide.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Safinamide,-8.453,9,docking/7Q8Y__Safinamide.pdbqt,20
+2V5Z,MAO-B (on-target),Selegiline,-7.755,9,docking/2V5Z_28A__Selegiline.pdbqt,28
+2Z5X,MAO-A (anti-target),Selegiline,-7.583,9,docking/2Z5X_28A__Selegiline.pdbqt,28
+4NFM,"TTBK1 (on-target, apo)",Selegiline,-5.494,9,docking/4NFM__Selegiline.pdbqt,20
+6U0K,TTBK2 (anti-target),Selegiline,-6.615,9,docking/6U0K__Selegiline.pdbqt,20
+7Q8Y,"TTBK2 (anti-target, primary)",Selegiline,-6.551,9,docking/7Q8Y__Selegiline.pdbqt,20

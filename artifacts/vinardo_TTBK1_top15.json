@@ -1,0 +1,104 @@
+{
+  "smiles": [
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1Cc1ccccc1",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "O=c1c(O)c(-c2ccc(C(F)(F)F)c(CF)c2)oc2cccc(O)c12",
+    "CN1CCN(c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(F)(F)F)CC1",
+    "CCc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "C=Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1Cc1ccccc1",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(C)(C)C",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N1CCCCC1",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N1CCCC1",
+    "O=c1c(O)c(-c2ccc(C(F)F)c(C(F)F)c2)oc2cccc(O)c12",
+    "Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1N1CCCCC1",
+    "C=C(F)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C",
+    "Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F",
+    "CCc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1N1CCCCC1"
+  ],
+  "results": [
+    {
+      "vinardo_best": -6.935,
+      "vinardo_mean": -6.928999999999999,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.374,
+      "vinardo_mean": -6.362666666666667,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.173,
+      "vinardo_mean": -6.1615,
+      "n_seeds_ok": 2
+    },
+    {
+      "vinardo_best": -5.402,
+      "vinardo_mean": -5.352,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.501,
+      "vinardo_mean": -6.495333333333334,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.511,
+      "vinardo_mean": -6.496666666666666,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.914,
+      "vinardo_mean": -6.899333333333334,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.054,
+      "vinardo_mean": -6.010666666666666,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -5.983,
+      "vinardo_mean": -5.979666666666667,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.064,
+      "vinardo_mean": -6.027,
+      "n_seeds_ok": 2
+    },
+    {
+      "vinardo_best": -6.245,
+      "vinardo_mean": -6.230333333333333,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -5.333,
+      "vinardo_mean": -5.312333333333333,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.212,
+      "vinardo_mean": -6.187,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -6.292,
+      "vinardo_mean": -6.283666666666666,
+      "n_seeds_ok": 3
+    },
+    {
+      "vinardo_best": -5.279,
+      "vinardo_mean": -5.237333333333333,
+      "n_seeds_ok": 3
+    }
+  ],
+  "receptor": "../phase1_outputs/4NFM_rec.pdbqt",
+  "exhaustiveness": 24,
+  "n_poses": 5,
+  "seeds": [
+    11,
+    22,
+    33
+  ]
+}
