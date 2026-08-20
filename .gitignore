@@ -3,7 +3,7 @@
 *.dcd
 *.prmtop
 *.rst7
-06_md/*/traj*
+
 *.chkpt
 .claude/
 
