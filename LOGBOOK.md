@@ -329,3 +329,72 @@ Files: `01_smiles/references.csv` (14 rows, fixed), `02_ligands/{sdf,pdbqt}/{saf
 SAG_pdb,selegiline,rasagiline,kaempferol,quercetin,harmine,clorgyline,VP7,DTQ,
 9IV_ttbk1,9IV_ttbk2,lazabemide,isatin}.*`, `04_docking/{2V5Z,2Z5X}_references_seed{11,22,33}/`
 (84 logs), `05_validation/benchmark_mao.csv`, `05_validation/benchmark_mao_scatter.png`.
+
+## 2026-08-20 — A (literature chase for the four unsourced correlation compounds, on request)
+
+User asked to source real MAO IC50 values for kaempferol, quercetin, lazabemide,
+isatin now rather than deferring to Week 3, since the correlation plot only had one
+usable point. Used PubMed (`mcp__claude_ai_PubMed`) directly rather than general
+web search, so every number below has a checkable PMID/DOI.
+
+**Found a real citation error in the manuscript itself.** The doc's own Week 3 task
+names "Chaurasiya et al. 2020, Molecules 25:5358" as the source for a
+kaempferol/quercetin correction. Confirmed via PubMed this is PMID 33212830, DOI
+[10.3390/molecules25225358](https://doi.org/10.3390/molecules25225358) -- and
+pulled the full text: **it does not report kaempferol or quercetin at all.** It
+studies O-methylated flavonoid *derivatives* (3,4'-di-O-methylkaempferol,
+4'-O-methylkaempferol, chalcones) isolated from African plant species -- chemically
+distinct compounds (the free phenolic OH groups are methylated). Free kaempferol
+and quercetin are not among the tested compounds. This citation needs fixing
+wherever it appears in the manuscript, not just in this CSV.
+
+**Also found the CSV's target assignment itself doesn't match the literature.**
+Both kaempferol and quercetin are labeled `target=MAO-B` here, but every primary
+source found characterizes them as MAO-A-selective:
+  - Sloley et al. 2000, *J Pharm Pharmacol* 52:451-9, PMID 10813558,
+    [DOI](https://doi.org/10.1211/0022357001774075): kaempferol IC50 = 7e-7 M
+    (700 nM) vs MAO-A. MAO-B described only as "more pronounced inhibition of MAO-A
+    than MAO-B" -- no MAO-B number given at all. **Rat brain enzyme, not human.**
+  - Larit et al. 2018, *Phytomedicine* 40:27-36, PMID 29496172,
+    [DOI](https://doi.org/10.1016/j.phymed.2017.12.032), **recombinant human
+    MAO-A/-B**: quercetin IC50 = 1.52 uM vs MAO-A. No MAO-B IC50 reported for
+    quercetin in the abstract.
+
+Did not force these MAO-A values into the existing MAO-B-labeled rows (would
+misrepresent which assay the number came from). Instead: left the original
+kaempferol/quercetin rows as `target=MAO-B`, `use_in_correlation=no`, with a note
+explaining why: and added two new rows, `kaempferol_maoa` and `quercetin_maoa`
+(same SMILES, `target=MAO-A`, real sourced values), docked properly on 2Z5X (3
+seeds, not just relabeling the old MAO-B-context run).
+
+**Filled in real values for lazabemide and isatin too:**
+  - lazabemide: IC50 = 0.063 uM vs human MAO-B, Maliyakkal et al. 2020, ChemMedChem
+    15:1629-1633, PMID 32583952,
+    [DOI](https://doi.org/10.1002/cmdc.202000305) -- used as the reference standard
+    in that paper, so this is a well-anchored number.
+  - isatin: IC50 approx 3 uM vs MAO-B, Medvedev/Clow/Sandler/Glover 1996,
+    *Biochem Pharmacol* 52:385-91, PMID 8687491,
+    [DOI](https://doi.org/10.1016/0006-2952(96)00206-7) -- the original paper
+    establishing isatin as an endogenous MAO-B inhibitor. Cross-confirmed by a 1997
+    follow-up (PMID 9503568, IC50 3-8 uM range). **Rat brain mitochondrial enzyme,
+    not human recombinant** -- same caveat as kaempferol.
+
+**Rebuilt the correlation plot with 5 usable points now (up from 1): safinamide,
+lazabemide, isatin (MAO-B) + kaempferol_maoa, quercetin_maoa (MAO-A).**
+`Pearson r = -0.146 (p = 0.815, n = 5)`. **This is a real, honest negative result,
+not a plotting artifact** -- even with better data, this docking protocol shows no
+significant correlation between raw Vina consensus score and literature pIC50
+across these five compounds. Caveats on top of the small n: two different targets
+were pooled into one regression (MAO-A and MAO-B use different receptor structures
+and box parameters, so pooling isn't fully rigorous -- but n=3 and n=2 per target
+individually is too small to fit separately); two of the five values are rat-brain
+assays, not human recombinant, so not perfectly comparable to the other three.
+Worth being upfront about this rather than presenting the plot as more meaningful
+than it is -- weak/no raw-score-to-affinity correlation is itself a known,
+citable limitation of empirical scoring functions like Vina, not a sign something
+is broken.
+
+Files: `01_smiles/references.csv` (16 rows now), `02_ligands/{sdf,pdbqt}/{kaempferol_maoa,
+quercetin_maoa}.*`, `04_docking/2Z5X_references_seed{11,22,33}/{kaempferol_maoa,quercetin_maoa}*`,
+`05_validation/benchmark_mao.csv` (updated), `05_validation/benchmark_mao_scatter.png` (updated,
+now with regression line and Pearson r).
