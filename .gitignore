@@ -6,3 +6,25 @@
 06_md/*/traj*
 *.chkpt
 .claude/
+
+# secrets / credentials
+*.env
+.env*
+*credentials*.json
+*secret*
+*.pem
+*.key
+id_rsa*
+.netrc
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
