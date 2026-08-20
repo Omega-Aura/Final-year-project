@@ -263,3 +263,69 @@ prepared by one script [x]; GATE 1 (7JXX < 2.0 Å) [x]; 56 candidates rebuilt [x
 filtering cascade re-run, numbers reproduce exactly [x]; 56 candidates re-docked on
 7JXX + 2V5Z [x]. Waiting on B's Track B Week 1 (reference set + benchmark docking)
 before SYNC POINT 1.
+
+## 2026-08-20 — A (doing Track B Week 1, B's machine/environment not available)
+
+**`01_smiles/references.csv` provenance note:** B committed a bare 5-column stub
+(`ID,Target,Measured,Note,SMILES`) as `1436cfa`, but a much richer 14-column draft
+(id,smiles,target,measured_value,measured_unit,source,role,native_of_pdb,
+expected_cip,formula,mw,notes,mechanism,use_in_correlation) was sitting uncommitted
+in the working tree, pulled over from B's system. Validated the rich version before
+trusting it:
+  - **All 14 SMILES parse; every formula and MW matches RDKit's calculation** (one
+    trivial 0.01 Da rounding on clorgyline).
+  - **All stereocenters match RDKit's own CIP assignment** (safinamide/SAG_pdb =
+    S, selegiline/rasagiline = R).
+  - Correctly separates true safinamide (secondary amine) from `SAG_pdb` (the imine
+    tautomer actually modelled in the 2V5Z crystal structure) -- a real and easy-to-
+    miss distinction; correctly excludes irreversible covalent inhibitors
+    (selegiline, rasagiline, clorgyline) from `use_in_correlation`.
+  - **Found and fixed a real inconsistency**: kaempferol, quercetin, lazabemide,
+    and isatin were all flagged `use_in_correlation=yes` with an empty
+    `measured_value` -- can't correlate against nothing. Flipped all four to `no`
+    until real primary-source IC50s are sourced. Did not fabricate values.
+
+Kept this richer version, did not touch B's committed stub directly (that gets
+superseded by this commit).
+
+**B1 (finalize) + B2 + B3, run together:**
+
+  - `prep_ligands.py --csv references.csv` -- 14/14 succeeded.
+  - Docked all 14 on 2V5Z and 2Z5X (already prepared in Track A, reused directly --
+    same script/run, satisfies §1.5), 3 seeds each = 84 dockings, all succeeded.
+  - **B3 verification passes exactly**: `SAG_pdb` (independently re-prepared here
+    from `references.csv`) redocks into 2V5Z at **0.56 Å** -- identical to the
+    `native_SAG` result from the original Day-2 GATE-0 calibration (also 0.56 Å,
+    prepared via a completely separate code path). Strong cross-check that ligand
+    prep is deterministic and consistent regardless of entry point.
+  - Consensus scores, all compounds, both receptors: see
+    `05_validation/benchmark_mao.csv`. Notable: safinamide only 0.15 kcal/mol
+    better on 2V5Z (MAO-B, -10.02) than 2Z5X (MAO-A, -9.87); harmine only 0.04
+    kcal/mol better on 2Z5X than 2V5Z (-8.66 vs -8.62). Both are much more
+    selective in reality than these thin margins suggest -- same kind of protocol-
+    resolution question §B4's 9IV calibration is designed to formally quantify for
+    TTBK1/TTBK2 in Week 2; worth considering an equivalent check for MAO-A/B.
+
+**Correlation plot built (`05_validation/benchmark_mao_scatter.png`), but honestly
+labelled as not yet meaningful**: after correctly excluding irreversible inhibitors
+and the four unsourced-value compounds, exactly **one** point
+(safinamide) has both `use_in_correlation=yes` and a real measured value. One point
+cannot support a Pearson r. This isn't a bug introduced today -- the manuscript's
+own original reference table had the same gap (kaempferol/quercetin listed with
+"--" for measured value), and whoever built the richer CSV already recognised it
+and added lazabemide/isatin specifically "to strengthen a thin reversible set" --
+just hadn't sourced values for them yet.
+
+**OPEN QUESTION for A (self) / user:** source literature IC50 values for
+kaempferol, quercetin, lazabemide, isatin against MAO-B to make the correlation
+plot meaningful? The doc's own Week 3 B task already names Chaurasiya et al. 2020
+(*Molecules* 25:5358) as the source for the kaempferol/quercetin correction, so
+kaempferol/quercetin at least have a doc-endorsed reference to check against.
+Held off pulling this in now since it's explicitly a Week 3 task, not Week 1, and
+because sourcing binding-affinity numbers for a manuscript should be confirmed with
+the user first, not done unilaterally on a guess.
+
+Files: `01_smiles/references.csv` (14 rows, fixed), `02_ligands/{sdf,pdbqt}/{safinamide,
+SAG_pdb,selegiline,rasagiline,kaempferol,quercetin,harmine,clorgyline,VP7,DTQ,
+9IV_ttbk1,9IV_ttbk2,lazabemide,isatin}.*`, `04_docking/{2V5Z,2Z5X}_references_seed{11,22,33}/`
+(84 logs), `05_validation/benchmark_mao.csv`, `05_validation/benchmark_mao_scatter.png`.
