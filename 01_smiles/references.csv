@@ -1,0 +1,11 @@
+ID,Target,Measured,Note,SMILES
+safinamide,MAO-B,7.67 nM,also the native ligand of 2V5Z
+selegiline,MAO-B,7.0 nM,approved drug
+rasagiline,MAO-B,4.4 nM,approved drug
+kaempferol,MAO-B,—,natural flavonol seed
+quercetin,MAO-B,—,natural flavonol seed
+harmine,MAO-A,—,native ligand of 2Z5X
+clorgyline,MAO-A,—,reference MAO-A inhibitor
+VP7,TTBK1,—,native ligand of 7JXX
+DTQ,TTBK1,240 nM,native ligand of 4BTK
+9IV,TTBK1/TTBK2,330–530 / 490 nM,native ligand of 7Q8V and 7Q8Y
