@@ -228,10 +228,38 @@ as-is, not rerun.
 
 **A5 — consensus re-dock all 56 candidates on 7JXX and 2V5Z.** 3 seeds x 56
 ligands x 2 receptors = 336 dockings. First attempt silently broke on the `\r` bug
-above (caught before trusting it). Re-running now with the fixed `dock.sh` --
-still in progress as of this entry; results to follow in the next entry.
+above (caught before trusting it). Re-ran with the fixed `dock.sh` -- **complete,
+336/336 logs, `collect_results.py` -> `08_analysis/consensus_new.csv`.**
+
+**Ranking on the validated 7JXX changed, as the doc predicted.** The original
+pipeline's top-ranked dual-target candidate by RL score, `cand_001`
+(`rl_v2_shortlist_56.csv` row 1, `Score`=0.7497, the highest in the set), is now
+**#3/56 on 7JXX** (consensus -8.79 kcal/mol) -- `cand_013` (-8.83) and `cand_002`
+(-8.80) both edge it out on the holo, validated receptor. Consistent with the doc's
+"a holo pocket at 1.56 Å is a different shape from an apo pocket" expectation.
+
+**More striking: `cand_001` ranks only #49/56 on 2V5Z (MAO-B)**, consensus -10.32
+kcal/mol, well off the top cluster (best on 2V5Z: cand_043 at -11.63). 2V5Z itself
+wasn't revalidated today (it's the doc's "unchanged" primary MAO-B receptor, already
+established), so this isn't a validation artifact -- it's either real chemistry
+(cand_001 may simply bind TTBK1 much better than MAO-B despite being scored as a
+top dual-target hit during RL) or an artifact of how the RL reward combined
+`TTBK1_dock` and `MAOB_dock` into one scalar score (a compound can rank #1 on a
+sum/product of two scores while being mediocre on one of them). Worth raising at
+sync -- this bears directly on which compound A should advance as "the lead" for
+MM-GBSA in Week 2-3, and on the dual-engagement claim generally.
+
+New top TTBK1 hit: **cand_013** (-8.83 kcal/mol, seed SD 0.005 -- very stable
+across seeds). New top MAO-B hit: **cand_043** (-11.63 kcal/mol).
 
 Files: `03_receptors/*` (all six, receptor.pdbqt/box.json), `02_ligands/{sdf,pdbqt}/cand_*`
 (56 each), `filtering/boiled_egg_coords.py` (new), `scripts/filter_cascade.py` (new),
 `08_analysis/filter_cascade_A4_check.csv`, `08_analysis/filter_cascade_candidates_56.csv`,
-`05_validation/7JXX_redock.txt`, `05_validation/4BTK_redock.txt`.
+`08_analysis/consensus_new.csv`, `05_validation/7JXX_redock.txt`, `05_validation/4BTK_redock.txt`,
+`04_docking/{7JXX,2V5Z}_candidates_56_seed{11,22,33}/` (336 logs total).
+
+**Track A Week 1 (A1-A5) is now complete.** Per §Part 3 checklist: all six receptors
+prepared by one script [x]; GATE 1 (7JXX < 2.0 Å) [x]; 56 candidates rebuilt [x];
+filtering cascade re-run, numbers reproduce exactly [x]; 56 candidates re-docked on
+7JXX + 2V5Z [x]. Waiting on B's Track B Week 1 (reference set + benchmark docking)
+before SYNC POINT 1.
