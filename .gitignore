@@ -28,3 +28,8 @@ Thumbs.db
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# third-party tool clone (installed locally per LOGBOOK, not vendored)
+REINVENT4/
+generation/*.chkpt
+generation/tb_logs/

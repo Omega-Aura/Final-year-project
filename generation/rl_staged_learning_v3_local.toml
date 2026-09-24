@@ -1,0 +1,104 @@
+run_type = "staged_learning"
+device = "cpu"
+tb_logdir = "generation/tb_logs"
+json_out_config = "generation/_rl_staged_learning_v3.json"
+
+[parameters]
+summary_csv_prefix = "generation/rl_v3_local"
+use_checkpoint = false
+purge_memories = false
+
+## LibInvent
+prior_file = "REINVENT4/priors/libinvent.prior"
+agent_file = "REINVENT4/priors/libinvent.prior"
+smiles_file = "generation/flavonol_7deoxy_scaffold.smi"
+
+batch_size = 32
+randomize_smiles = true
+
+[learning_strategy]
+type = "dap"
+sigma = 128
+rate = 0.0001
+
+[diversity_filter]
+type = "IdenticalMurckoScaffold"
+bucket_size = 25
+minscore = 0.4
+
+### Stage 1: dual-target docking reward (TTBK1 + MAO-B) + synthetic accessibility + BBB
+# v3-local changes vs. the original campaign2_v2 config (see LOGBOOK.md 2026-08-21 entry):
+#  - TTBK1 term now scores against 7JXX (holo, GATE-1 validated at 0.71 A this week)
+#    instead of the original apo 4NFM -- fixes a known validation gap.
+#  - Both receptor boxes use this week's actual prepared box.json values, not the
+#    original run's box parameters.
+#  - dock_score.py and bbb_score.py are new local scripts (the originals only ran on a
+#    cloud sandbox and were never recovered); bbb_score.py's TPSA call now matches the
+#    offline filter cascade (includeSandP=True), fixing a known RL/offline inconsistency.
+#  - max_steps capped at 20 (down from 40) to fit a tight local time budget.
+[[stage]]
+chkpt_file = 'generation/rl_stage1_v3.chkpt'
+termination = "simple"
+max_score = 0.9
+min_steps = 15
+max_steps = 20
+
+[stage.scoring]
+type = "geometric_mean"
+
+# --- TTBK1 on-target docking (7JXX, holo, GATE-1 validated) ---
+[[stage.scoring.component]]
+[stage.scoring.component.ExternalProcess]
+
+[[stage.scoring.component.ExternalProcess.endpoint]]
+name = "TTBK1_dock"
+weight = 0.35
+params.executable = "C:/Users/aritr/.conda/envs/docking_project/python.exe"
+params.args = "generation/scoring/dock_score.py --receptor 03_receptors/7JXX/receptor.pdbqt --center 178.93 19.64 46.21 --box_size 18 18 18 --exhaustiveness 4 --num_modes 5 --n_workers 4"
+params.property = "dock_score"
+transform.type = "sigmoid"
+transform.high = 12.0
+transform.low = 4.0
+transform.k = 0.5
+
+# --- MAO-B on-target docking (2V5Z) ---
+[[stage.scoring.component]]
+[stage.scoring.component.ExternalProcess]
+
+[[stage.scoring.component.ExternalProcess.endpoint]]
+name = "MAOB_dock"
+weight = 0.35
+params.executable = "C:/Users/aritr/.conda/envs/docking_project/python.exe"
+params.args = "generation/scoring/dock_score.py --receptor 03_receptors/2V5Z/receptor.pdbqt --center 51.89 156.45 28.56 --box_size 18 18.9 18 --exhaustiveness 4 --num_modes 5 --n_workers 4"
+params.property = "dock_score"
+transform.type = "sigmoid"
+transform.high = 12.0
+transform.low = 4.0
+transform.k = 0.5
+
+# --- Synthetic accessibility (built-in RDKit SAScore, lower=better -> invert with reverse_sigmoid) ---
+[[stage.scoring.component]]
+[stage.scoring.component.SAScore]
+
+[[stage.scoring.component.SAScore.endpoint]]
+name = "SA_score"
+weight = 0.15
+transform.type = "reverse_sigmoid"
+transform.high = 6.0
+transform.low = 2.0
+transform.k = 0.5
+
+# --- BBB permeability (signed distance to BOILED-Egg ellipse boundary; positive=inside) ---
+[[stage.scoring.component]]
+[stage.scoring.component.ExternalProcess]
+
+[[stage.scoring.component.ExternalProcess.endpoint]]
+name = "BBB_signed_dist"
+weight = 0.15
+params.executable = "C:/Users/aritr/.conda/envs/docking_project/python.exe"
+params.args = "generation/scoring/bbb_score.py"
+params.property = "bbb_signed_dist"
+transform.type = "sigmoid"
+transform.high = 5.0
+transform.low = -5.0
+transform.k = 0.5

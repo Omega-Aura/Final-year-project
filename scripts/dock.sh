@@ -52,6 +52,15 @@ fi
 
 for L in $LIGS; do
   N=$(basename "$L" .pdbqt)
+  # Per-ligand resume. run_week2_redock.sh only resumes at whole-run granularity, so an
+  # interrupted 56-ligand run would otherwise re-dock everything it already finished.
+  # A ligand counts as done only if its log is newer than the receptor AND its SDF ends
+  # in the SDF record terminator -- the terminator is the last thing written, so a job
+  # killed mid-export leaves a truncated SDF that correctly fails this test and is redone.
+  if [ -f "$OUT/${N}.log" ] && [ "$OUT/${N}.log" -nt "03_receptors/$R/receptor.pdbqt" ] \
+     && [ -s "$OUT/${N}_out.sdf" ] && [ "$(tail -n 1 "$OUT/${N}_out.sdf" | tr -d '\r')" = '$$$$' ]; then
+      continue
+  fi
   $VINA_CMD --receptor "03_receptors/$R/receptor.pdbqt" --ligand "$L" \
        --center_x $CX --center_y $CY --center_z $CZ \
        --size_x $SX --size_y $SY --size_z $SZ \
@@ -61,7 +70,16 @@ for L in $LIGS; do
   # obabel doesn't understand meeko's dummy "glue" atoms used for flexible ring bonds,
   # and silently produces `*` wildcard atoms for any ligand needing them (breaks
   # spyrmsd's graph-isomorphism RMSD check and downstream ProLIF/analysis).
-  $MK_EXPORT "$OUT/${N}_out.pdbqt" -s "$OUT/${N}_out.sdf" 2>/dev/null || true
-  cp "$OUT/${N}_out.sdf" "$OUT/out.sdf" 2>/dev/null || true
+  # Do NOT silence this. A swallowed mk_export failure leaves the run directory with a
+  # valid .log and .pdbqt but no .sdf, and the next rmsd_check.py globs zero poses and
+  # reports "BEST None 1000000000.00 A -> FAIL" -- a preparation failure that reads as a
+  # docking failure. Retry once, then fail loudly.
+  if ! $MK_EXPORT "$OUT/${N}_out.pdbqt" -s "$OUT/${N}_out.sdf" 2>"$OUT/${N}_export.err"; then
+      echo "[warn] mk_export failed for $N, retrying" >&2
+      $MK_EXPORT "$OUT/${N}_out.pdbqt" -s "$OUT/${N}_out.sdf"
+  fi
+  [ -s "$OUT/${N}_out.sdf" ] || { echo "[FAIL] no SDF produced for $N" >&2; exit 1; }
+  rm -f "$OUT/${N}_export.err"
+  cp "$OUT/${N}_out.sdf" "$OUT/out.sdf"
 done
 echo "[ok] $R $SET seed$SEED"

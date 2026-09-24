@@ -1,0 +1,19 @@
+; cand_003_GMX_OPLS.top created by acpype (v: 2023.10.27) on Fri Aug 21 12:36:28 2026
+
+; Include forcefield parameters
+#include "ffoplsaa.itp"
+
+; Include cand_003_GMX.itp topology
+#include "cand_003_GMX.itp"
+
+; Ligand position restraints
+#ifdef POSRES_LIG
+#include "posre_cand_003.itp"
+#endif
+
+[ system ]
+ cand_003
+
+[ molecules ]
+; Compound        nmols
+ cand_003         1     

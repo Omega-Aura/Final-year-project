@@ -1,0 +1,20 @@
+; cand_003_GMX.top created by acpype (v: 2023.10.27) on Fri Aug 21 11:33:07 2026
+
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ fudgeQQ
+1               2               yes             0.5     0.8333333333
+
+; Include cand_003_GMX.itp topology
+#include "cand_003_GMX.itp"
+
+; Ligand position restraints
+#ifdef POSRES_LIG
+#include "posre_cand_003.itp"
+#endif
+
+[ system ]
+ cand_003
+
+[ molecules ]
+; Compound        nmols
+ cand_003         1     

@@ -1,0 +1,25 @@
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 1  RMSD 1.46
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 2  RMSD 0.73
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 3  RMSD 9.46
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 4  RMSD 9.39
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 5  RMSD 1.64
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 6  RMSD 9.42
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 7  RMSD 1.56
+04_docking\2V5Z_native_SAG_seed11\out.sdf  pose 8  RMSD 2.21
+04_docking\2V5Z_native_SAG_seed22\out.sdf  pose 1  RMSD 1.47
+04_docking\2V5Z_native_SAG_seed22\out.sdf  pose 2  RMSD 9.46
+04_docking\2V5Z_native_SAG_seed22\out.sdf  pose 3  RMSD 0.71
+04_docking\2V5Z_native_SAG_seed22\out.sdf  pose 4  RMSD 9.36
+04_docking\2V5Z_native_SAG_seed22\out.sdf  pose 5  RMSD 1.91
+04_docking\2V5Z_native_SAG_seed22\out.sdf  pose 6  RMSD 9.60
+04_docking\2V5Z_native_SAG_seed22\out.sdf  pose 7  RMSD 2.22
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 1  RMSD 1.46
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 2  RMSD 9.47
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 3  RMSD 0.66
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 4  RMSD 9.38
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 5  RMSD 9.44
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 6  RMSD 1.94
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 7  RMSD 1.87
+04_docking\2V5Z_native_SAG_seed33\out.sdf  pose 8  RMSD 2.38
+
+BEST 04_docking\2V5Z_native_SAG_seed33\out.sdf:3  0.66 A  ->  PASS

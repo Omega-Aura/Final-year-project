@@ -1,0 +1,29 @@
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 1  RMSD 8.34
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 2  RMSD 8.63
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 3  RMSD 2.42
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 4  RMSD 4.61
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 5  RMSD 0.70
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 6  RMSD 7.54
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 7  RMSD 7.88
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 8  RMSD 1.44
+04_docking\7Q8V_native_9IV_seed11\out.sdf  pose 9  RMSD 8.80
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 1  RMSD 8.35
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 2  RMSD 8.65
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 3  RMSD 2.47
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 4  RMSD 4.59
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 5  RMSD 7.48
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 6  RMSD 5.94
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 7  RMSD 1.24
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 8  RMSD 8.43
+04_docking\7Q8V_native_9IV_seed22\out.sdf  pose 9  RMSD 7.63
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 1  RMSD 8.35
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 2  RMSD 8.64
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 3  RMSD 2.46
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 4  RMSD 4.74
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 5  RMSD 0.68
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 6  RMSD 2.86
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 7  RMSD 7.52
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 8  RMSD 5.93
+04_docking\7Q8V_native_9IV_seed33\out.sdf  pose 9  RMSD 8.29
+
+BEST 04_docking\7Q8V_native_9IV_seed33\out.sdf:5  0.68 A  ->  PASS

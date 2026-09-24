@@ -1,0 +1,14 @@
+04_docking\2Z5X_native_HRM_ref_seed11\out.sdf  pose 1  RMSD 0.95
+04_docking\2Z5X_native_HRM_ref_seed11\out.sdf  pose 2  RMSD 0.27
+04_docking\2Z5X_native_HRM_ref_seed11\out.sdf  pose 3  RMSD 2.35
+04_docking\2Z5X_native_HRM_ref_seed11\out.sdf  pose 4  RMSD 5.35
+04_docking\2Z5X_native_HRM_ref_seed22\out.sdf  pose 1  RMSD 1.00
+04_docking\2Z5X_native_HRM_ref_seed22\out.sdf  pose 2  RMSD 2.35
+04_docking\2Z5X_native_HRM_ref_seed22\out.sdf  pose 3  RMSD 5.35
+04_docking\2Z5X_native_HRM_ref_seed33\out.sdf  pose 1  RMSD 1.03
+04_docking\2Z5X_native_HRM_ref_seed33\out.sdf  pose 2  RMSD 5.35
+04_docking\2Z5X_native_HRM_ref_seed33\out.sdf  pose 3  RMSD 2.34
+04_docking\2Z5X_native_HRM_ref_seed33\out.sdf  pose 4  RMSD 1.62
+04_docking\2Z5X_native_HRM_ref_seed33\out.sdf  pose 5  RMSD 5.45
+
+BEST 04_docking\2Z5X_native_HRM_ref_seed11\out.sdf:2  0.27 A  ->  PASS

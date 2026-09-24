@@ -1,0 +1,408 @@
+17:00:53 <INFO> Started REINVENT 4.8.24 (C) AstraZeneca 2017, 2023 on 2026-08-21
+17:00:53 <INFO> Command line: C:\Users\aritr\OneDrive\Desktop\Final year project\REINVENT4\reinvent\__main__.py generation/rl_staged_learning_v3_local.toml --log-filename generation/rl_v3_local.log
+17:00:53 <INFO> Reading run configuration from C:\Users\aritr\OneDrive\Desktop\Final year project\generation\rl_staged_learning_v3_local.toml using format toml
+17:00:53 <INFO> User aritr on host Omega
+17:00:53 <INFO> Python version 3.11.15
+17:00:53 <INFO> PyTorch version 2.13.0+cpu git cf30153c4c131c8164ee7798e5022d810682e2cb
+17:00:53 <INFO> PyTorch compiled with None
+17:00:53 <INFO> RDKit version 2026.03.5
+17:00:53 <INFO> Platform Windows-10-10.0.26200-SP0
+17:00:53 <INFO> Using CPU Intel64 Family 6 Model 186 Stepping 2, GenuineIntel
+17:00:53 <INFO> Writing TensorBoard summary to C:\Users\aritr\OneDrive\Desktop\Final year project\generation\tb_logs
+17:00:53 <INFO> Writing JSON config file to C:\Users\aritr\OneDrive\Desktop\Final year project\generation\_rl_staged_learning_v3.json
+17:00:53 <INFO> Starting 1 stage of Reinforcement Learning
+17:00:54 <ERRO> C:\Users\aritr\OneDrive\Desktop\Final year project\REINVENT4\priors\libinvent.prior has invalid hash:
+{ 'comments': [],
+  'creation_date': 0,
+  'date_format': 'UNIX epoch',
+  'hash_id': '99944413c8f0b152c2bca0dca31aa6d3',
+  'hash_id_format': 'xxhash.xxh3_128_hex 3.4.1',
+  'model_id': '558e4fbd038c4b0ba67b03a025e657c4',
+  'model_id_format': 'uuid.uuid4 3.10.12',
+  'origina_data_source': 'ChEMBL 27',
+  'updates': []}
+17:00:54 <INFO> Number of network parameters: 23,686,692
+17:00:54 <INFO> Network architecture:
+Decorator(
+  (_encoder): Encoder(
+    (_embedding): Sequential(
+      (0): Embedding(38, 512)
+      (1): Dropout(p=0.2, inplace=False)
+    )
+    (_rnn): LSTM(512, 512, num_layers=3, batch_first=True, dropout=0.2, bidirectional=True)
+  )
+  (_decoder): Decoder(
+    (_embedding): Sequential(
+      (0): Embedding(36, 512)
+      (1): Dropout(p=0.2, inplace=False)
+    )
+    (_rnn): LSTM(512, 512, num_layers=3, batch_first=True, dropout=0.2)
+    (_attention): AttentionLayer(
+      (_attention_linear): Sequential(
+        (0): Linear(in_features=1024, out_features=512, bias=True)
+        (1): Tanh()
+      )
+    )
+    (_linear): Linear(in_features=512, out_features=36, bias=True)
+  )
+)
+17:00:54 <ERRO> C:\Users\aritr\OneDrive\Desktop\Final year project\REINVENT4\priors\libinvent.prior has invalid hash:
+{ 'comments': [],
+  'creation_date': 0,
+  'date_format': 'UNIX epoch',
+  'hash_id': '99944413c8f0b152c2bca0dca31aa6d3',
+  'hash_id_format': 'xxhash.xxh3_128_hex 3.4.1',
+  'model_id': '558e4fbd038c4b0ba67b03a025e657c4',
+  'model_id_format': 'uuid.uuid4 3.10.12',
+  'origina_data_source': 'ChEMBL 27',
+  'updates': []}
+17:00:54 <INFO> Number of network parameters: 23,686,692
+17:00:54 <INFO> Network architecture:
+Decorator(
+  (_encoder): Encoder(
+    (_embedding): Sequential(
+      (0): Embedding(38, 512)
+      (1): Dropout(p=0.2, inplace=False)
+    )
+    (_rnn): LSTM(512, 512, num_layers=3, batch_first=True, dropout=0.2, bidirectional=True)
+  )
+  (_decoder): Decoder(
+    (_embedding): Sequential(
+      (0): Embedding(36, 512)
+      (1): Dropout(p=0.2, inplace=False)
+    )
+    (_rnn): LSTM(512, 512, num_layers=3, batch_first=True, dropout=0.2)
+    (_attention): AttentionLayer(
+      (_attention_linear): Sequential(
+        (0): Linear(in_features=1024, out_features=512, bias=True)
+        (1): Tanh()
+      )
+    )
+    (_linear): Linear(in_features=512, out_features=36, bias=True)
+  )
+)
+17:00:54 <INFO> Using generator Libinvent
+17:00:54 <INFO> Prior read from REINVENT4/priors/libinvent.prior
+17:00:54 <INFO> Agent read from REINVENT4/priors/libinvent.prior
+17:00:54 <INFO> Input molecules/fragments read from file generation/flavonol_7deoxy_scaffold.smi
+17:00:54 <INFO> Using reward strategy dap
+17:00:54 <INFO> Using diversity filter IdenticalMurckoScaffold
+17:00:54 <INFO> Diversity filter memories are retained between stages
+17:00:54 <ERRO> Component reinvent_plugins.components.OpenEye.comp_rocs could not be imported: No module named 'openeye'
+17:00:54 <INFO> Registered scoring component GroupCount
+17:00:54 <INFO> Registered scoring component FragmentQed
+17:00:54 <INFO> Registered scoring component FragmentSlogP
+17:00:54 <INFO> Registered scoring component FragmentMolecularWeight
+17:00:54 <INFO> Registered scoring component FragmentTPSA
+17:00:54 <INFO> Registered scoring component FragmentDistanceMatrix
+17:00:54 <INFO> Registered scoring component FragmentNumAtomStereoCenters
+17:00:54 <INFO> Registered scoring component FragmentHBondAcceptors
+17:00:54 <INFO> Registered scoring component FragmentHBondDonors
+17:00:54 <INFO> Registered scoring component FragmentNumRotBond
+17:00:54 <INFO> Registered scoring component FragmentCsp3
+17:00:54 <INFO> Registered scoring component Fragmentnumsp
+17:00:54 <INFO> Registered scoring component Fragmentnumsp2
+17:00:54 <INFO> Registered scoring component Fragmentnumsp3
+17:00:54 <INFO> Registered scoring component FragmentEffectiveLength
+17:00:54 <INFO> Registered scoring component FragmentGraphLength
+17:00:54 <INFO> Registered scoring component FragmentLengthRatio
+17:00:54 <INFO> Registered scoring component FragmentNumHeavyAtoms
+17:00:54 <INFO> Registered scoring component FragmentNumHeteroAtoms
+17:00:54 <INFO> Registered scoring component FragmentNumRings
+17:00:54 <INFO> Registered scoring component FragmentNumAromaticRings
+17:00:54 <INFO> Registered scoring component FragmentNumAliphaticRings
+17:00:54 <INFO> Registered scoring component FragmentSlogP
+17:00:54 <INFO> Registered scoring component MatchingSubstructure
+17:00:54 <INFO> Registered scoring component MolVolume
+17:00:54 <INFO> Registered scoring component Qed
+17:00:54 <INFO> Registered scoring component LargestRingSize
+17:00:54 <INFO> Registered scoring component MolecularWeight
+17:00:54 <INFO> Registered scoring component GraphLength
+17:00:54 <INFO> Registered scoring component NumAtomStereoCenters
+17:00:54 <INFO> Registered scoring component HBondAcceptors
+17:00:54 <INFO> Registered scoring component HBondDonors
+17:00:54 <INFO> Registered scoring component NumRotBond
+17:00:54 <INFO> Registered scoring component Csp3
+17:00:54 <INFO> Registered scoring component numsp
+17:00:54 <INFO> Registered scoring component numsp2
+17:00:54 <INFO> Registered scoring component numsp3
+17:00:54 <INFO> Registered scoring component NumHeavyAtoms
+17:00:54 <INFO> Registered scoring component NumHeteroAtoms
+17:00:54 <INFO> Registered scoring component NumRings
+17:00:54 <INFO> Registered scoring component NumAromaticRings
+17:00:54 <INFO> Registered scoring component NumAliphaticRings
+17:00:54 <INFO> Registered scoring component SlogP
+17:00:54 <INFO> Registered scoring component LargestRingSize
+17:00:54 <INFO> Registered scoring component PMI
+17:00:54 <INFO> Registered scoring component RDKitDescriptors
+17:00:54 <INFO> Registered scoring component TanimotoSimilarity
+17:00:54 <INFO> Registered scoring component TanimotoDistance
+17:00:54 <INFO> Registered scoring component TPSA
+17:00:54 <INFO> Registered scoring component SAScore
+17:00:54 <ERRO> Component reinvent_plugins.components.comp_chemprop could not be imported: No module named 'chemprop'
+17:00:54 <ERRO> Component reinvent_plugins.components.comp_chemprop2 could not be imported: No module named 'chemprop'
+17:00:54 <INFO> Registered scoring component CustomAlerts
+17:00:54 <INFO> Registered scoring component DockStream
+17:00:54 <INFO> Registered scoring component ExternalProcess
+17:00:54 <INFO> Registered scoring component REST
+17:00:54 <INFO> Registered scoring component Icolos
+17:00:54 <INFO> Registered scoring component MMP
+17:00:54 <INFO> Registered scoring component Qptuna
+17:00:54 <INFO> Registered scoring component ReactionFilter
+17:00:54 <INFO> Registered scoring component RingPrecedence
+17:00:54 <INFO> Registered scoring component Maize
+17:00:54 <INFO> Registered scoring component SynthSense
+17:00:54 <INFO> Registered scoring component CAZP
+17:00:54 <INFO> Creating scoring component ExternalProcess
+17:00:54 <INFO> Creating scoring component ExternalProcess
+17:00:54 <INFO> Creating scoring component SAScore
+17:00:54 <INFO> Creating scoring component ExternalProcess
+17:00:54 <INFO> Writing tabular data for stage to generation/rl_v3_local_1.csv
+17:00:54 <INFO> Starting stage 1 <<<
+17:00:55 <WARN> reinvent_plugins.normalizers.rdkit_smiles: *C|C(c1c(-c2c3c(O)c(*)c(=O)oc3oc3c2c(=O)cc(-c3c(=O)[nH]c(=O)c(=O)o1)C)=O)(C)O could not be converted
+17:00:55 <WARN> reinvent_plugins.normalizers.rdkit_smiles: c1(C#N)c(*)c2c(cc1)c(=O)c(-c1ccccc1)oc2C|*N could not be converted
+17:01:31 <INFO> Score: 0.06 Agent NLL: 6.54 Valid:  94% Step: 1
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 17.9945 16.6140 33.0279 0.3878278 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1Nc1cc(C)c2ccccc2c1 1 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O *Nc1cc(C)c2c(cccc2)c1|*C O=c1cc(-c2cccc(Nc3ccc4ccccc4c3)c2)oc2ccccc12 0.8187934 9.0480 0.8944559 9.4850 0.9874130 2.4843 0.0037907 -4.8393
+ | 1.8129 1.7858 87.5843 0.6982034 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 1 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O *C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.4002576 7.7190 0.9798779 10.7000 0.9937705 2.2377 0.8148294 1.2870
+ | 2.1058 1.9948 -1.9948 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O C*|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 2.3546 1.9948 -1.9948 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O C*|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 5.4278 4.4156 -0.2500 0.0325435 Nc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N 1 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O *N|N* O=c1cc(-c2ccccc2)oc2ccccc12 0.1659387 6.8780 0.9140773 9.6430 0.9868701 2.4992 0.0000000 -43.6238
+ | 1.7594 1.7858 -1.7858 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O *C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 1.5883 1.7502 -1.7502 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O C*|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 66.6880 54.4382 -54.4382 0.0000000 *C|C(c1c(-c2c3c(O)c(*)c(=O)oc3oc3c2c(=O)cc(-c3c(=O)[nH]c(=O)c(=O)o1)C)=O)(C)O 0 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O *C|C(c1c(-c2c3c(O)c(*)c(=O)oc3oc3c2c(=O)cc(-c3c(=O)[nH]c(=O)c(=O)o1)C)=O)(C)O -- 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000
+ | 1.7105 1.7858 -1.7858 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O *C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 2.9245 3.6075 1.4043 0.0391549 Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1N 1 c12c(=O)c(O)c(-c3cc([*])c([*])cc3)oc1cccc2O C*|N* O=c1cc(-c2ccccc2)oc2ccccc12 0.2697546 7.3080 0.9522732 10.0800 0.9905335 2.3843 0.0000000 -17.5941
+17:01:32 <WARN> reinvent_plugins.normalizers.rdkit_smiles: *C|c1c2oc(=O)c(*)c(O)c2c(=O)c(=O)cc1-c1ccc(O)c(O)c1C could not be converted
+17:02:23 <INFO> Score: 0.07 Agent NLL: 5.69 Valid:  97% Step: 2
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 1.7276 1.5848 -1.5848 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 1 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] *C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.4002576 7.7190 0.9798779 10.7000 0.9937705 2.2377 0.8148294 1.2870
+ | 32.6524 26.8459 -26.3338 0.0040007 Nc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1c(O)c(=O)oc2cc(-c3ccccc3)ccc12 1 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] N*|c1ccc(-c2ccc3c(*)c(O)c(=O)oc3c2)cc1 O=c1cc(-c2cccc(-c3cc(=O)c4ccccc4o3)c2)c2ccc(-c3ccccc3)cc2o1 0.9120209 9.6250 0.0004209 2.5990 0.9647832 2.8499 0.0000000 -68.0771
+ | 25.6050 32.4775 -32.4775 0.0000000 *C|c1c2oc(=O)c(*)c(O)c2c(=O)c(=O)cc1-c1ccc(O)c(O)c1C 0 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] *C|c1c2oc(=O)c(*)c(O)c2c(=O)c(=O)cc1-c1ccc(O)c(O)c1C -- 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000
+ | 1.7595 1.5848 -1.5848 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] *C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 1.4780 1.5980 -1.5980 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] *C|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 31.3892 23.1506 -16.3761 0.0529255 CC1=NC(C)(C)C=CC1Nc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 1 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] C1(C)=NC(C)(C)C=CC1N*|C* O=c1cc(-c2ccc(NC3C=CCN=C3)cc2)oc2ccccc12 0.7245382 8.6720 0.9706038 10.4300 0.7044652 3.6982 0.0000000 -16.0487
+ | 1.7037 1.5980 -1.5980 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] *C|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 22.8775 20.1854 -19.2271 0.0074870 Cc1ccc2sc(-c3cc(-c4oc5cccc(O)c5c(=O)c4O)ccc3N)c(-c3ccccc3)c2c1 1 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] N*|c12sc(*)c(-c3ccccc3)c1cc(C)cc2 O=c1cc(-c2cccc(-c3sc4ccccc4c3-c3ccccc3)c2)oc2ccccc12 0.7994709 8.9610 0.0028675 3.9340 0.9727547 2.7578 0.0000000 -46.0245
+ | 8.0887 8.1498 67.9081 0.5942025 CCc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 1 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] C(C)*|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.2585665 7.2680 0.9832538 10.8300 0.9907901 2.3746 0.7668192 1.0340
+ | 1.6269 1.5687 -1.5687 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c1c(-c2c(O)c(=O)c3c(O)cccc3o2)ccc([*])c1[*] C*|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+17:04:03 <INFO> Score: 0.13 Agent NLL: 6.42 Valid: 100% Step: 3
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 6.2486 7.6509 68.6978 0.5964747 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(C)C 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 *C(C)C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.2870978 7.3680 0.9718109 10.4600 0.9903793 2.3899 0.6334585 0.4752
+ | 2.4255 1.4776 -1.4776 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 *C|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.4002576 7.7190 0.9798779 10.7000 0.9937705 2.2377 0.8148294 1.2870
+ | 6.5635 6.2159 -1.4549 0.0371950 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 N*|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.2306686 7.1630 0.9617135 10.2400 0.9904200 2.3884 0.0000000 -17.5941
+ | 26.7452 28.8933 -28.8681 0.0001962 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccc(C(=O)c2cc3oc(=O)c(C)c(C)c3c(=O)o2)cc1 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 O=C(c1ccc(*)cc1)c1cc2c(c(C)c(C)c(=O)o2)c(=O)o1|*C O=C(c1ccc(-c2cccc(-c3cc(=O)c4ccccc4o3)c2)cc1)c1cc2oc(=O)ccc2c(=O)o1 0.8925387 9.4710 0.0000001 -3.3640 0.9390009 3.0501 0.0000000 -69.1122
+ | 12.3610 13.6077 63.5195 0.6025562 CCc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(C)C 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 CC(*)C|C(*)C O=c1cc(-c2ccccc2)oc2ccccc12 0.3106098 7.4460 0.9733457 10.5000 0.9875249 2.4812 0.5636081 0.2222
+ | 2.1038 1.4499 -1.4499 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 *C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 2.0432 1.5360 -1.5360 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 C*|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 5.3934 7.3947 68.8948 0.5960118 C=CCc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 C=CC*|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.2734558 7.3210 0.9600918 10.2100 0.9839044 2.5710 0.7310495 0.8685
+ | 2.2885 1.4776 -1.4776 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 *C|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 25.1760 29.1715 -23.2963 0.0459001 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C=CCOc1ccc2ccc(=O)oc2c1 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c12 C(Oc1ccc2ccc(=O)oc2c1)C=C*|C* O=c1ccc2ccc(OCC=Cc3cccc(-c4cc(=O)c5ccccc5o4)c3)cc2o1 0.6584146 8.4560 0.6209582 8.3430 0.9663020 2.8340 0.0000000 -31.0950
+17:07:21 <INFO> Score: 0.16 Agent NLL: 11.52 Valid: 100% Step: 4
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 7.0415 9.3806 -9.3806 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(C)C 1 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] *C|*C(C)C O=c1cc(-c2ccccc2)oc2ccccc12 0.2870978 7.3680 0.9718109 10.4600 0.9903793 2.3899 0.6334585 0.4752
+ | 8.2116 10.2446 84.3810 0.7392619 Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccccc1 1 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] c1ccccc1*|*C O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.5798997 8.2240 0.9979507 12.3000 0.9942502 2.2097 0.4809299 -0.0663
+ | 17.5053 18.0097 -11.9626 0.0472429 CC(C)(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1CC(=O)O 1 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] C(C)(C)(*)C|C(C*)(=O)O O=c1cc(-c2ccccc2)oc2ccccc12 0.4501568 7.8610 0.9793026 10.6800 0.9823274 2.6040 0.0000000 -28.8795
+ | 3.6804 1.9619 -1.9619 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 1 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] *C|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.4002576 7.7190 0.9798779 10.7000 0.9937705 2.2377 0.8148294 1.2870
+ | 2.5615 1.9619 -1.9619 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] *C|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 13.5811 13.4148 79.3186 0.7244797 CC(C)(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F 1 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] CC(C)(*)C|C(*)(F)(F)F O=c1cc(-c2ccccc2)oc2ccccc12 0.6069747 8.3020 0.9955530 11.7600 0.9806814 2.6356 0.3852701 -0.4058
+ | 13.4974 12.1394 -6.2723 0.0458366 Nc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1N1CCCCC1 1 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] N*|C1CCCCN1* O=c1cc(-c2cccc(N3CCCCC3)c2)oc2ccccc12 0.4103166 7.7480 0.9832538 10.8300 0.9876163 2.4786 0.0000000 -20.8339
+ | 3.2240 1.8596 -1.8596 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] *C|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 3.2498 1.8903 -1.8903 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 2 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] C*|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 7.7190 0.0000000 10.7000 0.0000000 2.2377 0.0000000 1.2870
+ | 32.0353 29.1715 -21.7204 0.0582116 CCc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1CC(=O)NCCCc1cc(C)ccc1C 1 c1([*])ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] *CC|*CC(=O)NCCCc1c(C)ccc(C)c1 O=C(Cc1cccc(-c2cc(=O)c3ccccc3o2)c1)NCCCc1ccccc1 0.9096838 9.6050 0.8812883 9.3930 0.9788406 2.6678 0.0000000 -20.7928
+17:07:22 <WARN> reinvent_plugins.normalizers.rdkit_smiles: *C1c2cc(C=Nc3ccccc3)oc3cc(=O)cc--3c2-c2c(c(O)ccc2O)C1|C* could not be converted
+17:07:22 <WARN> reinvent_plugins.normalizers.rdkit_smiles: *C(C)C|C1=C2N(N=CC3C(C)=C(C*)C(=O)c4cc(=O)ccc-1c3-3)Cc1c(cccc1)C3=O could not be converted
+17:11:48 <INFO> Score: 0.17 Agent NLL: 20.26 Valid:  94% Step: 5
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 41.4819 54.3355 -54.3245 0.0000860 CC(=Nc1cccc2oc(=O)c(-c3cc(-c4oc5cccc(O)c5c(=O)c4O)ccc3C(F)(F)F)cc(=O)c12)C(=O)C=Cc1ccc(O)c(C)c1 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 *C(F)(F)F|O=C(C=Cc1ccc(O)c(C)c1)C(C)=Nc1c2c(=O)cc(*)c(=O)oc2ccc1 O=C(C=Cc1ccccc1)C=Nc1cccc2oc(=O)c(-c3cccc(-c4cc(=O)c5ccccc5o4)c3)cc(=O)c12 0.7353176 8.7100 0.0000000 -6.2300 0.7503219 3.6177 0.0000000 -88.6163
+ | 11.5279 13.0909 51.3543 0.5034780 COc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(F)(F)F)cc1 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 FC(F)(*)F|c1c(*)ccc(OC)c1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5551804 8.1540 0.8635326 9.2820 0.9883336 2.4576 0.0579833 -2.4215
+ | 9.4172 9.3637 -3.0145 0.0496033 Nc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccccc1 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1ccccc1*|N* O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.5057561 8.0160 0.9976000 12.1900 0.9922955 2.3121 0.0000000 -17.6209
+ | 40.8894 33.6428 -33.6428 0.0000000 *C1c2cc(C=Nc3ccccc3)oc3cc(=O)cc--3c2-c2c(c(O)ccc2O)C1|C* 0 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 *C1c2cc(C=Nc3ccccc3)oc3cc(=O)cc--3c2-c2c(c(O)ccc2O)C1|C* -- 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000
+ | 16.9843 17.6051 71.0127 0.6923259 O=c1c(O)c(-c2ccc(-c3ccc(F)cc3)c(N3CCCCC3)c2)oc2cccc(O)c12 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 Fc1ccc(*)cc1|N1(*)CCCCC1 O=c1cc(-c2ccc(-c3ccccc3)c(N3CCCCC3)c2)oc2ccccc12 0.7204990 8.6580 0.9790089 10.6700 0.9879003 2.4704 0.1969599 -1.2207
+ | 22.7214 20.1296 -15.4681 0.0364187 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1NCc1ccc(O)c(C=O)c1O 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 *C|c1(O)c(C=O)c(O)c(CN*)cc1 O=c1cc(-c2cccc(NCc3ccccc3)c2)oc2ccccc12 0.3971526 7.7100 0.5309017 8.0860 0.9687912 2.8064 0.0000000 -61.1379
+ | 45.3778 49.7621 -49.7502 0.0000929 CC(Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1cccc(C2=CCC(C=O)=CC2=O)c1)Nc1ccc(O)c2ccccc12 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 *CC(C)Nc1c2ccccc2c(O)cc1|C1=C(c2cccc(*)c2)C(=O)C=C(C=O)C1 O=C1C=CCC=C1c1cccc(-c2cc(-c3cc(=O)c4ccccc4o3)ccc2CCNc2cccc3ccccc23)c1 0.9529231 10.0900 0.0000000 -4.7570 0.5920153 3.8706 0.0000000 -58.1716
+ | 38.9474 40.8133 -40.0455 0.0059986 C=C(C)C1CCC(=O)CC1=CNc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1cc2ccccc2o1 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1cc2c(oc(*)c2)cc1|C1(C(=C)C)CCC(=O)CC1=CN* O=C1CCCC(=CNc2cc(-c3cc(=O)c4ccccc4o3)ccc2-c2cc3ccccc3o2)C1 0.8643783 9.2870 0.0016640 3.5550 0.6586375 3.7717 0.0000000 -34.1002
+ | 77.5487 78.8983 -78.8983 0.0000000 *C(C)C|C1=C2N(N=CC3C(C)=C(C*)C(=O)c4cc(=O)ccc-1c3-3)Cc1c(cccc1)C3=O 0 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 *C(C)C|C1=C2N(N=CC3C(C)=C(C*)C(=O)c4cc(=O)ccc-1c3-3)Cc1c(cccc1)C3=O -- 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000 0.0000000 0.0000
+ | 25.6264 24.5232 -22.0486 0.0193328 O=C(C=CNc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccc(F)cc1)c1ccc2c(c1)OCO2 1 c1c([*])c([*])cc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1(C(=O)C=CN*)cc2c(cc1)OCO2|c1(F)ccc(*)cc1 O=C(C=CNc1ccc(-c2cc(=O)c3ccccc3o2)cc1-c1ccccc1)c1ccc2c(c1)OCO2 0.9440871 9.9640 0.0366773 5.7290 0.9623678 2.8738 0.0000000 -39.2552
+17:15:10 <INFO> Score: 0.22 Agent NLL: 13.86 Valid: 100% Step: 6
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 6.3417 8.1057 -8.1057 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccccc1 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 *C|c1c(*)cccc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.7066771 8.6110 0.9928691 11.4300 0.9942845 2.2076 0.4809299 -0.0663
+ | 9.5318 10.1876 41.3974 0.4030076 C=CCNc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 C(=C)CN*|*C O=c1cc(-c2ccccc2)oc2ccccc12 0.4791449 7.9420 0.9611800 10.2300 0.9849879 2.5464 0.0144885 -3.6653
+ | 12.4468 16.2807 24.4182 0.3179600 O=c1c(O)c(-c2ccc(-c3ccco3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 o1cccc1*|c1c(*)cccc1 O=c1cc(-c2ccc(-c3ccco3)c(-c3ccccc3)c2)oc2ccccc12 0.5760385 8.2130 0.9642767 10.2900 0.9887819 2.4439 0.0019195 -5.4319
+ | 16.7496 21.9495 46.0185 0.5309999 CCC(C)(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccccc1 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 *C(C)(CC)C|c1(*)ccccc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6303951 8.3710 0.5735765 8.2060 0.9861326 2.5184 0.1600360 -1.4401
+ | 15.1575 17.5031 25.1547 0.3332637 O=c1c(O)c(-c2ccc(-c3cccnc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 c1c(*)cccn1|C(F)(*)(F)F O=c1cc(-c2ccc(-c3cccnc3)cc2)oc2ccccc12 0.4769904 7.9360 0.9934552 11.4900 0.9846212 2.5549 0.0038205 -4.8324
+ | 10.4394 18.6264 59.5608 0.6108375 CC(C)(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1Cc1ccccc1 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 *C(C)(C)C|c1ccccc1C* O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.5530468 8.1480 0.8116401 9.0150 0.9877359 2.4752 0.2454168 -0.9756
+ | 6.0134 12.2611 -12.2611 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 *C(F)(F)F|c1ccccc1* O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5273160 8.0760 0.9589742 10.1900 0.9897643 2.4117 0.2909075 -0.7739
+ | 12.2012 14.2517 -14.2517 0.0000000 COc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(F)(F)F)cc1 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 FC(*)(F)F|c1c(*)ccc(OC)c1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5551804 8.1540 0.8635326 9.2820 0.9883336 2.4576 0.0579833 -2.4215
+ | 5.6984 8.8885 -8.8885 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 FC(*)(F)F|FC(*)(F)F O=c1cc(-c2ccccc2)oc2ccccc12 0.5976676 8.2750 0.9914147 11.3000 0.9802079 2.6441 0.4631605 -0.1282
+ | 14.5444 15.8385 -8.9448 0.0538573 Nc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1NCCc1ccccc1 1 c1(-c2oc3c(c(O)ccc3)c(=O)c2O)ccc([*])c([*])c1 C(Cc1ccccc1)N*|*N O=c1cc(-c2ccc(NCCc3ccccc3)cc2)oc2ccccc12 0.6492951 8.4280 0.9837212 10.8500 0.9905987 2.3818 0.0000000 -29.6383
+17:16:54 <INFO> Score: 0.16 Agent NLL: 9.45 Valid: 100% Step: 7
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 8.5097 12.2780 84.0808 0.7528031 Cc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C)cc1 1 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 c1(C)ccc(*)cc1|*C O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6844383 8.5380 0.9701903 10.4200 0.9934156 2.2571 0.3941232 -0.3735
+ | 15.1164 22.1207 61.9672 0.6569371 CC(c1ccccc1)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F 1 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 FC(*)(F)F|C(c1ccccc1)(C)* O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.6850596 8.5400 0.9166416 9.6660 0.9444160 3.0158 0.1904716 -1.2568
+ | 14.3596 17.6444 1.3392 0.1483091 O=c1c(O)c(-c2ccc(Cc3ccc4ccccc4c3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 FC(*)(F)F|*Cc1ccc2ccccc2c1 O=c1cc(-c2ccc(Cc3ccc4ccccc4c3)cc2)oc2ccccc12 0.9425482 9.9440 0.0119476 4.9320 0.9841262 2.5661 0.1065874 -1.8467
+ | 4.0978 7.9425 -7.9425 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 FC(F)(*)F|FC(F)(*)F O=c1cc(-c2ccccc2)oc2ccccc12 0.5976676 8.2750 0.9914147 11.3000 0.9802079 2.6441 0.4631605 -0.1282
+ | 4.0803 8.2186 -8.2186 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 2 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 *C(F)(F)F|FC(F)(F)* O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 8.2750 0.0000000 11.3000 0.0000000 2.6441 0.0000000 -0.1282
+ | 13.6385 19.1597 70.8815 0.7034466 CC(C)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C=Cc1ccc(F)cc1 1 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 C(*)(C)C|C(c1ccc(F)cc1)=C* O=c1cc(-c2ccc(C=Cc3ccccc3)cc2)oc2ccccc12 0.8528536 9.2210 0.9798779 10.7000 0.9822035 2.6065 0.1483307 -1.5181
+ | 45.9570 52.5271 -52.5155 0.0000909 CC(C)(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1CC1(c2ccccc2)N=C(c2cccc(C(=N)N)c2)OC1=O 1 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 C(=N)(N)c1cccc(C2=NC(c3ccccc3)(C*)C(=O)O2)c1|C(C)(*)(C)C O=C1OC(c2ccccc2)=NC1(Cc1cccc(-c2cc(=O)c3ccccc3o2)c1)c1ccccc1 0.9153125 9.6540 0.0000000 -5.8690 0.6512159 3.7831 0.0000000 -80.1499
+ | 14.7281 18.6432 75.0358 0.7318670 Cc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(F)(F)F)c(C)c1 1 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 FC(*)(F)F|c1(*)c(C)cc(C)cc1 O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8884698 9.4420 0.9967090 11.9700 0.9852329 2.5406 0.1682093 -1.3883
+ | 5.1301 9.6699 -9.6699 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 2 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 *C(F)(F)F|C(F)(*)(F)F O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 8.2750 0.0000000 11.3000 0.0000000 2.6441 0.0000000 -0.1282
+ | 5.5710 8.7252 -8.7252 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 2 c12oc(-c3cc([*])c([*])cc3)c(O)c(=O)c1c(O)ccc2 C(*)(F)(F)F|FC(*)(F)F O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 8.2750 0.0000000 11.3000 0.0000000 2.6441 0.0000000 -0.1282
+17:19:25 <INFO> Score: 0.21 Agent NLL: 10.35 Valid: 100% Step: 8
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 7.7338 15.5673 70.6632 0.6736760 CC(C)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccccc1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1c(*)cccc1|CC(*)C O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.5753356 8.2110 0.9942457 11.5800 0.9912694 2.3559 0.2667968 -0.8781
+ | 9.3798 16.7786 -16.7786 0.0000000 CC(C)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccccc1 2 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1ccccc1*|CC(*)C O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.0000000 8.2110 0.0000000 11.5800 0.0000000 2.3559 0.0000000 -0.8781
+ | 10.4973 15.4250 55.1181 0.5511181 CC(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(C)(C)C 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 C(*)(C)C|*C(C)(C)C O=c1cc(-c2ccccc2)oc2ccccc12 0.3002307 7.4120 0.9502723 10.0500 0.9838215 2.5728 0.3572791 -0.5100
+ | 8.1652 14.0720 -14.0720 0.0000000 CC(C)(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(C)(C)C 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 C(C)(C)(*)C|CC(*)(C)C O=c1cc(-c2ccccc2)oc2ccccc12 0.5973217 8.2740 0.5882900 8.2480 0.9820192 2.6102 0.3128452 -0.6835
+ | 9.6693 14.7971 60.0404 0.5846682 Cc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2-c2ccccc2)cc1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1ccccc1*|c1c(C)ccc(*)c1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.8290218 9.0970 0.6466689 8.4200 0.9930157 2.2777 0.1204653 -1.7268
+ | 8.6945 9.9036 -9.9036 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 FC(F)(*)F|FC(F)(*)F O=c1cc(-c2ccccc2)oc2ccccc12 0.5976676 8.2750 0.9914147 11.3000 0.9802079 2.6441 0.4631605 -0.1282
+ | 23.8995 25.0925 -7.9926 0.1335932 O=c1c(O)c(-c2ccc(NCc3ccc(-c4ccc(F)cc4)cc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1(CN*)ccc(-c2ccc(F)cc2)cc1|FC(F)(F)* O=c1cc(-c2ccc(NCc3ccc(-c4ccccc4)cc3)cc2)oc2ccccc12 0.9296793 9.7940 0.0514556 5.9750 0.9840702 2.5673 0.0018173 -5.4796
+ | 17.9546 22.1432 62.8053 0.6636600 CC(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)Br 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 C(C)(*)C|*C(Br)(F)F O=c1cc(-c2ccccc2)oc2ccccc12 0.5265986 8.0740 0.9737166 10.5100 0.9664557 2.8323 0.3196395 -0.6562
+ | 8.2628 15.3560 70.8056 0.6731375 O=c1c(O)c(-c2ccc(-c3ccc(F)cc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1c(F)ccc(*)c1|c1ccc(*)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7941117 8.9380 0.9394324 9.9050 0.9927201 2.2922 0.1426007 -1.5581
+ | 18.4975 22.7506 44.1850 0.5229343 O=c1c(O)c(-c2ccc(C3CCCCC3)c(C#Cc3ccccc3)c2)oc2cccc(O)c12 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 C1CCCCC1*|c1c(C#C*)cccc1 O=c1cc(-c2ccc(C3CCCCC3)c(C#Cc3ccccc3)c2)oc2ccccc12 0.9063181 9.5770 0.3985317 7.7140 0.9769719 2.6979 0.1462280 -1.5326
+17:22:09 <INFO> Score: 0.32 Agent NLL: 12.37 Valid: 100% Step: 9
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 26.4283 39.7176 -27.1433 0.0982370 C=CCc1ccc(C(C)(c2ccccc2)c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2-c2ccccc2)cc1 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 C(C=C)c1ccc(C(*)(C)c2ccccc2)cc1|c1cc(*)ccc1 O=c1cc(-c2ccc(C(c3ccccc3)c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.6273723 8.3620 0.0146792 5.0770 0.8916870 3.2676 0.0120714 -3.8259
+ | 5.8985 15.0270 -15.0270 0.0000000 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 c1ccc(*)cc1|c1ccccc1* O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7936407 8.9360 0.9458089 9.9870 0.9939491 2.2276 0.1632373 -1.4196
+ | 13.0060 16.2574 39.9089 0.4387987 O=c1c(O)c(-c2ccc(C(F)(F)F)c(NCc3ccccc3)c2)oc2cccc(O)c12 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 FC(F)(F)*|*NCc1ccccc1 O=c1cc(-c2cccc(NCc3ccccc3)c2)oc2ccccc12 0.8196458 9.0520 0.9872089 11.0200 0.9876878 2.4766 0.0068402 -4.3239
+ | 16.4966 20.2073 2.8517 0.1801483 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccc4[nH]ccc4c3)c2)oc2cccc(O)c12 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 c1(*)ccccc1|c1(*)ccc2[nH]ccc2c1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccc4[nH]ccc4c3)c2)oc2ccccc12 0.8506731 9.2090 0.5028783 8.0080 0.9850761 2.5443 0.0000803 -8.1909
+ | 11.9062 17.5192 68.9467 0.6755145 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C3CCCCC3)c2)oc2cccc(O)c12 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 FC(F)(F)*|C1CC(*)CCC1 O=c1cc(-c2cccc(C3CCCCC3)c2)oc2ccccc12 0.6492951 8.4280 0.9887453 11.1100 0.9818001 2.6144 0.2095621 -1.1531
+ | 8.9129 16.4269 -16.4269 0.0000000 CC(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccccc1 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 C(*)(C)C|c1(*)ccccc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5337677 8.0940 0.9509480 10.0600 0.9912851 2.3553 0.2667968 -0.8781
+ | 7.1361 11.8558 82.1978 0.7347943 Cc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C)cc1 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 c1c(C)ccc(*)c1|*C O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.6202803 8.3410 0.9990010 12.8000 0.9933771 2.2591 0.3941232 -0.3735
+ | 11.6820 16.3587 73.4346 0.7015101 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3cccc(F)c3)c2)oc2cccc(O)c12 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 FC(F)(F)*|c1(F)cccc(*)c1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6538690 8.4420 0.9967560 11.9800 0.9859556 2.5229 0.2591290 -0.9125
+ | 16.0872 21.7417 61.3117 0.6488541 CC#Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(C)C 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 C(#CC)*|CC(*)C O=c1cc(-c2ccccc2)oc2ccccc12 0.3662582 7.6190 0.9892157 11.1400 0.9694114 2.7992 0.6165327 0.4125
+ | 16.9137 26.7928 31.7291 0.4572021 O=c1c(O)c(-c2ccc(C(c3ccc(F)cc3)c3ccccc3F)c(C(F)(F)F)c2)oc2cccc(O)c12 1 o1c(-c2ccc([*])c([*])c2)c(O)c(=O)c2c(O)cccc12 Fc1ccccc1C(*)c1ccc(F)cc1|*C(F)(F)F O=c1cc(-c2ccc(C(c3ccccc3)c3ccccc3)cc2)oc2ccccc12 0.8788582 9.3770 0.4576478 7.8820 0.9086844 3.2017 0.0499564 -2.5583
+17:23:36 <INFO> Score: 0.15 Agent NLL: 8.79 Valid: 100% Step: 10
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 9.8416 17.9526 60.2641 0.6110681 O=c1c(O)c(-c2ccc(-c3ccc(C(F)(F)F)cc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O c1cc(C(F)(F)F)ccc1*|*c1ccccc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.8437822 9.1720 0.9937300 11.5200 0.9890064 2.4368 0.0571787 -2.4344
+ | 11.2875 15.6364 36.4308 0.4067744 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3ccc(C(F)(F)F)cc3)c2)oc2cccc(O)c12 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O C(*)(F)(F)F|c1cc(C(F)(F)F)ccc1* O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6856802 8.5420 0.2862149 7.3650 0.9823866 2.6028 0.1131121 -1.7887
+ | 6.4166 11.0247 -11.0247 0.0000000 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O c1(*)ccccc1|*c1ccccc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7936407 8.9360 0.9458089 9.9870 0.9939491 2.2276 0.1632373 -1.4196
+ | 9.4054 16.3327 -16.3327 0.0000000 Cc1cccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2-c2ccccc2)c1 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O c1(C)cccc(*)c1|c1ccc(*)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7835660 8.8940 0.9611800 10.2300 0.9921564 2.3183 0.1204653 -1.7268
+ | 27.1011 29.8526 -6.0321 0.1860977 C=C(C)C(=O)Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1cccc(C)c1 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O C(C)(=C)C(C*)=O|c1c(C)cc(*)cc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.7170081 8.6460 0.9697713 10.4100 0.9756960 2.7171 0.0000324 -8.9790
+ | 5.8269 7.7328 -7.7328 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O FC(F)(*)F|FC(F)(*)F O=c1cc(-c2ccccc2)oc2ccccc12 0.5976676 8.2750 0.9914147 11.3000 0.9802079 2.6441 0.4631605 -0.1282
+ | 5.7917 11.5846 -11.5846 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O FC(*)(F)F|c1cc(*)ccc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5273160 8.0760 0.9589742 10.1900 0.9897643 2.4117 0.2909075 -0.7739
+ | 10.1483 14.7514 -14.7514 0.0000000 O=c1c(O)c(-c2ccc(-c3ccc(F)cc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O Fc1ccc(*)cc1|*c1ccccc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7941117 8.9380 0.9394324 9.9050 0.9927201 2.2922 0.1426007 -1.5581
+ | 6.0000 8.4995 -8.4995 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 2 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O FC(F)(*)F|*C(F)(F)F O=c1cc(-c2ccccc2)oc2ccccc12 0.0000000 8.2750 0.0000000 11.3000 0.0000000 2.6441 0.0000000 -0.1282
+ | 7.1533 11.5735 -11.5735 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3ccccc3)c2)oc2cccc(O)c12 2 c1cc([*])c([*])cc1-c1oc2cccc(O)c2c(=O)c1O C(F)(F)(*)F|c1(*)ccccc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.0000000 8.0760 0.0000000 10.1900 0.0000000 2.4117 0.0000000 -0.7739
+17:26:09 <INFO> Score: 0.27 Agent NLL: 10.26 Valid: 100% Step: 11
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 9.8899 22.2997 55.3094 0.6063216 Cc1ccccc1-c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(C)(C)C 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 c1(C)ccccc1*|CC(C)(*)C O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8510385 9.2110 0.5997424 8.2810 0.9880105 2.4672 0.1730320 -1.3587
+ | 8.8419 15.7980 70.5514 0.6746048 O=c1c(O)c(-c2ccc(-c3ccc(C(F)(F)F)cc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 c1(C(F)(F)F)ccc(*)cc1|FC(F)(*)F O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8332630 9.1180 0.9990293 12.8200 0.9832105 2.5859 0.1131121 -1.7887
+ | 12.5021 20.9521 61.7069 0.6457735 Cc1cccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2Cc2ccccc2)c1 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 c1c(C*)cccc1|c1ccc(C)cc1* O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7517784 8.7700 0.9179517 9.6780 0.9901106 2.3996 0.1300354 -1.6509
+ | 8.9764 14.2782 -14.2782 0.0000000 CC(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccccc1 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 C(C)(*)C|c1(*)ccccc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5337677 8.0940 0.9509480 10.0600 0.9912851 2.3553 0.2667968 -0.8781
+ | 6.3995 11.6047 -11.6047 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3ccccc3)c2)oc2cccc(O)c12 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 FC(F)(*)F|c1cccc(*)c1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5273160 8.0760 0.9589742 10.1900 0.9897643 2.4117 0.2909075 -0.7739
+ | 11.0642 14.8224 57.5071 0.5650744 Cc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(C)C)cc1 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 CC(*)C|Cc1ccc(*)cc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5806007 8.2260 0.6699689 8.4920 0.9900461 2.4019 0.2034886 -1.1853
+ | 5.5053 12.2507 -12.2507 0.0000000 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 c1ccc(*)cc1|c1cccc(*)c1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7936407 8.9360 0.9458089 9.9870 0.9939491 2.2276 0.1632373 -1.4196
+ | 10.5693 14.7908 79.6842 0.7380863 O=c1c(O)c(-c2ccc(C=Cc3ccccc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 c1ccccc1C=C*|FC(*)(F)F O=c1cc(-c2ccc(C=Cc3ccccc3)cc2)oc2ccccc12 0.8687052 9.3130 0.9984624 12.5000 0.9830801 2.5886 0.1872043 -1.2753
+ | 18.0123 20.0402 53.4731 0.5743226 COc1cccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(F)(F)F)c1 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 c1(OC)cc(*)ccc1|C(F)(F)(*)F O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.7018816 8.5950 0.9953578 11.7300 0.9874218 2.4841 0.0579833 -2.4215
+ | 12.2052 12.0056 -4.6560 0.0574191 Nc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C=Cc1ccccc1 1 [*]c1c([*])cc(-c2c(O)c(=O)c3c(O)cccc3o2)cc1 c1ccc(C=C*)cc1|N* O=c1cc(-c2ccc(C=Cc3ccccc3)cc2)oc2ccccc12 0.7731400 8.8520 0.9938190 11.5300 0.9864138 2.5112 0.0000000 -17.6574
+17:27:38 <INFO> Score: 0.13 Agent NLL: 9.74 Valid: 100% Step: 12
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 8.5006 17.9083 -17.9083 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3ccc(C(F)(F)F)cc3)c2)oc2cccc(O)c12 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] c1c(C(F)(F)F)ccc(*)c1|FC(F)(*)F O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6856802 8.5420 0.2862149 7.3650 0.9823866 2.6028 0.1131121 -1.7887
+ | 5.4670 11.4148 -11.4148 0.0000000 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] c1ccc(*)cc1|c1(*)ccccc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7936407 8.9360 0.9458089 9.9870 0.9939491 2.2276 0.1632373 -1.4196
+ | 11.6854 18.5550 -18.5550 0.0000000 O=c1c(O)c(-c2ccc(NCc3ccccc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] c1ccccc1*|N(Cc1ccccc1)* O=c1cc(-c2ccc(NCc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7950514 8.9420 0.9983479 12.4500 0.9920308 2.3239 0.0044896 -4.6917
+ | 10.3366 15.1588 -15.1588 0.0000000 CC(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccccc1 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] *c1ccccc1|C(C)(*)C O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5337677 8.0940 0.9509480 10.0600 0.9912851 2.3553 0.2667968 -0.8781
+ | 7.8435 16.3624 -16.3624 0.0000000 CC(C)(C)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccccc1 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] C(*)(C)(C)C|c1cc(*)ccc1 O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.7723818 8.8490 0.9937300 11.5200 0.9905177 2.3848 0.2295960 -1.0515
+ | 11.8504 21.5829 51.9253 0.5742828 CC(C)(C)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1Cc1ccccc1 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] C(C)(*)(C)C|c1cccc(C*)c1 O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.4587197 7.8850 0.8200709 9.0540 0.9885623 2.4507 0.2454168 -0.9756
+ | 20.9814 30.2913 -30.0658 0.0017618 O=C(C(=Cc1ccccc1)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F)c1ccccc1 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] C(=O)(C(=Cc1ccccc1)*)c1ccccc1|FC(F)(F)* O=C(C(=Cc1ccccc1)c1cccc(-c2cc(=O)c3ccccc3o2)c1)c1ccccc1 0.8533946 9.2240 0.0000018 -1.1740 0.9708754 2.7817 0.0000156 -9.6162
+ | 6.9204 12.9525 -12.9525 0.0000000 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2cccc(O)c12 2 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] c1(*)ccccc1|*c1ccccc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.0000000 8.9360 0.0000000 9.9870 0.0000000 2.2276 0.0000000 -1.4196
+ | 8.6556 16.1342 -3.6713 0.0973663 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccc(O)cc3)c2)oc2cccc(O)c12 1 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] c1c(*)ccc(O)c1|c1ccccc1* O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.6648579 8.4760 0.7733921 8.8530 0.9916086 2.3420 0.0000009 -12.1325
+ | 5.8175 12.5453 -12.5453 0.0000000 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2cccc(O)c12 2 c1([*])cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1[*] c1c(*)cccc1|c1cccc(*)c1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.0000000 8.9360 0.0000000 9.9870 0.0000000 2.2276 0.0000000 -1.4196
+17:30:45 <INFO> Score: 0.19 Agent NLL: 12.24 Valid: 100% Step: 13
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 14.0428 20.6659 50.8189 0.5584751 O=c1c(O)c(-c2ccc(Cc3ccc(F)cc3)c(-c3cccc(C(F)(F)F)c3)c2)oc2cccc(O)c12 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 c1cc(F)ccc1C*|FC(F)(c1cc(*)ccc1)F O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.8930897 9.4750 0.7496237 8.7620 0.9824958 2.6006 0.0534120 -2.4970
+ | 11.3409 17.9948 -12.2016 0.0452593 Cc1cc(C)c(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(F)(F)F)c(C)c1 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 FC(*)(F)F|c1(C)cc(C)cc(C)c1* O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6561454 8.4490 0.0005422 2.7750 0.9790875 2.6637 0.1243280 -1.6955
+ | 10.1117 20.0909 41.8099 0.4836005 O=c1c(O)c(-c2ccc(C(c3ccccc3)c3ccccc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 c1cccc(C(*)c2ccccc2)c1|C(F)(F)(F)* O=c1cc(-c2ccc(C(c3ccccc3)c3ccccc3)cc2)oc2ccccc12 0.5851495 8.2390 0.6863002 8.5440 0.9817900 2.6146 0.0674638 -2.2812
+ | 6.4925 7.6327 -7.6327 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 FC(*)(F)F|FC(*)(F)F O=c1cc(-c2ccccc2)oc2ccccc12 0.5976676 8.2750 0.9914147 11.3000 0.9802079 2.6441 0.4631605 -0.1282
+ | 8.4017 14.0791 -14.0791 0.0000000 CC(C)(C)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 FC(F)(F)*|*C(C)(C)C O=c1cc(-c2ccccc2)oc2ccccc12 0.4741191 7.9280 0.9714139 10.4500 0.9815779 2.6187 0.3852701 -0.4058
+ | 19.9432 26.8337 -12.3146 0.1134308 COc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(C)(C)C)cc1OC 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 c1c(*)ccc(OC)c1OC|CC(C)(C)* O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.6007784 8.2840 0.5654615 8.1830 0.9862818 2.5146 0.0000063 -10.4035
+ | 9.2358 16.6701 -16.6701 0.0000000 O=c1c(O)c(-c2ccc(-c3ccc(C(F)(F)F)cc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 c1c(C(F)(F)F)ccc(*)c1|C(F)(F)(F)* O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8332630 9.1180 0.9990293 12.8200 0.9832105 2.5859 0.1131121 -1.7887
+ | 19.9146 30.3146 -26.7969 0.0274814 CC(Cc1ccc(O)cc1)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccc(C(F)(F)F)cc1 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 C(Cc1ccc(O)cc1)(*)C|c1cc(C(F)(F)F)ccc1* O=c1cc(-c2ccc(CCc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7746508 8.8580 0.0237245 5.4170 0.9143660 3.1772 0.0000005 -12.6351
+ | 12.4485 17.1003 57.0044 0.5789428 O=c1c(O)c(-c2ccc(Cc3ccc(F)cc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 c1c(C*)ccc(F)c1|c1cccc(*)c1 O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.6168851 8.3310 0.7621031 8.8090 0.9906992 2.3781 0.1536222 -1.4822
+ | 7.2311 14.7017 -14.7017 0.0000000 O=c1c(O)c(-c2ccc(-c3ccc(C(F)(F)F)cc3)c(C(F)(F)F)c2)oc2cccc(O)c12 2 c1([*])c([*])cc(-c2c(O)c(=O)c3c(cccc3O)o2)cc1 c1cc(C(F)(F)F)ccc1*|FC(F)(F)* O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.0000000 9.1180 0.0000000 12.8200 0.0000000 2.5859 0.0000000 -1.7887
+17:35:17 <INFO> Score: 0.37 Agent NLL: 14.10 Valid: 100% Step: 14
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 10.8737 8.5755 -8.5755 0.0000000 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 FC(*)(F)F|C* O=c1cc(-c2ccccc2)oc2ccccc12 0.7039852 8.6020 0.9815118 10.7600 0.9883733 2.4564 0.6608396 0.5794
+ | 12.6759 25.9106 54.4144 0.6275389 Cc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2Cc2ccccc2C)cc1 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 c1cccc(C)c1C*|c1(*)ccc(C)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.8217635 9.0620 0.8858769 9.4240 0.9886554 2.4478 0.0949757 -1.9581
+ | 10.6540 19.0581 -19.0581 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(Cc3ccccc3)c2)oc2cccc(O)c12 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 c1cccc(C*)c1|*C(F)(F)F O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.6124538 8.3180 0.9141903 9.6440 0.9879169 2.4700 0.3092571 -0.6980
+ | 22.8688 35.0870 -24.1072 0.0857792 Cc1ccc(O)c(C(C)c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C=Cc2ccc(F)cc2)c1 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 c1(O)c(C(C)*)cc(C)cc1|Fc1ccc(C=C*)cc1 O=c1cc(-c2ccc(C=Cc3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.9733457 10.5000 0.4744779 7.9290 0.8790044 3.3110 0.0000005 -12.5438
+ | 11.8854 19.0195 60.2060 0.6189491 Cc1cccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(C)C)c1 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 *c1cccc(C)c1|C(C)(*)C O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5222916 8.0620 0.9666743 10.3400 0.9886488 2.4480 0.2034886 -1.1853
+ | 12.5571 28.8557 -28.7219 0.0010454 O=c1c(O)c(-c2ccc(-c3ccccc3)c(C=Cc3cc(C(F)(F)F)cc(C(F)(F)F)c3)c2)oc2cccc(O)c12 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 FC(F)(F)c1cc(C(F)(F)F)cc(C=C*)c1|c1(*)ccccc1 O=c1cc(-c2ccc(-c3ccccc3)c(C=Cc3ccccc3)c2)oc2ccccc12 0.9744432 10.5300 0.0000000 -4.2390 0.9622098 2.8753 0.0104738 -3.9506
+ | 17.3538 31.0049 -24.9110 0.0476084 Cc1ccc(C=Cc2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C=Cc2c(C)cc(C)cc2C)cc1 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 c1(C)ccc(C=C*)cc1|c1(C)cc(C)cc(C)c1C=C* O=c1cc(-c2ccc(C=Cc3ccccc3)c(C=Cc3ccccc3)c2)oc2ccccc12 0.7738962 8.8550 0.0013356 3.4020 0.9619641 2.8776 0.0147200 -3.6513
+ | 10.9021 23.9836 38.8873 0.4911787 CC(c1ccccc1)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccccc1 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 c1ccc(C(C)*)cc1|c1cccc(*)c1 O=c1cc(-c2ccc(-c3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.6728266 8.5010 0.5301846 8.0840 0.9626210 2.8713 0.1006246 -1.9025
+ | 12.8897 23.1313 44.6630 0.5296433 O=c1c(O)c(-c2ccc(C(F)(F)F)c(Cc3ccc(C(F)(F)F)cc3)c2)oc2cccc(O)c12 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 FC(F)(c1ccc(C*)cc1)F|FC(F)(F)* O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.6903140 8.5570 0.5854986 8.2400 0.9792413 2.6610 0.1221792 -1.7128
+ | 27.9332 41.8878 -41.7864 0.0007919 COc1ccc(Cl)cc1-c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccccc1Cc1cc(C)cc(C)c1 1 o1c2cccc(O)c2c(=O)c(O)c1-c1cc([*])c([*])cc1 Clc1ccc(OC)c(*)c1|C(c1ccccc1*)c1cc(C)cc(C)c1 O=c1cc(-c2ccc(-c3ccccc3Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.8290218 9.0970 0.0000000 -4.0890 0.9717138 2.7712 0.0014349 -5.6851
+17:38:35 <INFO> Score: 0.40 Agent NLL: 12.12 Valid: 100% Step: 15
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 9.8404 21.2331 65.2111 0.6753454 Cc1ccc(F)c(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(F)(F)F)c1 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] c1(F)ccc(C)cc1*|FC(*)(F)F O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6603538 8.4620 0.9967090 11.9700 0.9830343 2.5896 0.1971511 -1.2197
+ | 18.5915 36.3873 -22.6720 0.1071515 CC(Cc1ccc(F)cc1)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1-c1ccc(C(F)(F)F)cc1 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] c1c(F)ccc(CC(C)*)c1|c1(C(F)(F)F)ccc(*)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(CCc3ccccc3)c2)oc2ccccc12 0.8893225 9.4480 0.0098869 4.7990 0.9232275 3.1359 0.0231776 -3.2495
+ | 9.0821 13.5326 -13.5326 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] *c1ccccc1|FC(*)(F)F O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5273160 8.0760 0.9589742 10.1900 0.9897643 2.4117 0.2909075 -0.7739
+ | 21.9465 30.5876 0.5410 0.2431922 Cc1cccc(Nc2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2Cc2ccc(Cl)cc2)c1 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] c1c(C)cccc1N*|c1cc(C*)ccc1Cl O=c1cc(-c2ccc(Cc3ccccc3)c(Nc3ccccc3)c2)oc2ccccc12 0.7364364 8.7140 0.3415855 7.5440 0.9864186 2.5111 0.0020454 -5.3766
+ | 14.2627 19.2936 45.1084 0.5031409 O=c1c(O)c(-c2ccc(-c3ccccc3)c(-c3ccccc3Cl)c2)oc2cccc(O)c12 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] c1ccc(*)c(Cl)c1|c1(*)ccccc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.5844507 8.2370 0.6958242 8.5750 0.9920545 2.3229 0.0844276 -2.0704
+ | 8.7296 11.7168 91.3770 0.8054204 Cc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1ccc(F)cc1 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] Fc1ccc(*)cc1|*C O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.7716218 8.8460 0.9945658 11.6200 0.9930767 2.2747 0.4413125 -0.2048
+ | 10.0412 18.5883 -18.5883 0.0000000 O=c1c(O)c(-c2ccc(-c3ccc(F)cc3)c(-c3ccccc3)c2)oc2cccc(O)c12 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] c1ccccc1*|c1(F)ccc(*)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7941117 8.9380 0.9394324 9.9050 0.9927201 2.2922 0.1426007 -1.5581
+ | 9.5371 21.4921 55.6737 0.6028581 Cc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2-c2cc(C)cc(C)c2)cc1 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] c1(C)cc(C)cc(*)c1|c1c(*)ccc(C)c1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7943469 8.9390 0.9729698 10.4900 0.9881570 2.4629 0.0632440 -2.3412
+ | 14.6167 28.9561 -9.5220 0.1518285 Cc1cc(C)cc(Cc2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2-c2cc(C)cc(C)c2)c1 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] c1(C)cc(*)cc(C)c1|c1c(C)cc(C)cc1C* O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7864804 8.9060 0.0213791 5.3430 0.9786094 2.6717 0.0491849 -2.5725
+ | 19.5428 26.4550 61.6472 0.6882984 Cc1ccccc1-c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)C(F)(F)F 1 c1cc(-c2oc3c(c(O)ccc3)c(=O)c2O)cc([*])c1[*] C(C(F)(F)F)(*)(F)F|c1(C)c(*)cccc1 O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8762293 9.3600 0.9781030 10.6400 0.9734908 2.7481 0.1220415 -1.7139
+17:43:42 <INFO> Score: 0.25 Agent NLL: 13.45 Valid: 100% Step: 16
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 7.8808 11.1897 -11.1897 0.0000000 O=c1c(O)c(-c2ccc(-c3ccccc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 FC(F)(F)*|c1ccc(*)cc1 O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8114200 9.0140 0.9977981 12.2500 0.9902987 2.3929 0.2909075 -0.7739
+ | 8.5608 16.5681 -16.5681 0.0000000 Cc1cc(C)cc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(F)(F)F)c1 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1(C)cc(C)cc(*)c1|FC(*)(F)F O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.5086339 8.0240 0.9978605 12.2700 0.9824960 2.6006 0.1682093 -1.3883
+ | 7.2407 14.0151 -14.0151 0.0000000 O=c1c(O)c(-c2ccc(-c3ccc(C(F)(F)F)cc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 FC(*)(F)F|c1cc(C(F)(F)F)ccc1* O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8332630 9.1180 0.9990293 12.8200 0.9832105 2.5859 0.1131121 -1.7887
+ | 7.2567 14.9394 75.7561 0.7085584 O=c1c(O)c(-c2ccc(Cc3ccc(F)cc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 FC(F)(F)*|Fc1ccc(C*)cc1 O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.6903140 8.5570 0.9450665 9.9770 0.9862942 2.5143 0.2762551 -0.8366
+ | 10.3767 22.3986 60.5646 0.6481495 O=c1c(O)c(-c2ccc(C(F)(F)F)c(-c3cc(C(F)(F)F)ccc3F)c2)oc2cccc(O)c12 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1(F)ccc(C(F)(F)F)cc1*|FC(*)(F)F O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.7959877 8.9460 0.9951539 11.7000 0.9752319 2.7238 0.0980697 -1.9273
+ | 10.8948 21.7591 66.2895 0.6878803 O=c1c(O)c(-c2ccc(C#Cc3ccc(F)cc3)c(-c3ccc(F)cc3)c2)oc2cccc(O)c12 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1(F)ccc(*)cc1|c1cc(C#C*)ccc1F O=c1cc(-c2ccc(C#Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.9005442 9.5310 0.8397571 9.1510 0.9809607 2.6304 0.1615215 -1.4305
+ | 11.5490 25.4917 -8.1107 0.1357888 O=c1c(O)c(-c2ccc(C#Cc3ccccc3)c(-c3ccc(C(F)(F)F)cc3)c2)oc2cccc(O)c12 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1cc(C(F)(F)F)ccc1*|c1c(C#C*)cccc1 O=c1cc(-c2ccc(C#Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.8799267 9.3840 0.0115302 4.9070 0.9763291 2.7077 0.0761201 -2.1682
+ | 10.1339 20.8231 29.5168 0.3932799 Cc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2Cc2ccc(F)cc2)cc1 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 Fc1ccc(C*)cc1|c1(C)ccc(*)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.8514030 9.2130 0.2087261 7.0740 0.9896753 2.4147 0.1130293 -1.7894
+ | 16.4082 20.4521 -14.5335 0.0462386 O=c1c(O)c(-c2ccc(-c3ccc(O)cc3)c(NCc3ccccc3)c2)oc2cccc(O)c12 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1ccccc1CN*|c1cc(O)ccc1* O=c1cc(-c2ccc(-c3ccccc3)c(NCc3ccccc3)c2)oc2ccccc12 0.4823782 7.9510 0.8569592 9.2440 0.9890600 2.4350 0.0000000 -23.9905
+ | 11.6146 27.7187 38.8477 0.5200506 Cc1ccc(C)c(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2Cc2ccc(F)cc2)c1 1 c1([*])c([*])ccc(-c2oc3c(c(O)ccc3)c(=O)c2O)c1 c1(C)ccc(C)cc1*|c1cc(F)ccc1C* O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7344764 8.7070 0.6175650 8.3330 0.9854568 2.5352 0.0821218 -2.0967
+17:47:44 <INFO> Score: 0.26 Agent NLL: 13.68 Valid: 100% Step: 17
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 12.1467 23.6468 77.9993 0.7941105 Cc1cc(F)cc(Cc2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C)c1 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 Fc1cc(C)cc(C*)c1|C* O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.8437822 9.1720 0.9373526 9.8800 0.9859277 2.5236 0.3770363 -0.4362
+ | 12.2352 32.4507 4.7563 0.2906792 Cc1ccc(Cc2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C#Cc2cccc(F)c2)cc1 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 Fc1cccc(C#C*)c1|*Cc1ccc(C)cc1 O=c1cc(-c2ccc(Cc3ccccc3)c(C#Cc3ccccc3)c2)oc2ccccc12 0.9854658 10.9300 0.0681873 6.1830 0.9770989 2.6959 0.1475760 -1.5233
+ | 10.6466 20.4571 63.2275 0.6537863 Cc1cc(C(F)(F)F)ccc1-c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 FC(F)(F)*|c1(C(F)(F)F)cc(C)c(*)cc1 O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8783978 9.3740 0.9961468 11.8600 0.9774260 2.6908 0.0821841 -2.0959
+ | 17.3341 32.2362 -29.2037 0.0236916 N#CC(c1ccccc1Cl)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 c1cccc(Cl)c1C(*)C#N|FC(*)(F)F O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.5700529 8.1960 0.0956553 6.4390 0.8864620 3.2860 0.0000000 -15.6716
+ | 19.7803 36.7539 10.7780 0.3713432 O=c1c(O)c(-c2ccc(Cc3ccc(F)c(F)c3)c(C#Cc3ccc(F)cc3)c2)oc2cccc(O)c12 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 c1cc(C#C*)ccc1F|c1(C*)cc(F)c(F)cc1 O=c1cc(-c2ccc(Cc3ccccc3)c(C#Cc3ccccc3)c2)oc2ccccc12 0.9858723 10.9500 0.1357904 6.7140 0.9721817 2.7653 0.1519892 -1.4932
+ | 8.4064 12.5219 -12.5219 0.0000000 Cc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C)cc1 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 c1cc(C)ccc1*|*C O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6844383 8.5380 0.9701903 10.4200 0.9934156 2.2571 0.3941232 -0.3735
+ | 14.1190 17.6113 -17.6113 0.0000000 CC(F)(F)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 FC(C)(*)F|FC(F)(F)* O=c1cc(-c2ccccc2)oc2ccccc12 0.4398498 7.8320 0.9912913 11.2900 0.9719428 2.7683 0.4367991 -0.2208
+ | 11.9141 28.8587 65.3401 0.7359285 Cc1ccc(C(F)(F)F)c(Cc2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C)c1 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 c1c(C)ccc(C(F)(F)F)c1C*|*C O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.8788582 9.3770 0.9945658 11.6200 0.9804708 2.6394 0.1807927 -1.3124
+ | 16.7926 26.4318 7.9023 0.2682351 Cc1cc(C(F)(F)F)ccc1CNc1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1C(F)(F)F 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 FC(*)(F)F|C(F)(c1cc(C)c(CN*)cc1)(F)F O=c1cc(-c2ccc(NCc3ccccc3)cc2)oc2ccccc12 0.7703513 8.8410 0.3861807 7.6780 0.9731999 2.7519 0.0026943 -5.1368
+ | 17.8699 36.2676 -20.9510 0.1196609 Cc1ccc(Cc2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2-c2cc(C)cc(Cl)c2)cc1 1 c1c2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c2c(O)cc1 Clc1cc(C)cc(*)c1|C(c1ccc(C)cc1)* O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7573749 8.7910 0.0114160 4.9000 0.9830831 2.5886 0.0472608 -2.6089
+17:52:28 <INFO> Score: 0.31 Agent NLL: 13.36 Valid: 100% Step: 18
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 19.2969 38.6655 -0.0343 0.3018060 Cc1ccc(C)c(C=Cc2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2Cc2ccccc2F)c1C 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1(C)ccc(C)c(C)c1C=C*|c1c(F)c(C*)ccc1 O=c1cc(-c2ccc(C=Cc3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.7803763 8.8810 0.1807800 6.9500 0.9634511 2.8632 0.0340640 -2.9053
+ | 12.4232 27.3483 17.9017 0.3535157 Cc1cccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2Cc2cc(C)ccc2C)c1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1cc(C)cc(*)c1|c1c(C)ccc(C)c1C* O=c1cc(-c2ccc(-c3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.7557846 8.7850 0.2152162 7.1010 0.9846581 2.5541 0.0686230 -2.2653
+ | 13.4549 21.1082 -1.4134 0.1538655 Cc1ccc(C=Cc2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(C)C)cc1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 C(*)(C)C|c1cc(C)ccc1C=C* O=c1cc(-c2cccc(C=Cc3ccccc3)c2)oc2ccccc12 0.8416843 9.1610 0.0138695 5.0370 0.9825761 2.5990 0.1254359 -1.6867
+ | 12.0851 29.7670 5.9270 0.2788594 Cc1cc(C)c(Cc2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(C)C)cc1C 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1c(C)c(C)cc(C)c1C*|C(*)(C)C O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.7084636 8.6170 0.0917451 6.4070 0.9779336 2.6827 0.1208254 -1.7238
+ | 17.6174 32.1582 38.7290 0.5538059 O=c1c(O)c(-c2ccc(CCc3ccc(F)cc3)c(C#Cc3ccc(F)cc3)c2)oc2cccc(O)c12 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1cc(F)ccc1CC*|c1c(F)ccc(C#C*)c1 O=c1cc(-c2ccc(CCc3ccccc3)c(C#Cc3ccccc3)c2)oc2ccccc12 0.9862677 10.9700 0.4341848 7.8160 0.9775597 2.6887 0.1439944 -1.5483
+ | 14.9535 26.1383 53.5741 0.6227535 CCc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2-c2cc(F)cc(F)c2)cc1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1c(CC)ccc(*)c1|c1(F)cc(*)cc(F)c1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.8204951 9.0560 0.9954889 11.7500 0.9850382 2.5452 0.0692456 -2.2569
+ | 9.4287 16.7954 -16.7954 0.0000000 Cc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(C)C)cc1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1(C)ccc(*)cc1|CC(*)C O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.7688202 8.8350 0.9980651 12.3400 0.9900286 2.4025 0.2034886 -1.1853
+ | 9.4383 19.8278 65.8027 0.6689883 Cc1ccc(C)c(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(C)C)c1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1cc(C)cc(*)c1C|CC(*)C O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.7594841 8.7990 0.9415267 9.9310 0.9860045 2.5217 0.1520867 -1.4925
+ | 16.3868 32.0609 12.3926 0.3472927 Cc1cc(C(C)c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(F)(F)F)c(F)cc1F 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1c(C)c(F)cc(F)c1C(C)*|*C(F)(F)F O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.7926964 8.9320 0.1693525 6.8950 0.8763680 3.3196 0.1071983 -1.8411
+ | 9.9591 26.8719 63.6563 0.7072514 Cc1ccc(C#Cc2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2Cc2ccccc2)cc1 1 c1(-c2c(O)c(=O)c3c(cccc3O)o2)ccc([*])c([*])c1 c1cc(C)ccc1C#C*|c1cccc(C*)c1 O=c1cc(-c2ccc(C#Cc3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.9689161 10.3900 0.8284089 9.0940 0.9830398 2.5895 0.1687909 -1.3847
+17:55:33 <INFO> Score: 0.21 Agent NLL: 11.12 Valid: 100% Step: 19
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 17.7145 41.4304 -27.1932 0.1112285 Cc1ccc(C)c(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2Cc2ccc(F)c(F)c2C)c1 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 Fc1c(C)c(C*)ccc1F|Cc1ccc(C)cc1* O=c1cc(-c2ccc(-c3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.8845609 9.4150 0.0077357 4.6270 0.9692594 2.8010 0.0508312 -2.5424
+ | 13.2707 22.0692 -22.0692 0.0000000 Cc1ccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2C(F)(F)F)cc1F 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 FC(F)(F)*|c1(C)ccc(*)cc1F O=c1cc(-c2ccc(-c3ccccc3)cc2)oc2ccccc12 0.8826368 9.4020 0.9995963 13.4300 0.9844811 2.5581 0.1971511 -1.2197
+ | 8.6134 22.7323 55.2945 0.6095847 CC(c1ccc(F)cc1)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 Fc1ccc(C(C)*)cc1|FC(F)(F)* O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.7149596 8.6390 0.7555190 8.7840 0.9291264 3.1059 0.1670795 -1.3954
+ | 10.8501 20.1422 -20.1422 0.0000000 Cc1cc(F)ccc1-c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 Fc1ccc(*)c(C)c1|*C(F)(F)F O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6869195 8.5460 0.8748178 9.3510 0.9831736 2.5867 0.1971511 -1.2197
+ | 16.1756 29.7798 47.0428 0.6001770 O=c1c(O)c(-c2ccc(Cc3ccccc3)c(Cc3cccc(C(F)(F)F)c3)c2)oc2cccc(O)c12 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 FC(c1cccc(C*)c1)(F)F|c1c(C*)cccc1 O=c1cc(-c2ccc(Cc3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.8116401 9.0150 0.9172990 9.6720 0.9826558 2.5974 0.0673629 -2.2826
+ | 10.3016 22.0281 64.0325 0.6723486 CC(C)c1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1Cc1ccc(F)cc1 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 C(*)(C)C|Fc1ccc(C*)cc1 O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.7615809 8.8070 0.7654783 8.8220 0.9873158 2.4870 0.2529256 -0.9407
+ | 7.5024 20.9561 79.7442 0.7867210 Cc1cc(F)ccc1Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 Fc1cc(C)c(C*)cc1|*C O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.8006218 8.9660 0.9611800 10.2300 0.9875215 2.4813 0.3770363 -0.4362
+ | 13.5417 37.5933 36.7611 0.5808939 O=c1c(O)c(-c2ccc(C(F)(F)F)c(Cc3cc(CC(F)(F)F)ccc3C(F)(F)F)c2)oc2cccc(O)c12 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 c1c(CC(F)(F)F)ccc(C(F)(F)F)c1C*|FC(F)(F)* O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.8930897 9.4750 0.9934552 11.4900 0.9373432 3.0601 0.0377265 -2.8133
+ | 7.8218 17.5555 -17.5555 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(Cc3ccc(F)cc3)c2)oc2cccc(O)c12 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 c1(F)ccc(C*)cc1|FC(F)(*)F O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.6731432 8.5020 0.8740276 9.3460 0.9854845 2.5345 0.2762551 -0.8366
+ | 15.4937 25.6655 54.8847 0.6292985 O=c1c(O)c(-c2ccc(Cc3ccc(CF)cc3)c(C(F)(F)F)c2)oc2cccc(O)c12 1 Oc1cccc2oc(-c3cc([*])c([*])cc3)c(O)c(=O)c21 *C(F)(F)F|c1(C*)ccc(CF)cc1 O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.7184658 8.6510 0.7344764 8.7070 0.9782967 2.6768 0.2071786 -1.1657
+17:59:17 <INFO> Score: 0.27 Agent NLL: 11.83 Valid: 100% Step: 20
+ | Agent Prior Target Score SMILES SMILES_state Input_Scaffold R-groups Scaffold TTBK1_dock TTBK1_dock (raw) MAOB_dock MAOB_dock (raw) SA_score SA_score (raw) BBB_signed_dist BBB_signed_dist (raw)
+ | 9.7738 13.0182 87.9367 0.7887098 Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1Cc1ccc(F)cc1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] c1cc(F)ccc1C*|*C O=c1cc(-c2ccc(Cc3ccccc3)cc2)oc2ccccc12 0.7282565 8.6850 0.9729698 10.4900 0.9916245 2.3413 0.4629552 -0.1289
+ | 12.3189 24.3198 42.4736 0.5218233 Cc1cccc(-c2ccc(-c3oc4cccc(O)c4c(=O)c3O)cc2Cc2ccc(F)cc2)c1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] c1ccc(*)cc1C|Fc1ccc(C*)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(Cc3ccccc3)c2)oc2ccccc12 0.6800708 8.5240 0.5865461 8.2430 0.9884788 2.4532 0.1130293 -1.7894
+ | 15.0569 29.4592 34.5664 0.5002007 CC(c1ccc(F)cc1)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1-c1cccc(F)c1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] Fc1ccc(C(C)*)cc1|c1c(F)cccc1* O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7406050 8.7290 0.5809513 8.2270 0.9390375 3.0499 0.0752058 -2.1796
+ | 9.2452 26.6757 -11.5280 0.1183409 Cc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2Cc2cc(C)ccc2C)cc1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] c1(C)ccc(C)cc1C*|c1(C)ccc(*)cc1 O=c1cc(-c2ccc(Cc3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.9404076 9.9170 0.0075826 4.6130 0.9857809 2.5273 0.0686230 -2.2653
+ | 12.5225 18.4638 59.6999 0.6106539 O=c1c(O)c(-c2ccc(C(F)(F)F)c(Cc3ccc(Cl)cc3)c2)oc2cccc(O)c12 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] FC(*)(F)F|c1cc(C*)ccc1Cl O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.6750403 8.5080 0.7693314 8.8370 0.9856547 2.5304 0.1746659 -1.3488
+ | 6.6149 23.8142 15.7965 0.3094581 Cc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2-c2cc(C)ccc2C)cc1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] c1(C)ccc(C)cc1*|c1cc(C)ccc1* O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.7966880 8.9490 0.1442802 6.7630 0.9889439 2.4387 0.0632440 -2.3412
+ | 8.4508 21.2974 -14.3587 0.0542085 Cc1ccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2-c2c(C)cc(C)cc2C)cc1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] c1(C)cc(C)cc(C)c1*|c1(*)ccc(C)cc1 O=c1cc(-c2ccc(-c3ccccc3)c(-c3ccccc3)c2)oc2ccccc12 0.9181682 9.6800 0.0009976 3.1990 0.9857377 2.5283 0.0452555 -2.6484
+ | 6.6569 15.5689 -15.5689 0.0000000 O=c1c(O)c(-c2ccc(C(F)(F)F)c(Cc3ccc(F)cc3)c2)oc2cccc(O)c12 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] FC(F)(*)F|Fc1ccc(C*)cc1 O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.6731432 8.5020 0.8740276 9.3460 0.9854845 2.5345 0.2762551 -0.8366
+ | 11.9604 21.6749 -21.6749 0.0000000 Cc1cccc(-c2cc(-c3oc4cccc(O)c4c(=O)c3O)ccc2C(C)(C)C)c1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] C(C)(C)(*)C|c1c(C)cc(*)cc1 O=c1cc(-c2cccc(-c3ccccc3)c2)oc2ccccc12 0.6869195 8.5460 0.9899569 11.1900 0.9868934 2.4986 0.1730320 -1.3587
+ | 16.8001 24.9370 56.4595 0.6359103 CC(C)c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1Cc1cccc(C(F)(F)F)c1 1 [*]c1ccc(-c2oc3cccc(O)c3c(=O)c2O)cc1[*] C(*)(C)C|C(F)(c1cccc(C*)c1)(F)F O=c1cc(-c2cccc(Cc3ccccc3)c2)oc2ccccc12 0.7268302 8.6800 0.9807118 10.7300 0.9804468 2.6398 0.1098858 -1.8170
+17:59:17 <WARN> Maximum number of steps of 20 reached in stage 1. Terminating all stages.
+17:59:18 <INFO> Finished REINVENT on 2026-08-21
