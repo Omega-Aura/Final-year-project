@@ -2561,3 +2561,47 @@ Files: `10_results/{README.md,make_figures.py,fig1_pose_stability.png,fig2_mao_b
 `README.md` (step 10 added to the index; SEM range and the 5 Å count corrected),
 `INVENTORY.md`, `04_docking/README.md` and `08_analysis/README.md` (receptor mislabel),
 `07_mmgbsa/README.md` (SEM 0.28→0.27, range, ratios), `09_manuscript/README.md` (range, 5 Å count).
+
+## 2026-09-27 — C (no merge conflict; the real blocker was GitHub's file-size limit)
+
+Investigated a reported merge conflict. **There was none**, and none was possible: no unmerged
+paths, no conflict markers in any tracked or untracked file, no merge/rebase/cherry-pick in
+progress, no OneDrive sync copies, no submodules, and `origin/master` was a strict ancestor of
+`HEAD` (`git rev-list --left-right --count` gave `0 2`), so a push would have fast-forwarded.
+
+What was actually wrong: **the two unpushed commits cannot be pushed at all.** `.gitignore` already
+excluded `*.dcd` and `*.prmtop` for size, but `*.nc` and `*.frc` were missed, so 26 files totalling
+**4.00 GB** were tracked — the bulk of the repository's 4.47 GB. Eleven of them are `reference.frc`
+at 194–339 MB each, over **GitHub's 100 MB hard per-file limit**, which is enforced by a
+pre-receive hook on the whole pushed history.
+
+That last detail is the one worth remembering: **deleting an oversized file in a later commit does
+not make the branch pushable.** GitHub checks every blob in the history being pushed, so the only
+fixes are rewriting the offending commits or moving the blobs to LFS.
+
+### What was done, and what it deliberately does not fix
+
+Untracked all 26 via `git rm --cached` (files untouched on disk), added `*.frc` and `*.nc` to
+`.gitignore` with the reasoning inline, and recorded in `06_md/README.md` that trajectories are not
+version-controlled. Tracked content went from **4.47 GB to 0.48 GB across 6079 files**.
+
+**The branch is still not pushable**, by choice — the oversized blobs remain in `0a758cb` and
+`74129f0`. Rewriting those two commits is the fix and is safe while they stay unpushed; that was
+offered and deferred. Recorded here so the decision is not mistaken later for an oversight.
+
+Nothing of scientific value left the repository. `reference.frc` is an `MMPBSA.py` byproduct;
+`production_full_stripped.nc` is produced from `production.dcd` by `strip_traj.cpptraj`; both are
+rebuilt by `scripts/run_mmgbsa.sh`. Every derived number stays tracked — the `.dat` RMSD traces,
+`production.log`, `mmgbsa_results.dat` — as do all the inputs needed to regenerate the rest.
+`collect_md_summary.py --check` still passes against the 14-system table.
+
+The honest cost, now stated in `06_md/README.md` rather than left implicit: **a fresh clone cannot
+reproduce the reported numbers without re-running the MD.** The raw trajectories exist only on
+local disk and need backing up separately from git.
+
+The two `06_md/system_MAOA_p3_r2/*.log` files were left uncommitted on purpose: the replicate MD was
+mid-run and still writing to them. `production.log` stays tracked — it is the per-frame
+energy/temperature trace the README cites — so in-run churn is expected, and the rule is simply not
+to commit mid-run.
+
+Files: `.gitignore`, `06_md/README.md`, and 26 index removals (commit `e2cc22d`).
