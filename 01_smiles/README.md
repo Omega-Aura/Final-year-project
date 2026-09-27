@@ -30,17 +30,69 @@ the RL objective; that is a statement about the reward function, not about bindi
 ## Reference
 
 `references.csv` carries one row per compound with `measured_value`, `measured_unit`, `source`,
-`mechanism`, `native_of_pdb` and a `use_in_correlation` flag. MAO IC50 values for kaempferol,
-quercetin, lazabemide and isatin were sourced via PubMed (see [`../LOGBOOK.md`](../LOGBOOK.md)).
+`mechanism`, `native_of_pdb` and a `use_in_correlation` flag.
 
-Two cautions are recorded in the file itself and must be respected:
+**Every row is now traced to a source (2026-09-27).** No `source` field contains an unresolved
+`CONFIRM` marker. Each value's provenance chain, assay format and species are recorded in the file
+itself. Chasing them down changed three things materially and they are listed below because each
+one is a number a reader might otherwise quote.
+
+### Three corrections the sourcing exercise produced
+
+**1. The 9IV calibration pair was mixing assays.** TTBK1 read 430 nM, which was the midpoint of
+BindingDB's 330–530 nM range — a range that **aggregates two assays from different papers**. The
+TTBK2 arm read 490 nM from a single paper. A cross-paper midpoint on one arm against a
+single-paper value on the other breaks the matched pair, which is the same arm-asymmetry error
+this project keeps catching elsewhere.
+
+Both values exist in one paper and one assay format: Nozal et al. 2022 report **TTBK1 330 nM** and
+**TTBK2 490 nM** for compound 42 / VNG2.73 (PDB ligand 9IV), inhibition of recombinant human
+enzyme with the RICDLHDDEEDEAMSITA substrate, curated as `ChEMBL5200069` whose SMILES matches the
+row exactly. Using the arm-symmetric pair moves the experimental ΔΔG from −0.077 to
+**−0.234 kcal/mol**, and therefore the protocol's systematic bias from 0.861 to
+**1.018 kcal/mol** — see [step 5](../05_validation/).
+
+**2. DTQ's 240 nM is a *K*d, not an IC50.** Xue et al. 2013 measured binding by surface plasmon
+resonance. RCSB 4BTK reports both a **Kd of 240 nM** and an **IC50 of 4610 nM** for the same
+ligand; the row had the Kd labelled as an IC50, understating the enzymatic potency by **19-fold**.
+It is excluded from the correlation, so no reported number moved, but 240 nM must not be quoted as
+an IC50.
+
+**3. Selegiline and rasagiline are still not primary-sourced, and cannot easily be.** Their 7.0 and
+4.4 nM values trace to Cavalli et al. 2008, which PubMed types as a **Review** — so the values are
+compiled there, not measured there. Both are irreversible covalent inhibitors whose IC50 is
+preincubation-time dependent and not an equilibrium constant, which is why ChEMBL lists them across
+2.76–52 nM and 4.0–46 nM respectively. Both are already excluded from the correlation. If either
+number is quoted in the manuscript, chase the review to its own source first.
+
+### Species audit of the correlation set
+
+The docking is against **human** structures. Two of the seven correlation points are not:
+
+| Compound | Target | Value | Assay species |
+|---|---|---|---|
+| safinamide | MAO-B | 7.67 nM | recombinant human |
+| lazabemide | MAO-B | 0.063 µM | human |
+| quercetin | MAO-A | 1.52 µM | recombinant human |
+| 9IV | TTBK1 / TTBK2 | 330 / 490 nM | recombinant human |
+| **kaempferol** | MAO-A | 700 nM | **rat brain** |
+| **isatin** | MAO-B | ~3 µM | **rat brain** |
+
+**The two rat points are the two flavonoids** — the compounds chemically closest to this
+project's lead, and therefore the anchors a reader would weigh most. Either drop them and state
+that the correlation rests on four human points, or keep them and label the correlation
+mixed-species. Do not present it as a human-target correlation without saying so. The isatin value
+is additionally reported only as "IC50 approximately 3 µM".
+
+### Two standing cautions
 
 - **Safinamide is not SAG.** The true safinamide (a secondary amine) is a different molecule from
   the PDB ligand `SAG` in 2V5Z. Treating them as the same compound conflates the reference with the
   crystallographic ligand.
-- Several `source` fields are marked *"value as cited in project manuscript Introduction — CONFIRM
-  primary source before submission."* Those are **not yet primary-sourced** and are flagged rather
-  than quietly trusted.
+- **A value is only meaningful with its assay attached.** Safinamide illustrates it: 7.67 nM here,
+  but Binda et al. 2007 — the paper behind the 2V5Z structure this project docks into — reports
+  *K*i 0.1–0.5 µM for the same compound, 13–65× weaker. Neither is wrong; they are different
+  measurements.
 
 ## Inputs and parameters
 

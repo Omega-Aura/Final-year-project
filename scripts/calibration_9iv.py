@@ -27,8 +27,22 @@ import pandas as pd
 RT = 0.5925  # kcal/mol at 298 K
 
 PAIR = {"7Q8V": "TTBK1", "7Q8Y": "TTBK2"}
-# RCSB binding-affinity annotations, see 01_smiles/references.csv
-IC50_NM = {"7Q8V": (430.0, 330.0, 530.0), "7Q8Y": (490.0, 490.0, 490.0)}
+
+# Primary source, both values from ONE paper and ONE assay format:
+#   Nozal et al. 2022, J Med Chem 65(2):1585-1607, PMID 34978799,
+#   DOI 10.1021/acs.jmedchem.1c01942 -- compound 42 / VNG2.73, PDB ligand 9IV.
+#   Inhibition of recombinant human TTBK1 / TTBK2, RICDLHDDEEDEAMSITA substrate.
+#   TTBK1 IC50 330 nM, TTBK2 IC50 490 nM. Curated as ChEMBL5200069, whose canonical
+#   SMILES matches 01_smiles/references.csv exactly (C18H13ClN4O).
+#
+# CORRECTED 2026-09-27. This previously read (430.0, 330.0, 530.0) for TTBK1: the 430 was
+# the midpoint of BindingDB's 330-530 nM range, which AGGREGATES TWO ASSAYS FROM DIFFERENT
+# PAPERS. Taking a cross-paper midpoint for one arm and a single-paper value for the other
+# is exactly the asymmetry this project keeps catching elsewhere -- the matched pair only
+# means anything if both numbers come from the same measurement. The 330 nM value is the
+# one Nozal reports alongside the 490 nM TTBK2 figure, so it is the arm-symmetric choice.
+# No range is carried now, because a single assay per arm does not define one.
+IC50_NM = {"7Q8V": (330.0, 330.0, 330.0), "7Q8Y": (490.0, 490.0, 490.0)}
 
 SEEDS = [11, 22, 33]
 

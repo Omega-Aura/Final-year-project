@@ -145,7 +145,7 @@ with the caveat that the shared FAD restraint damps that spread.
 |---|---|---|
 | Docking, water-symmetric | TTBK2 favoured by ~1.6 kcal/mol; 0/56 candidates favourable | MAO-B favoured, −3.89 mean, 48/48 favourable |
 | Docking, validated pair | +0.12, confounded by a 0-vs-5 water asymmetry | — |
-| Protocol bias (known-answer calibration) | 0.861 kcal/mol toward TTBK2 where experiment says none | — |
+| Protocol bias (known-answer calibration) | 1.018 kcal/mol toward TTBK2, against a measured ΔΔG of −0.234 | — |
 | MD pose stability | **no difference** — 1/3 poses each, symmetric test | MAO-A 1/3, MAO-B 2/3; no run left the site |
 | MM-GBSA | **no resolvable difference** (1.45 < 2.08 replicate spread) | MAO-B favoured by 2.55, **9.8× its 0.26 replicate spread** |
 

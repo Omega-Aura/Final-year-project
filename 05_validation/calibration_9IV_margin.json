@@ -1,12 +1,12 @@
 {
   "margin_kcal_mol": 0.784,
   "margin_sem": 0.015,
-  "experimental_ddG_kcal_mol": -0.077,
+  "experimental_ddG_kcal_mol": -0.234,
   "experimental_ddG_range": [
     -0.234,
-    0.046
+    -0.234
   ],
-  "systematic_bias_kcal_mol": 0.861,
+  "systematic_bias_kcal_mol": 1.018,
   "per_receptor": {
     "7Q8V": {
       "protein": "TTBK1",

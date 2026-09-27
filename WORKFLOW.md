@@ -16,8 +16,10 @@ modes. Self-contained, so any step can be picked up from this document alone.
 > | FAD stated as covalently attached in Methods | FAD parameterised as a **positionally restrained GAFF2 residue**; the 8α-S-cysteinyl bond is not modelled |
 > | GATE 1 on 7JXX alone | all six receptors passed redocking, 0.27–1.45 Å |
 >
-> The 9IV calibration below was carried out and returned a **0.861 kcal/mol systematic bias toward
-> TTBK2**, which is why margins below ~0.9 kcal/mol are not interpretable as selectivity.
+> The 9IV calibration below was carried out and returned a **1.018 kcal/mol systematic bias
+> toward TTBK2**, which is why margins below ~1.0 kcal/mol are not interpretable as
+> selectivity. Both IC50s must come from the same assay for the pair to mean anything — see
+> the correction note in `scripts/calibration_9iv.py`.
 
 **Design principle throughout:** *rebuild everything that is cheap and deterministic; keep
 everything that is expensive and stochastic.* Ligands, receptors, boxes, filters and docking get
@@ -343,8 +345,9 @@ Then `margin = consensus_best(7Q8V) − consensus_best(7Q8Y)`.
 - **Margin clearly non-zero** → that is the protocol's **systematic bias**. Report it and subtract
   it from every selectivity margin.
 
-*Outcome: 0.861 kcal/mol toward TTBK2, where experiment says there is no preference. Any margin
-below ~0.9 kcal/mol is therefore inside the bias and cannot be read as selectivity.*
+*Outcome: 1.018 kcal/mol toward TTBK2. The same-assay experimental ΔΔG is −0.234 kcal/mol
+(TTBK1 330 nM vs TTBK2 490 nM, Nozal 2022), a slight preference the other way, so any margin
+below ~1.0 kcal/mol is inside the bias and cannot be read as selectivity.*
 
 **9. Re-examine the old 7Q8Y redocking failure.** The manuscript attributes a 5.29 Å redock to a
 Vina scoring limitation. For a 1.60 Å structure of an ATP-competitive hinge binder that is

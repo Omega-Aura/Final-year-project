@@ -60,8 +60,8 @@ both TTBK1 and TTBK2, so the docking ΔΔG can be compared directly against expe
 | Docking consensus, 7Q8V (TTBK1) | −8.115 ± 0.015 |
 | Docking consensus, 7Q8Y (TTBK2) | −8.899 ± 0.022 |
 | **Docking margin** | **0.784 kcal/mol favouring TTBK2** |
-| **Experimental ΔΔG** | **−0.077 kcal/mol** (range −0.234 to +0.046) |
-| **Systematic bias** | **0.861 kcal/mol** |
+| **Experimental ΔΔG** | **−0.234 kcal/mol** (TTBK1 IC50 330 nM vs TTBK2 490 nM, same assay) |
+| **Systematic bias** | **1.018 kcal/mol** |
 
 ## Final result
 
@@ -71,12 +71,13 @@ All six receptors pass redocking, four of them under 0.7 Å. The protocol reliab
 crystallographic poses, so pose-level conclusions rest on solid ground.
 
 The 9IV calibration tells a different story. Experiment says 9IV has **essentially no preference**
-between TTBK1 and TTBK2 (ΔΔG −0.077, within error of zero). The docking protocol reports a
-0.784 kcal/mol preference for TTBK2 — a **0.861 kcal/mol systematic bias toward TTBK2** on a case
+between TTBK1 and TTBK2 (ΔΔG −0.234, a slight preference for TTBK1). The docking protocol
+reports a 0.784 kcal/mol preference for TTBK2 — a **1.018 kcal/mol systematic bias toward
+TTBK2** on a case
 where the true answer is known to be "no difference".
 
 This matters directly for the study's central claim. Any TTBK2-over-TTBK1 margin smaller than
-~0.9 kcal/mol is within the protocol's demonstrated bias and cannot be read as selectivity. The
+~1.0 kcal/mol is within the protocol's demonstrated bias and cannot be read as selectivity. The
 MAO benchmark in [`benchmark_mao.csv`](benchmark_mao.csv) plays the same role for the
 flavoenzymes.
 

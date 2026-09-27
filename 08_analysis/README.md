@@ -79,9 +79,9 @@ move by up to 3 kcal/mol depending purely on whether crystallographic waters wer
   produces the margin.
 - Re-run **water-symmetrically**, TTBK2 is favoured by ~1.6 kcal/mol and **0 of 56 candidates**
   are favourable toward TTBK1 — the opposite direction.
-- The protocol carries a **0.861 kcal/mol systematic bias toward TTBK2** on the 9IV pair, where
-  experiment says there is no preference ([step 5](../05_validation/)). Any margin below ~0.9 is
-  inside the bias.
+- The protocol carries a **1.018 kcal/mol systematic bias toward TTBK2** on the 9IV pair, where
+  the same-assay experimental ΔΔG is −0.234 kcal/mol, a slight preference the other way
+  ([step 5](../05_validation/)). Any margin below ~1.0 is inside the bias.
 
 MD and MM-GBSA were then run to test the claim independently, and found **no resolvable
 difference** in either pose stability or binding free energy ([step 6](../06_md/),

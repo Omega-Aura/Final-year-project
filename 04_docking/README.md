@@ -99,8 +99,9 @@ consensus and selectivity margins are in [step 8](../08_analysis/); protocol val
   confounded by the 0-vs-5 water asymmetry, which is why the symmetric number above is the one to
   use.
 - The 9IV calibration in [step 5](../05_validation/) shows the protocol carries a
-  **0.861 kcal/mol systematic bias toward TTBK2** on a case where experiment says there is no
-  preference. Margins below ~0.9 kcal/mol are therefore not interpretable as selectivity.
+  **1.018 kcal/mol systematic bias toward TTBK2** on a case where the measured experimental
+  ΔΔG is only −0.234 kcal/mol, a slight preference the other way. Margins below ~1.0 kcal/mol
+  are therefore not interpretable as selectivity.
 - `cand_003` is the lead carried into MD: **#8/56 on 7JXX (−8.39)** and **#2/56 on 2V5Z
   (−11.41)**. Both ranks are over the 56 candidates, excluding the native reference ligand that
   shares the file.

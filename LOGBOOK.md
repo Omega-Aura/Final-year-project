@@ -2797,3 +2797,111 @@ Files: `provenance/` (new: 2 plans, deletion manifest, relocation log, README),
 `06_md/queue_logs/` (new), `WORKFLOW.md` (new), `Complete_Workflow_Two_Person.md` (removed),
 `_ARCHIVE_TO_DELETE/` and `_REVIEW_REQUIRED/` (removed), `README.md`, `INVENTORY.md`,
 `00_library/README.md`, `.gitignore`. Commits `e2cc22d`, `461b6b0`, `f913df9`, `0b53435`, `a7044bc`.
+
+## 2026-09-27 — F (reference values traced to primary sources; the 9IV calibration was mixing assays)
+
+Chased every flagged `source` field in `01_smiles/references.csv` to its origin via PubMed, ChEMBL
+and BindingDB. **All 16 rows now carry a traced source; no `CONFIRM` marker remains.** The exercise
+was supposed to be bookkeeping. It changed a headline number.
+
+### The 9IV calibration was comparing two different assays
+
+The matched-pair calibration is the experiment that bounds every TTBK1/TTBK2 selectivity claim in
+this project. It used TTBK1 = 430 nM against TTBK2 = 490 nM.
+
+**The 430 was not a measurement.** It was the midpoint of BindingDB's 330–530 nM range for 7Q8V,
+and that range *aggregates two assays from two different papers*. The 490 came from a single paper.
+So one arm of the matched pair was a cross-paper average and the other was a single value — the
+same arm-asymmetry error that produced the water-shell artifact, the pose-scan-versus-replicate
+artifact and the off-pose MM-GBSA sign inversion. Three times this project has been bitten by it;
+this is the fourth, and the first time it reached a published-facing number.
+
+Both values exist in **one paper, one assay format**: Nozal et al. 2022 (*J Med Chem* 65(2):
+1585–1607, PMID 34978799) report **TTBK1 IC50 330 nM** and **TTBK2 IC50 490 nM** for compound 42 /
+VNG2.73 — the PDB ligand `9IV` — inhibiting recombinant human enzyme with the RICDLHDDEEDEAMSITA
+substrate. Verified two ways: RCSB confirms 7Q8V is *TTBK1* + VNG2.73 and 7Q8Y is *TTBK2* + the same
+compound, so the matched-pair premise itself is sound; and ChEMBL curates it as `CHEMBL5200069`
+whose canonical SMILES matches the row byte-for-byte (C18H13ClN4O).
+
+Re-running `scripts/calibration_9iv.py` with the arm-symmetric pair:
+
+| | Before | After |
+|---|---|---|
+| Docking margin (measured, unchanged) | +0.784 | +0.784 |
+| Experimental ΔΔG | −0.077 | **−0.234** |
+| **Systematic protocol bias** | 0.861 | **1.018 kcal/mol** |
+
+**This strengthens the central negative result.** The interpretability floor rises from ~0.9 to
+~1.0 kcal/mol, so the TTBK2-over-TTBK1 margin sits even more clearly inside the protocol's own
+bias. The correction also removes a phrase that was never quite true: experiment does not say
+"no preference" between the paralogs, it says TTBK1 is favoured by a little over 0.2 kcal/mol.
+
+Propagated to `04_docking`, `05_validation`, `08_analysis`, `09_manuscript`, `10_results`,
+`README.md` and `WORKFLOW.md`.
+
+### DTQ's 240 nM is a Kd, not an IC50
+
+Xue et al. 2013 (*ChemMedChem* 8(11):1846–54, PMID 24039150) measured binding by **surface plasmon
+resonance**, which the abstract states plainly. RCSB 4BTK reports *both* a **Kd of 240 nM** and an
+**IC50 of 4610 nM** for the same ligand. The row had the Kd labelled as an IC50, understating the
+enzymatic potency by **19-fold**.
+
+No reported number moved, because DTQ is already excluded from the correlation. But 240 nM must not
+be quoted as an IC50, and a Kd must not be mixed into a table of IC50s.
+
+### The correlation set is mixed-species, and the rat points are the flavonoids
+
+Species were verified from PubMed MeSH terms and abstracts for every correlation row:
+
+| Compound | Target | Value | Species |
+|---|---|---|---|
+| safinamide | MAO-B | 7.67 nM | recombinant human |
+| lazabemide | MAO-B | 0.063 µM | human |
+| quercetin | MAO-A | 1.52 µM | recombinant human |
+| 9IV | TTBK1 / TTBK2 | 330 / 490 nM | recombinant human |
+| **kaempferol** | MAO-A | 700 nM | **rat brain** (Sprague-Dawley) |
+| **isatin** | MAO-B | ~3 µM | **rat brain** |
+
+The docking is against human structures, so **two of seven points are the wrong species — and they
+are the two flavonoids**, the compounds closest to this project's lead and the anchors a reader
+would weigh most heavily. Either drop them and state that the correlation rests on four human
+points, or label it mixed-species. It must not be presented as a human-target correlation without
+the caveat. Isatin's value is additionally only "IC50 approximately 3 µM".
+
+### Two rows that cannot be primary-sourced, and are now labelled as such
+
+Selegiline (7.0 nM) and rasagiline (4.4 nM) trace to Cavalli et al. 2008 (*J Med Chem* 51(3):
+347–72, PMID 18181565), which **PubMed types as a Review** — the values are compiled there, not
+measured there. Both compounds are irreversible covalent inhibitors whose IC50 is
+preincubation-time dependent and therefore not an equilibrium constant, which is why ChEMBL lists
+them across 2.76–52 and 4.0–46 nM. Both were already excluded from the correlation. The rows now
+say "still not a primary source" rather than implying otherwise.
+
+Clorgyline's Wikipedia chembox reference was dropped: no numeric value from it is used anywhere, so
+no assay source is needed, and its structure was verified against `CHEMBL8706`.
+
+### A value is only meaningful with its assay attached
+
+Safinamide makes the point better than any argument. Its 7.67 nM is real and primary — Stössel et
+al. 2013 (*J Med Chem* 56(11):4580–96, PMID 23631427), recombinant human MAO-B with p-tyramine
+substrate. But Binda et al. 2007 (PMID 17915852) — **the paper behind the very 2V5Z structure this
+project docks into** — reports *K*i 0.1–0.5 µM for the same compound, 13–65× weaker. Neither is
+wrong. They are different measurements, and quoting either without its assay invites a reviewer to
+ask which one you meant.
+
+### Process note
+
+Re-running a mutating update script purely to read its status report silently re-applied its edits
+and clobbered a later fix. Caught by the `CONFIRM` grep immediately afterwards. Status checks
+should be read-only; that is what the grep is for.
+
+Files: `01_smiles/references.csv` (all 16 rows sourced; 9IV TTBK1 430→330 nM; DTQ relabelled Kd),
+`01_smiles/README.md` (corrections and species audit), `scripts/calibration_9iv.py` (IC50 inputs +
+the reasoning for the change), `05_validation/{calibration_9IV.csv,calibration_9IV_margin.json}`
+(regenerated), `04_docking/README.md`, `08_analysis/README.md`, `09_manuscript/README.md`,
+`10_results/README.md`, `README.md`, `WORKFLOW.md`.
+
+Sources consulted via PubMed: PMIDs 34978799, 24039150, 23631427, 18181565, 17915852, 10813558,
+8687491, 29496172, 32583952. Curated cross-checks via ChEMBL (CHEMBL5200069, CHEMBL396778,
+CHEMBL972, CHEMBL887, CHEMBL8706, documents CHEMBL5154682/CHEMBL2380255/CHEMBL1141467) and
+BindingDB via RCSB annotations for 7Q8V, 7Q8Y, 4BTK and 2V5Z.

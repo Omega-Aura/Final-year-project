@@ -95,7 +95,7 @@ than softened. Four independent lines converge on it:
 | Evidence | Result |
 |---|---|
 | Docking, water-symmetric | TTBK2 favoured ~1.6 kcal/mol; 0/56 favourable to TTBK1 |
-| Protocol calibration (9IV) | 0.861 kcal/mol systematic bias toward TTBK2 where experiment says none |
+| Protocol calibration (9IV) | 1.018 kcal/mol systematic bias toward TTBK2, against a measured ΔΔG of −0.234 |
 | MD pose stability | no difference — 1/3 poses each under a symmetric test |
 | MM-GBSA | no resolvable difference (1.45 < 2.08 replicate spread) |
 
@@ -119,11 +119,29 @@ above are unchanged. **Write the two pairs separately — they now reach opposit
    from asymmetry between the two things compared (a 0-vs-5 water shell; a pose scan against a
    replicate scan; an on-pose run against an off-pose run).
 
-### One reference to verify
+### References: all traced 2026-09-27, with three things to write carefully
 
-Several `source` fields in [`../01_smiles/references.csv`](../01_smiles/references.csv) are marked
-*"value as cited in project manuscript Introduction — CONFIRM primary source before submission."*
-Also note that **safinamide is not the same molecule as the PDB ligand `SAG`** in 2V5Z.
+Every row in [`../01_smiles/references.csv`](../01_smiles/references.csv) now carries a traced
+source; no `CONFIRM` markers remain. Three outcomes bear directly on the manuscript:
+
+1. **The calibration bias is 1.018 kcal/mol, not 0.861.** The 9IV pair had been mixing a
+   cross-paper midpoint (TTBK1 430 nM) against a single-paper value (TTBK2 490 nM). Both numbers
+   exist in one assay in Nozal et al. 2022 — 330 and 490 nM — giving an experimental ΔΔG of
+   −0.234 kcal/mol and a larger protocol bias. **This strengthens §3.7**: the interpretability
+   floor rises to ~1.0 kcal/mol, so the TTBK2 margin is even more clearly inside the bias. Update
+   every occurrence, and state that the pair is same-assay — that is what makes it a calibration.
+2. **Never quote DTQ's 240 nM as an IC50.** It is a *K*d from surface plasmon resonance. The
+   enzymatic IC50 for the same compound is 4610 nM, 19× weaker.
+3. **The score-vs-pIC50 correlation is mixed-species.** Two of its seven points — kaempferol and
+   isatin — are rat-brain assays, and they are the two flavonoids, the compounds closest to the
+   lead. Either drop them and say the correlation rests on four human points, or label it
+   mixed-species. Do not present it as a human-target correlation without the caveat.
+
+Two further cautions: **safinamide is not the same molecule as the PDB ligand `SAG`** in 2V5Z; and
+selegiline and rasagiline remain review-sourced (Cavalli et al. 2008 is typed as a Review by
+PubMed), so chase them further if either number appears in the text. Both are irreversible covalent
+inhibitors whose IC50 is preincubation-dependent, which is why they are excluded from the
+correlation.
 
 ## Final result
 
