@@ -27,7 +27,7 @@ Generated 26 Sep 2026.
 | `03_receptors/` | 15 MB | 91 | **FINAL** + REFERENCE — docking targets, controls, characterisation |
 | `04_docking/` | 101 MB | 5,160 | **FINAL** — all production docking, incl. wet/dry and cofactor controls |
 | `05_validation/` | 126 KB | 11 | **FINAL** — redocking and calibration; the protocol's credibility rests here |
-| `06_md/` | 14 GB | 582 | **FINAL** + SUPPORTING — 14 MD systems, raw + stripped trajectories |
+| `06_md/` | 18 GB | 644 | **FINAL** + SUPPORTING — 16 MD systems, raw + stripped trajectories |
 | `10_results/` | <1 MB | 5 | **FINAL** — consolidated results, interpretation, 3 figures + their generator |
 | `07_mmgbsa/` | 296 KB | 7 | **FINAL** — collected energy summary + prior-phase results |
 | `08_analysis/` | 700 KB | 33 | **FINAL** — consensus, cascade, selectivity, water test |
@@ -106,7 +106,7 @@ Only true byproducts and verified duplicates were quarantined.
 
 - [x] Every final result has a documented method — 16 `README.md` files, one per step
 - [x] Every methodological choice has a rationale — each README's *Why we did it* section, cross-referenced to `LOGBOOK.md`
-- [x] Required inputs and scripts present — all 14 MD systems retain trajectory, topology, RMSD and energy files; the 3 without MM-GBSA are exactly the 3 that intentionally have none (verified 2026-09-27, after the MAO pose scan added 4 systems)
+- [x] Required inputs and scripts present — all 16 MD systems retain trajectory, topology, RMSD and energy files; the 3 without MM-GBSA are exactly the 3 that intentionally have none (verified 2026-09-27, after the MAO pose scan and velocity replicates added 6 systems)
 - [x] No final result depends on a quarantined file — the only quarantined data-like items are `reference.frc` (referenced by nothing) and verified duplicates
 - [x] Structure is navigable by someone who did not do the work — [`README.md`](README.md) walks method → rationale → reference → result
 - [x] Scripts still resolve — no numbered directory was renamed or moved

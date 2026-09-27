@@ -122,10 +122,11 @@ def fig1_pose_stability(rows, out):
 
 def fig2_mao_energy(rows, out):
     """MAO only -- see the module docstring on why this axis is not shared with TTBK."""
+    # Replicates sit immediately after the run they replicate, so a pair reads as a pair.
     groups = [("MAO-A", ORANGE, ["system_MAOA", "system_MAOA_p2", "system_MAOA_p3",
                                  "system_MAOA_p3_r2"]),
-              ("MAO-B", BLUE, ["system_MAOB", "system_MAOB_p2", "system_MAOB_p3",
-                               "system_MAOB_p2_r2"])]
+              ("MAO-B", BLUE, ["system_MAOB", "system_MAOB_p2", "system_MAOB_p2_r2",
+                               "system_MAOB_p3"])]
     fig, ax = plt.subplots(figsize=(9.2, 4.9))
     fig.patch.set_facecolor(SURFACE)
     style(ax)
@@ -172,8 +173,8 @@ def fig2_mao_energy(rows, out):
                        Patch(facecolor=BLUE, label="MAO-B (intended target)")],
               loc="lower left", frameon=False, fontsize=8.5, labelcolor=INK2)
     # Caption below the axes: the only placement that cannot collide with a mark or a label.
-    fig.text(0.5, 0.018, "Error bars are the SEM MMPBSA.py reports; figure 3 shows why they are "
-             "not the error bar.\nHollow marker = off-pose trajectory, excluded from every "
+    fig.text(0.5, 0.018, "Error bars are the SEM MMPBSA.py reports; figure 3 shows how far each sits "
+             "from the measured spread.\nHollow marker = off-pose trajectory, excluded from every "
              "comparison.", ha="center", va="bottom", fontsize=8.2, color=MUTED,
              linespacing=1.5)
     fig.tight_layout(rect=(0, 0.085, 1, 1))
@@ -183,50 +184,70 @@ def fig2_mao_energy(rows, out):
 
 
 def fig3_error_bars(rows, out):
-    """The SEM against the spread actually measured by re-running with a new velocity seed."""
-    items = [
-        ("TTBK1 pose 1", 0.27, 2.08, "measured"),
-        ("TTBK2 pose 1", 0.17, 6.90, "measured"),
-    ]
-    for name, a, b in (("MAO-A pose 3", "system_MAOA_p3", "system_MAOA_p3_r2"),
-                       ("MAO-B pose 2", "system_MAOB_p2", "system_MAOB_p2_r2")):
-        if b in rows and rows[b].get("dG_kcal_mol"):
-            spread = abs(float(rows[a]["dG_kcal_mol"]) - float(rows[b]["dG_kcal_mol"]))
-            items.append((name, float(rows[a]["dG_SEM"]), spread, "measured"))
-        else:
-            items.append((name, float(rows[a]["dG_SEM"]), None, "replicate running"))
+    """Replicate spread against how well the pair held its pose, with the SEM for reference.
 
-    fig, ax = plt.subplots(figsize=(9.2, 3.6))
+    All four replicate pairs in the project are plotted. The spread is computed from `dG_raw`,
+    not the 2 dp display column: it is a difference of two near-equal numbers, and rounding first
+    turns the true 0.26/0.24 MAO spreads into 0.27/0.23.
+
+    Both series are kcal/mol on one axis -- this is deliberately not a dual-axis chart. Ligand
+    RMSD is the x position, so the reading is "as the pose holds less well, the spread grows while
+    the reported SEM does not move".
+    """
+    PAIRS = [("TTBK1 pose 1", "system", "system_TTBK1_r2"),
+             ("TTBK2 pose 1", "system_TTBK2", "system_TTBK2m"),
+             ("MAO-A pose 3", "system_MAOA_p3", "system_MAOA_p3_r2"),
+             ("MAO-B pose 2", "system_MAOB_p2", "system_MAOB_p2_r2")]
+    pts = []
+    for name, a, b in PAIRS:
+        if not (a in rows and b in rows and rows[a].get("dG_raw") and rows[b].get("dG_raw")):
+            continue
+        spread = abs(float(rows[a]["dG_raw"]) - float(rows[b]["dG_raw"]))
+        sem = max(float(rows[a]["dG_SEM"]), float(rows[b]["dG_SEM"]))
+        rms = (float(rows[a]["lig_rmsd_last100"]) + float(rows[b]["lig_rmsd_last100"])) / 2
+        pts.append((name, rms, spread, sem))
+    pts.sort(key=lambda t: t[1])
+
+    fig, ax = plt.subplots(figsize=(9.2, 5.0))
     fig.patch.set_facecolor(SURFACE)
     style(ax)
-    for i, (name, sem, spread, state) in enumerate(items):
-        if spread is None:
-            ax.plot([sem], [i], "o", ms=8, color=BLUE, zorder=3)
-            ax.text(sem + 0.22, i, f"SEM {sem:.2f}   —   velocity replicate still running", va="center",
-                    fontsize=9, color=MUTED)
-            continue
-        ax.plot([sem, spread], [i, i], color=GRID, lw=3, solid_capstyle="round", zorder=2)
-        ax.plot([sem], [i], "o", ms=8, color=BLUE, zorder=3)
-        ax.plot([spread], [i], "o", ms=8, color=ORANGE, zorder=3)
-        # One label per row, right of the wider mark. A second label left of the SEM dot would
-        # sit on top of the y tick labels, which is what the first draft of this figure did.
-        ax.text(spread + 0.22, i, f"{spread:.2f}   —   {spread / sem:.0f}× the reported SEM "
-                f"of {sem:.2f}", va="center", fontsize=9, color=INK)
 
-    ax.set_yticks(range(len(items)))
-    ax.set_yticklabels([n for n, *_ in items], fontsize=9.5, color=INK)
-    ax.set_ylim(len(items) - 0.5, -0.5)
-    ax.set_xlim(0, 12.2)
-    ax.set_xlabel("Uncertainty on ΔG (kcal/mol)", fontsize=9.5, color=INK2)
-    ax.xaxis.grid(True, color=GRID, lw=0.8)
+    xs = [p[1] for p in pts]
+    ax.plot(xs, [p[2] for p in pts], "-o", color=ORANGE, lw=2, ms=9, zorder=3,
+            label="spread between two runs differing only in velocity seed")
+    ax.plot(xs, [p[3] for p in pts], "-o", color=BLUE, lw=2, ms=9, zorder=3,
+            label="SEM reported by MMPBSA.py (larger of the pair)")
+
+    # The two MAO pairs land within 0.02 A of each other on x, so their labels would print on top
+    # of one another. Push near-coincident neighbours to opposite sides instead of centring both.
+    align = ["center"] * len(pts)
+    for i in range(1, len(pts)):
+        if pts[i][1] - pts[i - 1][1] < 0.20:
+            align[i - 1], align[i] = "right", "left"
+    dx = {"center": 0, "right": -9, "left": 9}
+
+    for (name, rms, spread, sem), ha in zip(pts, align):
+        ax.annotate(f"{name}\n{spread:.2f}  ({spread / sem:.0f}× SEM)",
+                    xy=(rms, spread), xytext=(dx[ha], 13), textcoords="offset points",
+                    ha=ha, fontsize=8.6, color=INK, linespacing=1.45)
+        ax.annotate(f"{sem:.2f}", xy=(rms, sem), xytext=(dx[ha], -17), textcoords="offset points",
+                    ha=ha, fontsize=8.6, color=INK2)
+
+    ax.set_xlim(min(xs) - 0.45, max(xs) + 0.55)
+    ax.set_ylim(-0.75, max(p[2] for p in pts) + 1.9)
+    ax.set_xlabel("How well the pair held its pose — mean ligand RMSD over the final 100 frames (Å)",
+                  fontsize=9.5, color=INK2)
+    ax.set_ylabel("kcal/mol", fontsize=9.5, color=INK2)
+    ax.yaxis.grid(True, color=GRID, lw=0.8)
     ax.set_axisbelow(True)
-    ax.set_title("The reported SEM is not the error bar", fontsize=12.5, color=INK, pad=14,
-                 loc="left", weight="medium")
-    ax.legend(handles=[Patch(facecolor=BLUE, label="SEM reported by MMPBSA.py"),
-                       Patch(facecolor=ORANGE,
-                             label="spread between two runs differing only in velocity seed")],
-              loc="lower right", frameon=False, fontsize=8.5, labelcolor=INK2)
-    fig.tight_layout()
+    ax.set_title("How far the SEM is from the real error bar depends on pose stability",
+                 fontsize=12.5, color=INK, pad=14, loc="left", weight="medium")
+    ax.legend(loc="upper left", frameon=False, fontsize=8.5, labelcolor=INK2)
+    fig.text(0.5, 0.018, "All four replicate pairs in the project. The SEM barely moves while the "
+             "measured spread grows 29-fold;\nn = 4 pairs across two protein families, so this is "
+             "a consistent pattern rather than a calibration.",
+             ha="center", va="bottom", fontsize=8.2, color=MUTED, linespacing=1.5)
+    fig.tight_layout(rect=(0, 0.085, 1, 1))
     fig.savefig(out, dpi=200, facecolor=SURFACE)
     plt.close(fig)
     print("wrote", os.path.relpath(out, ROOT))

@@ -61,11 +61,11 @@ the computed gates, which for a CNS target is the precondition for anything else
 
 ![Pose stability across all fourteen MD systems](fig1_pose_stability.png)
 
-Fourteen systems, 10.1 ns each, ligand RMSD from the docked pose averaged over the final 100
+Sixteen systems, 10.1 ns each, ligand RMSD from the docked pose averaged over the final 100
 frames. Stability is judged on that window rather than the whole run, because a ligand that leaves
 late still shows a low whole-run average.
 
-**Six of fourteen runs hold their pose; two leave the site entirely.** The immediate consequence
+**Eight of sixteen runs hold their pose; two leave the site entirely.** The immediate consequence
 is that a docking score is not evidence of binding: it ranks poses, and the ranking does not
 predict which pose is physically stable.
 
@@ -77,8 +77,9 @@ finding in the project, and it is why every energy below is tied to a named pose
 **The MAO complexes are the more stable pair.** No MAO run left the site — the worst is 3.24 Å,
 against two TTBK runs past 5 Å. Counting strictly, MAO-A holds 1 of 3 and MAO-B 2 of 3.
 
-Protein backbones were stable throughout (1.12–1.81 Å; 1.06–1.63 Å core-fit for MAO), so the
-ligand motion is ligand motion, not a collapsing binding site. One apparent exception —
+Protein backbones were stable throughout (1.12–1.81 Å; 1.06–1.77 Å core-fit for MAO), so the
+ligand motion is ligand motion, not a collapsing binding site. (Core-fit RMSD across the eight
+MAO runs is 1.06–1.77 Å.) One apparent exception —
 `system_MAOA_p2` at 3.44 Å, the highest in the project — is the solvent-exposed C-terminal tail of
 the MAO-A construct flailing without a membrane to sit in, not an unstable fold; per-residue RMSF
 puts the maximum at residues 510–513 of 513, and the core is 1.28 Å.
@@ -89,10 +90,21 @@ puts the maximum at residues 510–513 of 513, and the core is 1.28 Å.
 
 This is the study's central new result, and it reversed itself once the poses were done properly.
 
-On-pose, MAO-A lands at −35.54 / −36.67 and MAO-B at −39.48 / −39.20 / −39.04. **All six on-pose
-pairings favour MAO-B, by 2.37 to 3.94 kcal/mol** — the intended direction, since MAO-A is the
-anti-target. Docking independently favours MAO-B by 3.03–3.22 kcal/mol pose for pose. Two methods
-that disagreed now agree.
+On-pose, MAO-A lands at −35.54 / −36.67 / −36.40 and MAO-B at −39.48 / −39.20 / −38.97 /
+−39.04. **All twelve on-pose pairings favour MAO-B, by 2.30 to 3.94 kcal/mol** — the intended
+direction, since MAO-A is the anti-target. Docking independently favours MAO-B by 3.03–3.22
+kcal/mol pose for pose. Two methods that disagreed now agree.
+
+**And the size of the margin now has a measured error bar.** Velocity replicates of both
+best-pose systems — identical topology and coordinates, differing only in the random velocity
+seed — give run-to-run spreads of **0.26** (MAO-A pose 3) and **0.24** (MAO-B pose 2) kcal/mol.
+Comparing replicate means, MAO-A −36.53 against MAO-B −39.09 is a **ΔΔG of 2.55 kcal/mol,
+9.8× the larger spread.** Both replicates also reproduced the pose stability (1.07 and 1.37 Å).
+
+The caveat that must travel with that number: FAD is positionally restrained in both arms, which
+suppresses receptor motion and so damps the run-to-run variation. 0.24–0.26 is the right error bar
+*for this protocol*, not evidence that MM-GBSA is intrinsically this precise. The ΔΔG is fair
+because **both arms carry the same restraint.**
 
 **What made them disagree was one off-pose trajectory.** MAO-A pose 1 gives −44.22, the most
 favourable MAO-A value by 7.55 kcal/mol and the only one from a run that had drifted off its docked
@@ -127,19 +139,32 @@ would have looked like a five-sigma selectivity finding.
 ![SEM against the spread measured by re-running with a new velocity seed](fig3_sem_vs_replicate.png)
 
 `MMPBSA.py` computes its standard error as if ~200 frames sampled 10 ps apart were independent
-draws. They are not. The reported SEMs run 0.15–0.27 kcal/mol; the spread between two runs
-differing *only* in velocity seed is 2.08 kcal/mol for TTBK1 and 6.90 for TTBK2 — **8× and 41×
-larger**.
+draws. They are not. Across the project's four replicate pairs the reported SEM stays in a narrow
+0.15–0.27 kcal/mol band while the measured spread between two runs differing *only* in velocity
+seed ranges from 0.24 to 6.89 — a **29-fold** range.
+
+**And the discrepancy is not random: it tracks pose stability, monotonically across all four
+pairs.**
+
+| Pair | Mean ligand RMSD | Measured spread | Ratio to SEM |
+|---|---|---|---|
+| MAO-B pose 2 | 1.23 Å | 0.24 | 2× |
+| MAO-A pose 3 | 1.25 Å | 0.26 | 2× |
+| TTBK1 pose 1 | 1.63 Å | 2.08 | 8× |
+| TTBK2 pose 1 | 4.70 Å | 6.89 | 33× |
+
+The mechanism is straightforward once seen: a trajectory leaving the site samples structures that
+were never the complex, so its energy swings between seeds; a tightly held pose samples one basin
+and returns nearly the same number twice.
 
 **Quoting the SEM as the uncertainty on a ΔΔG is the single easiest way to manufacture a
 significant selectivity result from this pipeline.** Without the second replicate, that is exactly
-what would have happened here. Report the replicate spread; never the SEM.
+what would have happened for TTBK.
 
-A caution that follows directly, and that the MAO pose scan made concrete: **pose spread is not
-replicate spread.** MAO-B's three independent poses agree to 0.44 kcal/mol, which looks like tight
-convergence until it is set beside TTBK2's 6.90 between two velocity seeds. Agreeing from different
-starting geometries says the basin is well defined; it says nothing about how far the energy wanders
-under resampling. The smaller variance cannot bound the larger.
+The rule this yields is sharper than "never trust the SEM": **the SEM is only as good as the pose
+is stable, and you cannot tell which case you are in without running a replicate.** The MAO
+magnitude is quotable because the replicate was run — not because its poses looked stable. With
+n = 4 pairs across two protein families this is a consistent pattern, not a calibration curve.
 
 ---
 
@@ -153,11 +178,11 @@ This is the section to write the thesis and the manuscript Results from.
 | 2 | Docking rank does not predict which pose survives dynamics | **Supportable, strongly** | 1 of 4 targets, 3 poses each, 14 runs |
 | 3 | `cand_003` forms a stable complex with MAO-B | **Supportable** | 2 of 3 poses hold (1.10, 2.28 Å); no MAO-B run left the site |
 | 4 | `cand_003` forms a stable complex with TTBK1 | **Supportable, pose-specific** | pose 1 holds in both replicates (1.88, 1.38 Å); poses 2–3 drift |
-| 5 | The compound favours MAO-B over MAO-A — the intended direction | **Direction only** | all 6 on-pose pairings agree; docking agrees independently |
-| 6 | …by a specific amount | **Not supportable** | 2.37–3.94 kcal/mol is inside the measured replicate spread; no MAO replicate yet |
+| 5 | The compound favours MAO-B over MAO-A — the intended direction | **Supportable** | all 12 on-pose pairings agree; docking agrees independently |
+| 6 | …by about 2.55 kcal/mol | **Supportable, protocol-bound** | 9.8× the measured 0.24–0.26 replicate spread; both arms share the FAD restraint that damps it |
 | 7 | The compound is selective for TTBK1 over TTBK2 | **Not supportable** | 1.45 < 2.08 replicate spread; no pose-stability difference |
 | 8 | TTBK2 is an off-target liability for this series | **Docking only** | reverses under a symmetric water shell; inside the 0.861 protocol bias |
-| 9 | The reported SEM is not a usable error bar on ΔΔG | **Supportable, strongly** | 8× and 41× discrepancies, measured |
+| 9 | The reported SEM is not a usable error bar, and its failure scales with pose instability | **Supportable, strongly** | 4 replicate pairs, ratio 2× to 33×, monotonic in ligand RMSD |
 | 10 | Absolute ΔG values are comparable between targets | **Not supportable** | protein-specific desolvation/surface terms do not cancel |
 
 ### Two things not to write
@@ -183,9 +208,12 @@ Stated plainly, because each one bounds a claim above.
 3. **Single-trajectory MM-GBSA, no entropy term.** These are interaction-energy estimates, not
    binding free energies in the thermodynamic sense, and their absolute values are not comparable
    to experiment.
-4. **The MAO arms have no velocity replicate yet.** This is the one limitation currently being
-   removed — see below.
+4. **Two replicates per MAO arm, not more.** Enough to measure a spread and show the ΔΔG clears
+   it ~10-fold; not enough for a distribution. The TTBK arms still have no on-pose replicate pair
+   beyond TTBK1 pose 1.
 5. **FAD is a restrained GAFF2 residue, not the covalent 8α-S-cysteinyl cofactor it really is.**
+   Beyond the induced-fit point below, this is also why the MAO replicate spread is so tight — the
+   restraint removes receptor motion that would otherwise vary between seeds.
    The flavin wall of the cavity is reproduced and validated (0.46–0.73 Å from crystal across six
    systems), but FAD cannot relax in response to the ligand, so induced fit involving the flavin is
    suppressed. Defensible for ligand MM-GBSA, where FAD is part of the receptor on both sides of
@@ -196,12 +224,14 @@ Stated plainly, because each one bounds a claim above.
 
 ## What would change the answer
 
-- **Running now:** velocity replicates of the two best on-pose MAO systems
+- **Done 2026-09-27:** velocity replicates of the two best on-pose MAO systems
   (`system_MAOA_p3_r2`, `system_MAOB_p2_r2`) via
-  [`../scripts/run_mao_replicate_queue.sh`](../scripts/run_mao_replicate_queue.sh). These measure
-  the MAO arms' own replicate spread directly and are what would turn claim 6 from a direction into
-  a number with an error bar. Figure 3 has placeholder rows for them; rerun `make_figures.py` when
-  they land.
+  [`../scripts/run_mao_replicate_queue.sh`](../scripts/run_mao_replicate_queue.sh). They measured
+  the MAO arms' own spread — 0.26 and 0.24 kcal/mol — and moved claim 6 from unsupportable to
+  supportable.
+- **The obvious next replicate is TTBK2 pose 2**, the one on-pose TTBK2 trajectory. Its ΔG
+  (−30.95) currently carries no error bar of its own, and it is the number the TTBK1-vs-TTBK2
+  comparison rests on.
 - **To support claim 7 either way**, the TTBK arm needs either much longer sampling or an
   alternative free-energy method. The current pipeline's resolution floor (~2 kcal/mol) is above
   the effect size (~1.45), so more of the same will not settle it.

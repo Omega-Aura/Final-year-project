@@ -2605,3 +2605,103 @@ energy/temperature trace the README cites — so in-run churn is expected, and t
 to commit mid-run.
 
 Files: `.gitignore`, `06_md/README.md`, and 26 index removals (commit `e2cc22d`).
+
+## 2026-09-27 — D (MAO velocity replicates: the ΔΔG magnitude becomes claimable, and the SEM finding sharpens)
+
+Ran velocity replicates of the two best on-pose MAO systems and closed the open item. **The MAO
+ΔΔG now has a measured error bar, and the margin clears it about tenfold.**
+
+| System | Ligand last-100 | ΔG | SD | SEM |
+|---|---|---|---|---|
+| `system_MAOA_p3` (run 1) | 1.43 Å | −36.67 | 2.40 | 0.17 |
+| `system_MAOA_p3_r2` (run 2) | 1.07 Å | −36.40 | 2.38 | 0.17 |
+| `system_MAOB_p2` (run 1) | 1.10 Å | −39.20 | 2.13 | 0.15 |
+| `system_MAOB_p2_r2` (run 2) | 1.37 Å | −38.97 | 2.11 | 0.15 |
+
+Replicate spreads **0.26** (MAO-A) and **0.24** (MAO-B) kcal/mol. Comparing replicate means,
+−36.53 against −39.09 gives **ΔΔG = 2.55 kcal/mol favouring MAO-B, 9.8× the larger spread.** Both
+replicates also reproduced the pose stability (1.07 and 1.37 Å), and FAD held at 0.55 and 0.61 Å.
+
+So claim 6 in `10_results/README.md` moved from *not supportable* to *supportable*: the size of the
+MAO-B preference, not merely its direction, is now inside what this pipeline can resolve. Across
+all twelve on-pose pairings the margin runs 2.30–3.94 and never changes sign.
+
+### The caveat that must travel with the magnitude
+
+The MAO spread is tight partly **because of the protocol, not only the physics**: FAD is
+positionally restrained, which suppresses receptor conformational sampling and damps the
+run-to-run variation. 0.24–0.26 is the correct error bar *for this protocol*; it is not evidence
+that MM-GBSA is intrinsically this precise, and it should not be transferred to an unrestrained
+system. The ΔΔG survives the objection because **both arms carry the same restraint** — the
+symmetry rule this project keeps relearning.
+
+### The SEM finding is not what it looked like, and the sharper version is better
+
+The standing lesson was "the SEM is not the error bar; report the replicate spread." The MAO
+replicates complicate that, because here the SEM is nearly right — 0.15 against a measured 0.24.
+Putting all four of the project's replicate pairs side by side explains why:
+
+| Pair | Mean ligand RMSD | Spread | Ratio to larger SEM |
+|---|---|---|---|
+| MAO-B pose 2 | 1.23 Å | 0.24 | 2× |
+| MAO-A pose 3 | 1.25 Å | 0.26 | 2× |
+| TTBK1 pose 1 | 1.63 Å | 2.08 | 8× |
+| TTBK2 pose 1 | 4.70 Å | 6.89 | 33× |
+
+**The spread tracks pose stability, monotonically across all four pairs**, rising 29-fold while
+the reported SEM stays in a 0.15–0.27 band. The mechanism is obvious once seen: a trajectory
+leaving the site samples structures that were never the complex, so its energy swings between
+seeds; a tightly held pose samples one basin and returns nearly the same number twice.
+
+The refined rule: **the SEM is only as good as the pose is stable, and you cannot tell which case
+you are in without running a replicate.** The MAO magnitude is quotable because the replicate was
+run, not because the poses looked stable. With n = 4 pairs across two protein families this is a
+consistent pattern, not a calibration curve — and it is a better finding than the blanket version,
+because it says *when* the SEM misleads and by how much.
+
+This also retires a caution recorded yesterday, that **pose spread is not replicate spread**.
+MAO-B's three independent poses agreed to 0.44 kcal/mol, which could not legitimately bound the
+velocity-seed spread. It turned out to point the right way — the measured spread is 0.24 — but that
+was not knowable in advance, and TTBK2 remains the counter-example where a converged-looking arm
+concealed a 6.89 spread.
+
+### Precision bug found in the collector
+
+Replicate spreads are differences of two near-equal numbers, so computing them from the summary
+CSV's 2 dp display column amplifies rounding: the true 0.26/0.24 came out as 0.27/0.23. Added a
+`dG_raw` column carrying MMPBSA.py's value at 4 dp, and `make_figures.py` now computes spreads
+from it. The display column is unchanged.
+
+Ratios are quoted as whole numbers (2×, 8×, 33×) because the TTBK2 figure is 32.8× off the CSV and
+33.2× off the primary file, depending on which rounding of a 0.2079 SEM is used — a distinction
+with no meaning at this precision.
+
+### Figure 3 rebuilt around the real relationship
+
+It was a dumbbell of SEM against spread, titled "The reported SEM is not the error bar". With the
+MAO pairs at 2× that title no longer described its own data. It is now spread and SEM plotted
+against mean ligand RMSD for all four pairs, titled for what it shows: how far the SEM sits from
+the real error bar depends on pose stability. Both series are kcal/mol on one axis — deliberately
+not a dual-axis chart. Two label collisions were fixed (the MAO pairs sit 0.02 Å apart on x, so
+near-coincident neighbours are now pushed to opposite sides).
+
+### Scale and naming
+
+Sixteen MD systems now; eight hold their pose, two dissociate. MAO systems that share a pose with
+a replicate are renamed on the `start` column to `pose N, run 1` / `run 2`, following the TTBK1
+precedent. Core-fit protein RMSD across the eight MAO runs is 1.06–1.77 Å (the new maximum is
+`system_MAOB_p2_r2` at 1.77) and the FAD restraint is now validated eight times at 0.46–0.73 Å.
+
+### One process note
+
+`scripts/collect_md_summary.py` did not list the two replicate directories, so the CSV — and
+therefore every figure — would have silently ignored them while `make_figures.py` waited for rows
+that never arrived. Caught before it mattered. The collector hard-exits on a listed system whose
+`lig_rmsd.dat` is missing, which is the right failure: loud, not silent.
+
+Files: `07_mmgbsa/md_mmgbsa_summary.csv` (16 rows, `dG_raw` column added),
+`scripts/collect_md_summary.py`, `10_results/{make_figures.py,fig1,fig2,fig3}`,
+`10_results/README.md` (claims 5, 6 and 9 revised; result 2 and result 4 rewritten),
+`07_mmgbsa/README.md`, `06_md/README.md`, `08_analysis/README.md`, `09_manuscript/README.md`
+(§3.6 and §3.7), `README.md`, and `06_md/system_{MAOA_p3,MAOB_p2}_r2/` (two completed 10.1 ns
+systems with full analysis).

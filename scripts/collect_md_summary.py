@@ -43,9 +43,11 @@ SYSTEMS = [
     ("06_md/system_TTBK2_p3",   "TTBK2", "7Q8Y", "pose 3"),
     ("06_md/system_MAOA",       "MAO-A", "2Z5X", "pose 1"),
     ("06_md/system_MAOA_p2",    "MAO-A", "2Z5X", "pose 2"),
-    ("06_md/system_MAOA_p3",    "MAO-A", "2Z5X", "pose 3"),
+    ("06_md/system_MAOA_p3",    "MAO-A", "2Z5X", "pose 3, run 1"),
+    ("06_md/system_MAOA_p3_r2", "MAO-A", "2Z5X", "pose 3, run 2"),
     ("06_md/system_MAOB",       "MAO-B", "2V5Z", "pose 1"),
-    ("06_md/system_MAOB_p2",    "MAO-B", "2V5Z", "pose 2"),
+    ("06_md/system_MAOB_p2",    "MAO-B", "2V5Z", "pose 2, run 1"),
+    ("06_md/system_MAOB_p2_r2", "MAO-B", "2V5Z", "pose 2, run 2"),
     ("06_md/system_MAOB_p3",    "MAO-B", "2V5Z", "pose 3"),
 ]
 
@@ -138,6 +140,10 @@ def build():
             "dG_kcal_mol": fmt(dg),
             "dG_SD": fmt(sd),
             "dG_SEM": fmt(sem),
+            # Full precision as MMPBSA.py reported it. Replicate spreads are differences of two
+            # near-equal numbers, so computing them from the 2 dp display column amplifies
+            # rounding: the MAO pairs come out 0.27/0.23 that way against a true 0.26/0.24.
+            "dG_raw": "" if dg is None else f"{dg:.4f}",
             "gbsa_source": source,
         })
     buf = io.StringIO()

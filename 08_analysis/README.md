@@ -91,7 +91,7 @@ difference** in either pose stability or binding free energy ([step 6](../06_md/
 well outside seed noise and consistent in direction across the whole set. **As of 2026-09-27
 MM-GBSA agrees with it.** The earlier sign disagreement (+4.74 favouring MAO-A) was traced to the
 one MAO-A trajectory that had drifted off its docked pose; on-pose, all six MAO-A/MAO-B pairings
-favour MAO-B by 2.37–3.94 kcal/mol. The *direction* is now corroborated by docking and MM-GBSA
+favour MAO-B by 2.30–3.94 kcal/mol. The *direction* is now corroborated by docking and MM-GBSA
 independently; the *magnitude* is still inside method noise. See
 [step 7](../07_mmgbsa/README.md).
 

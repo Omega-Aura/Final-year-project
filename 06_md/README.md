@@ -2,9 +2,10 @@
 
 ## What we did
 
-Ran 10.1 ns of unrestrained all-atom MD on fourteen explicitly solvated protein–ligand complexes:
+Ran 10.1 ns of unrestrained all-atom MD on sixteen explicitly solvated protein–ligand complexes:
 `cand_003` docked into TTBK1, TTBK2, MAO-A and MAO-B, covering **three independent docked poses
-per target** and two velocity-seed replicates of the TTBK top poses.
+per target**, plus velocity-seed replicates of the TTBK top poses and of the best on-pose
+trajectory in each MAO arm.
 
 | Directory | Target | Structure | Start | Ligand RMSD (last 100 frames) | Verdict |
 |---|---|---|---|---|---|
@@ -18,9 +19,11 @@ per target** and two velocity-seed replicates of the TTBK top poses.
 | `system_TTBK2_p3/` | TTBK2 | 7Q8Y | pose 3 | 5.79 Å | dissociates |
 | `system_MAOA/` | MAO-A | 2Z5X | pose 1 | 3.24 Å | drifts off pose |
 | `system_MAOA_p2/` | MAO-A | 2Z5X | pose 2 | 2.43 Å (1.79 core-fit) | holds, loose |
-| `system_MAOA_p3/` | MAO-A | 2Z5X | pose 3 | 1.43 Å | stable |
+| `system_MAOA_p3/` | MAO-A | 2Z5X | pose 3, run 1 | 1.43 Å | stable |
+| `system_MAOA_p3_r2/` | MAO-A | 2Z5X | pose 3, run 2 | 1.07 Å | stable |
 | `system_MAOB/` | MAO-B | 2V5Z | pose 1 | 2.28 Å | stable |
-| `system_MAOB_p2/` | MAO-B | 2V5Z | pose 2 | 1.10 Å | stable |
+| `system_MAOB_p2/` | MAO-B | 2V5Z | pose 2, run 1 | 1.10 Å | stable |
+| `system_MAOB_p2_r2/` | MAO-B | 2V5Z | pose 2, run 2 | 1.37 Å | stable |
 | `system_MAOB_p3/` | MAO-B | 2V5Z | pose 3 | 2.57 Å | holds, loose |
 
 Every directory is self-contained: its own protein PDB, its own ligand parameters, its own
@@ -36,7 +39,8 @@ until each arm had an on-pose trajectory.
 
 Four runs extended both arms to three top-ranked docked poses each, rank-symmetric from the start
 rather than after a false positive. **Both arms now hold**: MAO-A pose 3 at 1.43 Å and MAO-B
-pose 2 at 1.10 Å, tighter than either pose-1 run. The energies and what they license are in
+pose 2 at 1.10 Å, tighter than either pose-1 run — and both reproduced under a second velocity
+seed (1.07 and 1.37 Å), which also supplied the MAO ΔΔG's error bar. The energies and what they license are in
 [`../07_mmgbsa/README.md`](../07_mmgbsa/README.md); in short, the sign of the MAO margin flipped
 to agree with docking once the off-pose MAO-A pose-1 trajectory was set aside.
 
@@ -131,7 +135,7 @@ System sizes and throughput:
 | MAO-A (2Z5X) | 118,896–118,923 | 59.8–63.1 ns/day (3 runs) |
 | MAO-B (2V5Z) | 90,129 | 80.9–82.0 ns/day (3 runs) |
 
-All fourteen runs completed to step 5,050,000 with temperature stable at ~300 K and potential
+All sixteen runs completed to step 5,050,000 with temperature stable at ~300 K and potential
 energy stable. `tleap` reported zero errors on every build; all systems neutral.
 
 One interruption, no lost science: a machine restart at 16:06 on 2026-09-26 killed the queue
@@ -172,7 +176,7 @@ transcribed by hand.
 poses; TTBK2 also in 1 of 3. Which pose survives differs (TTBK1 pose 1, TTBK2 pose 2), but that
 is not a selectivity signal — it says the docking pose ranking does not predict dynamic
 stability, equally for both proteins. Protein backbones were stable throughout every run
-(1.12–1.81 Å, and 1.06–1.63 Å core-fit for the MAO systems).
+(1.12–1.81 Å, and 1.06–1.77 Å core-fit for the MAO systems).
 
 **Docking rank does not predict pose stability in the MAO pair either.** The pose that holds best
 is MAO-A's *worst*-ranked pose 3 (1.43 Å, Vina −7.399 against pose 1's −8.236) and MAO-B's pose 2
@@ -181,8 +185,8 @@ most stable one in **one of four** cases — TTBK1, the exception. With 3 poses 
 this is the project's best-supported methodological result, and it is the reason every MM-GBSA
 number is tied to a named pose rather than to a target.
 
-**The FAD restraint scheme is validated six times.** FAD stayed within 0.46–0.73 Å of its
-crystallographic position across all six MAO systems, using the same lib and frcmod with only
+**The FAD restraint scheme is validated eight times.** FAD stayed within 0.46–0.73 Å of its
+crystallographic position across all eight MAO systems, using the same lib and frcmod with only
 coordinates changed. The flavin wall of the cavity was present and rigid as intended, which
 removes the blocker that made MAO MM-GBSA look like multi-day work.
 

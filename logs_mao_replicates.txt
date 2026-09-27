@@ -1,1 +1,14 @@
-[start md] system_MAOA_p3_r2  2026-09-27 11:30:01
+[skip md] system_MAOA_p3_r2 already has final_state.xml
+[skip md] system_MAOB_p2_r2 already has final_state.xml
+[start analysis] system_MAOA_p3_r2  2026-09-27 18:59:51
+[done analysis]  system_MAOA_p3_r2  2026-09-27 19:28:04  DELTA TOTAL                -36.4044                2.3794              0.1682
+[start analysis] system_MAOB_p2_r2  2026-09-27 19:28:04
+[done analysis]  system_MAOB_p2_r2  2026-09-27 19:50:37  DELTA TOTAL                -38.9660                2.1149              0.1495
+[replicate queue complete] 2026-09-27 19:50:37
+
+Replicate spreads (run 1 vs run 2):
+  system_MAOA_p3       -36.67 vs   -36.40  spread 0.26 kcal/mol
+  system_MAOB_p2       -39.20 vs   -38.97  spread 0.24 kcal/mol
+
+Then regenerate the summary table:
+  conda run -n docking_project python scripts/collect_md_summary.py

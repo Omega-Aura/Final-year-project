@@ -27,9 +27,11 @@ files disagree.
 | `system_TTBK2_p3` | TTBK2 | pose 3 | 5.79 Å | dissociates | — | | |
 | `system_MAOA` | MAO-A | pose 1 | 3.24 Å | drifts off pose | −44.22 | 3.15 | 0.22 |
 | `system_MAOA_p2` | MAO-A | pose 2 | 2.43 Å (1.79 core-fit) | holds, loose | −35.54 | 2.73 | 0.19 |
-| `system_MAOA_p3` | MAO-A | pose 3 | 1.43 Å | stable | **−36.67** | 2.40 | 0.17 |
+| `system_MAOA_p3` | MAO-A | pose 3, run 1 | 1.43 Å | stable | **−36.67** | 2.40 | 0.17 |
+| `system_MAOA_p3_r2` | MAO-A | pose 3, run 2 | 1.07 Å | stable | **−36.40** | 2.38 | 0.17 |
 | `system_MAOB` | MAO-B | pose 1 | 2.28 Å | stable | −39.48 | 2.20 | 0.16 |
-| `system_MAOB_p2` | MAO-B | pose 2 | 1.10 Å | stable | **−39.20** | 2.13 | 0.15 |
+| `system_MAOB_p2` | MAO-B | pose 2, run 1 | 1.10 Å | stable | **−39.20** | 2.13 | 0.15 |
+| `system_MAOB_p2_r2` | MAO-B | pose 2, run 2 | 1.37 Å | stable | **−38.97** | 2.11 | 0.15 |
 | `system_MAOB_p3` | MAO-B | pose 3 | 2.57 Å | holds, loose | −39.04 | 2.86 | 0.20 |
 
 Dashes are deliberate: **no energy was computed for a trajectory that had left its docked pose.**
@@ -37,7 +39,9 @@ An average over such a trajectory describes a structure that was never docked, s
 attached to the docking result it was meant to test.
 
 Bold marks the best on-pose trajectory per target — the one to quote. `system_MAOA_p3` and
-`system_MAOB_p2` are the MAO pair that closed the open item below.
+`system_MAOB_p2`, **each now with a velocity replicate**, are the MAO pair that closed the open
+item below. Both replicates also reproduced the pose stability: 1.07 Å against run 1's 1.43, and
+1.37 against 1.10.
 
 `holds, loose` is a band that did not exist in the first ten runs: those fell into groups at
 ≤ 2.28 Å and ≥ 3.24 Å with nothing between, and two of the MAO pose runs landed in the gap at
@@ -88,26 +92,35 @@ atom-count mismatch against an already-stripped trajectory.
 Beyond the per-system energies, the replicate pairs were used to establish the actual
 uncertainty of the method on this system:
 
-| Target | Replicate pair | Spread | Quoted SEMs |
-|---|---|---|---|
-| TTBK1 | pose 1 run 1 vs run 2 | **2.08 kcal/mol** | 0.27 / 0.19 |
-| TTBK2 | pose 1 run 1 vs run 2 | **6.90 kcal/mol** | 0.17 / 0.21 |
+All four replicate pairs in the project, each two runs differing **only** in the random velocity
+seed. The spread is computed from `dG_raw` in the summary CSV, not the 2 dp column: it is a
+difference of two near-equal numbers, and rounding first turns the true MAO spreads of 0.26 and
+0.24 into 0.27 and 0.23.
 
-The MAO pose scan adds a second, different spread — across independent *docked poses* of the same
-protein rather than across velocity seeds:
+| Pair | Mean ligand RMSD | ΔG run 1 / run 2 | Spread | Larger SEM | Ratio |
+|---|---|---|---|---|---|
+| MAO-B pose 2 | 1.23 Å | −39.20 / −38.97 | **0.24** | 0.15 | 2× |
+| MAO-A pose 3 | 1.25 Å | −36.67 / −36.40 | **0.26** | 0.17 | 2× |
+| TTBK1 pose 1 | 1.63 Å | −31.36 / −33.44 | **2.08** | 0.27 | 8× |
+| TTBK2 pose 1 | 4.70 Å | −29.78 / −22.88 | **6.89** | 0.21 | 33× |
 
-| Target | On-pose trajectories | ΔG range | Pose spread |
-|---|---|---|---|
-| MAO-A | poses 2, 3 | −35.54, −36.67 | 1.13 kcal/mol |
-| MAO-B | poses 1, 2, 3 | −39.48, −39.20, −39.04 | **0.44 kcal/mol** |
+**The spread tracks pose stability, monotonically across all four pairs.** Sorted by how well the
+pair held its pose, the spread rises 29-fold from 0.24 to 6.89 kcal/mol while the reported SEM
+barely moves. A trajectory that is leaving the site samples structures that were never the
+complex, so its energy varies wildly between seeds; a tightly held pose samples one basin and
+gives nearly the same number twice. See figure 3 in [`../10_results/`](../10_results/).
 
-**Pose spread is not a substitute for replicate spread, and the two must not be conflated.**
-MAO-B's three independent poses agree to 0.44 kcal/mol, which looks reassuring until it is put
-next to TTBK2's 6.90 kcal/mol between two runs that differed only in velocity seed. Converging
-from different starting geometries onto the same energy says the basin is well defined; it says
-nothing about how much that energy wanders under resampling. The tighter number cannot bound the
-looser one, so the MAO arms still have **no velocity replicates** and no measured error bar of
-their own.
+Two consequences, and they pull in opposite directions:
+
+- **For a stable pose the SEM is roughly right** — about 2× on the MAO pairs. That does not make
+  it safe to quote, because you cannot know the spread is small until you have measured it.
+- **For an unstable pose it is off by up to 33×.** This is the case that manufactures significance.
+
+This also resolves a caution recorded before the replicates existed: that **pose spread is not
+replicate spread**. MAO-B's three independent *poses* agreed to 0.44 kcal/mol, which could not be
+used to bound the velocity-seed spread. It now turns out to have pointed the right way — the
+measured replicate spread is 0.24 — but that was not knowable in advance, and TTBK2 is the
+counter-example where a converged-looking arm hid a 6.89 spread.
 
 **Both MAO constructs end in a solvent-exposed C-terminal tail that inflates whole-protein
 backbone RMSD.** Per-residue RMSF puts the maximum at the last residues of each construct —
@@ -115,7 +128,7 @@ MAO-A 510–513 of 513, MAO-B 496–499 of 499 — at 5–8 Å. In the crystal t
 membrane-anchoring end of the protein; simulated in water with no bilayer they flail. This is
 what drives `system_MAOA_p2` to a 3.44 Å backbone RMSD, the highest in the project, while its
 core sits at 1.28 Å. Refitting on `:1-496` and re-measuring gives `prot_core_rmsd.dat` and
-`lig_corefit_rmsd.dat`; core RMSD is 1.06–1.63 Å across all six MAO runs and flat in time, so
+`lig_corefit_rmsd.dat`; core RMSD is 1.06–1.77 Å across all eight MAO runs and flat in time, so
 **no MAO run has an unstable fold** and the tail motion does not touch the binding site.
 
 ## Final result
@@ -145,12 +158,23 @@ the only off-pose one**, and no on-pose MAO-A trajectory comes within 7 kcal/mol
 it as a binding energy would have inverted the selectivity conclusion. This is the clearest case
 in the project of an off-pose trajectory producing not just a noisy number but a *wrong sign*.
 
-**The magnitude still cannot carry a significance claim.** The 2.37–3.94 kcal/mol margin sits on
-top of the 2.08 kcal/mol velocity-replicate spread measured for TTBK1 and well under TTBK2's
-6.90, and **neither MAO arm has a velocity replicate.** The pose spread (0.44–1.13 kcal/mol) is a
-different and demonstrably smaller source of variance and cannot stand in for it. So: the
-*direction* of the MAO margin is now a robust, pose-independent, docking-consistent result; its
-*size* is not resolved.
+**The magnitude is now resolvable too, against the MAO arms' own error bar.** Velocity replicates
+of both best-pose systems give spreads of **0.26** (MAO-A pose 3) and **0.24** (MAO-B pose 2)
+kcal/mol — an order of magnitude tighter than TTBK1's 2.08, because these poses are held far more
+tightly. Comparing the replicate means:
+
+> MAO-A pose 3 −**36.53** against MAO-B pose 2 −**39.09** — a ΔΔG of **2.55 kcal/mol** favouring
+> MAO-B, which is **9.8× the larger of the two replicate spreads.**
+
+Across all twelve on-pose pairings the margin runs 2.30–3.94 and never changes sign. So both the
+direction *and* the size of the MAO-B preference are now supported by this pipeline.
+
+**One caveat that must travel with the magnitude.** Part of why the MAO spread is so tight is the
+protocol: FAD is positionally restrained, which suppresses receptor conformational sampling and
+therefore damps the energy's run-to-run variation. The 0.24–0.26 figure is the correct error bar
+*for this protocol*, but it should not be read as MM-GBSA being intrinsically this precise, nor
+transferred to an unrestrained system. The comparison is fair because **both arms carry the same
+restraint**, which is what makes the ΔΔG meaningful even where the absolute values are not.
 
 Absolute MM-GBSA values remain **not comparable between different proteins** — they carry
 protein-specific desolvation and surface terms that do not cancel across systems. Quoting MAO-A's
@@ -159,22 +183,30 @@ least on the MAO-A/MAO-B pair, which share fold, cofactor and an identical restr
 is why a ΔΔG within that pair is worth stating at all — but it is still a cross-protein difference,
 not a like-for-like one.
 
-**Open item:** velocity replicates of `system_MAOA_p3` and `system_MAOB_p2` are what would turn
-the MAO ΔΔG from a direction into a number with an error bar.
+**Open item — closed 2026-09-27.** The velocity replicates of `system_MAOA_p3` and
+`system_MAOB_p2` were run and did exactly what was asked of them: the MAO ΔΔG is now a number
+with a measured error bar, 2.55 ± ~0.26 kcal/mol favouring MAO-B. What remains open is broader
+and not about MAO: no experimental validation, and a single ligand.
 
 ## The methodological finding
 
-**The SEM reported by `MMPBSA.py` is not the error bar.** It is computed as if 200 frames sampled
-10 ps apart were independent draws, which they are not. The quoted SEMs run 0.15–0.27 kcal/mol
-while the true replicate-to-replicate spread is 2.08 (TTBK1) and 6.90 (TTBK2) — roughly 8× to
-41× larger.
+**The SEM reported by `MMPBSA.py` is not the error bar, and how wrong it is depends on pose
+stability.** It is computed as if ~200 frames sampled 10 ps apart were independent draws, which
+they are not. Across the project's four replicate pairs the SEM stays in a narrow 0.15–0.27
+kcal/mol band while the measured spread ranges from 0.24 to 6.89 — a 29-fold range — and the
+ratio between them climbs monotonically with the ligand's RMSD from its docked pose: about 2×
+for the two tightly held MAO poses, 8× for TTBK1, **33× for the TTBK2 pair that drifted and
+dissociated.**
 
 Against the SEM, the 1.45 kcal/mol TTBK1-vs-TTBK2 margin would look like a five-sigma result.
 It is not significant at all. **Quoting the SEM as the uncertainty on a ΔΔG is the single easiest
 way to manufacture a significant selectivity result from this pipeline**, and without the second
 replicate that is exactly what would have happened here.
 
-Report the replicate spread. Never the SEM.
+The refined rule is therefore sharper than "never trust the SEM": **the SEM is only as good as the
+pose is stable, and you cannot know which case you are in without a replicate.** Measure the
+spread. The MAO result is quotable *because* the replicate was run, not because its poses looked
+stable.
 
 ## Relevant files
 

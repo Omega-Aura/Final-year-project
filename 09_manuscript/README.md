@@ -59,23 +59,30 @@ poses dissociated outright.
 
 ### §3.6 — "MM-GBSA confirms engagement of both targets and prefers MAO-B"
 
-**Directionally supportable as of 2026-09-27; the magnitude is not.** This section was previously
+**Supportable in both direction and magnitude as of 2026-09-27.** This section was previously
 flagged because MM-GBSA appeared to point the *opposite* way to docking (MAO-A −44.22 against
 MAO-B −39.48). The MAO pose scan showed that inversion was an artifact: the −44.22 came from the
 one MAO-A trajectory that had drifted 3.24 Å off its docked pose, and it is the only off-pose
-MAO-A number. On-pose, MAO-A lands at −35.54/−36.67 and MAO-B at −39.48/−39.20/−39.04, so
-**all six on-pose pairings favour MAO-B by 2.37–3.94 kcal/mol**, agreeing in sign with docking,
+MAO-A number. On-pose, MAO-A lands at −35.54/−36.67/−36.40 and MAO-B at
+−39.48/−39.20/−38.97/−39.04, so
+**all twelve on-pose pairings favour MAO-B by 2.30–3.94 kcal/mol**, agreeing in sign with docking,
 which favours MAO-B by 3.03–3.22 kcal/mol pose for pose on this ligand's Vina affinities. The
 library-wide docking margin quoted elsewhere (−3.28, favourable 48/48) is a mean over all 56
 candidates and a different quantity; do not present it as the `cand_003` per-pose figure.
 
-So "prefers MAO-B" may now be stated as a direction that docking and MM-GBSA agree on, with two
-constraints that must travel with it:
+**The magnitude became quotable when the replicates landed.** Velocity replicates of both
+best-pose systems give run-to-run spreads of 0.26 (MAO-A pose 3) and 0.24 (MAO-B pose 2)
+kcal/mol. Comparing replicate means, −36.53 against −39.09 is a ΔΔG of **2.55 kcal/mol, 9.8×
+the larger spread.** So "prefers MAO-B" can carry a number, subject to two constraints that must
+travel with it:
 
-- **No magnitude.** Neither MAO arm has a velocity replicate, and the margin is comparable to the
-  2.08 kcal/mol replicate spread measured on TTBK1. Quote no number and no significance.
+- **The error bar is protocol-bound.** FAD is positionally restrained in both arms, which
+  suppresses receptor motion and damps the run-to-run variation. Report 2.55 ± ~0.26 as this
+  protocol's figure rather than MM-GBSA's intrinsic precision, and state that the restraint is
+  shared by both arms — that symmetry is what makes the ΔΔG meaningful.
 - **Still a cross-protein comparison.** Absolute MM-GBSA values carry protein-specific desolvation
-  and surface terms that do not cancel, which is why the direction is quotable and the size is not.
+  and surface terms that do not cancel. The ΔΔG *within* the MAO pair is quotable; the absolute
+  −36.53 and −39.09 must not be set against TTBK's numbers.
 
 See [`07_mmgbsa/README.md`](../07_mmgbsa/README.md). **Any −44.22 figure must not be cited as a
 MAO-A binding energy** — it describes a structure that was never docked.
@@ -97,11 +104,11 @@ note that dynamics lacks the resolution to confirm or refute it.
 
 **This claim must now be split by pair, because the two halves no longer agree.** The four lines
 above all concern the TTBK1/TTBK2 paralog pair, where "does not discriminate" still holds. For the
-MAO-A/MAO-B isoform pair it no longer reads the same way: after the pose scan, docking and MM-GBSA
-agree in sign on a MAO-B preference across all six on-pose pairings (§3.6). The margin is still
-not *resolvable* — it is comparable to the TTBK1 replicate spread and the MAO arms have no
-replicates — so "no significant discrimination" survives for MAO, but "no discrimination" and any
-wording implying the isoform comparison came out symmetric do not. Write the two pairs separately.
+MAO-A/MAO-B isoform pair it no longer reads the same way: docking and MM-GBSA now agree in sign
+on a MAO-B preference, **and since 2026-09-27 on its size as well** — 2.55 kcal/mol against a
+measured replicate spread of 0.24–0.26 (§3.6). Neither "no discrimination" nor "no *significant*
+discrimination" survives for the MAO pair. Both still hold for TTBK1/TTBK2, where the four lines
+above are unchanged. **Write the two pairs separately — they now reach opposite conclusions.**
 
 ### Two methods points that belong in §2.8
 

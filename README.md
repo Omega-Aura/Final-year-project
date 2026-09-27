@@ -90,14 +90,16 @@ Ligand RMSD from the docked pose, mean over the final 100 frames of 10.1 ns:
 | TTBK2 (7Q8Y) | 3 | 5.79 Å | dissociates |
 | MAO-A (2Z5X) | 1 | 3.24 Å | drifts off docked pose |
 | MAO-A (2Z5X) | 2 | 2.43 Å (1.79 core-fit) | holds, loose |
-| MAO-A (2Z5X) | 3 | 1.43 Å | stable |
+| MAO-A (2Z5X) | 3, run 1 | 1.43 Å | stable |
+| MAO-A (2Z5X) | 3, run 2 | 1.07 Å | stable |
 | MAO-B (2V5Z) | 1 | 2.28 Å | stable |
-| MAO-B (2V5Z) | 2 | 1.10 Å | stable |
+| MAO-B (2V5Z) | 2, run 1 | 1.10 Å | stable |
+| MAO-B (2V5Z) | 2, run 2 | 1.37 Å | stable |
 | MAO-B (2V5Z) | 3 | 2.57 Å | holds, loose |
 
 **TTBK1 holds the ligand in 1 of 3 docked poses; TTBK2 also in 1 of 3. There is no
 pose-stability difference between the two kinases.** Protein backbones were stable in every
-run (1.12–1.81 Å, and 1.06–1.63 Å core-fit for MAO), so the ligand motion is ligand motion,
+run (1.12–1.81 Å, and 1.06–1.77 Å core-fit for MAO), so the ligand motion is ligand motion,
 not a collapsing binding site.
 
 **The MAO complexes are the more stable pair.** No MAO run left the site — the worst is 3.24 Å,
@@ -117,9 +119,11 @@ one in **one of four** targets (TTBK1, the exception). The best-holding MAO-A po
 | TTBK2 pose 2 | −30.95 | 3.81 | yes |
 | MAO-A pose 1 | −44.22 | 3.15 | **no** — ligand left the docked pose |
 | MAO-A pose 2 | −35.54 | 2.73 | direction only |
-| **MAO-A pose 3** | **−36.67** | 2.40 | yes — best on-pose MAO-A |
+| **MAO-A pose 3, run 1** | **−36.67** | 2.40 | yes — best on-pose MAO-A |
+| **MAO-A pose 3, run 2** | **−36.40** | 2.38 | yes — its velocity replicate |
 | MAO-B pose 1 | −39.48 | 2.20 | yes |
-| **MAO-B pose 2** | **−39.20** | 2.13 | yes — best on-pose MAO-B |
+| **MAO-B pose 2, run 1** | **−39.20** | 2.13 | yes — best on-pose MAO-B |
+| **MAO-B pose 2, run 2** | **−38.97** | 2.11 | yes — its velocity replicate |
 | MAO-B pose 3 | −39.04 | 2.86 | direction only |
 
 No MM-GBSA was computed for the runs that drifted or dissociated: an energy averaged over a
@@ -127,9 +131,11 @@ trajectory that has left the docked pose describes a structure that was never do
 
 **The −44.22 is the cautionary number of this project.** It is the most favourable MAO-A value,
 it is the only off-pose one, and taking it at face value inverted the MAO selectivity conclusion
-for two days. Every on-pose MAO-A trajectory lands near −36. Corrected, all six on-pose pairings
-favour **MAO-B** by 2.37–3.94 kcal/mol, which agrees in sign with docking (3.03–3.22 pose for
-pose). The direction is robust; the magnitude sits inside the replicate spread and is not.
+for two days. Every on-pose MAO-A trajectory lands near −36. Corrected, all twelve on-pose pairings
+favour **MAO-B** by 2.30–3.94 kcal/mol, agreeing in sign with docking (3.03–3.22 pose for pose).
+Velocity replicates of both best poses then gave the margin an error bar: ΔΔG **2.55 kcal/mol**
+against a measured replicate spread of 0.24–0.26, so **both the direction and the size hold** —
+with the caveat that the shared FAD restraint damps that spread.
 
 ### What the dynamics does and does not establish
 
@@ -139,7 +145,7 @@ pose). The direction is robust; the magnitude sits inside the replicate spread a
 | Docking, validated pair | +0.12, confounded by a 0-vs-5 water asymmetry | — |
 | Protocol bias (known-answer calibration) | 0.861 kcal/mol toward TTBK2 where experiment says none | — |
 | MD pose stability | **no difference** — 1/3 poses each, symmetric test | MAO-A 1/3, MAO-B 2/3; no run left the site |
-| MM-GBSA | **no resolvable difference** (1.45 < 2.08 replicate spread) | MAO-B favoured 2.37–3.94, **direction only** |
+| MM-GBSA | **no resolvable difference** (1.45 < 2.08 replicate spread) | MAO-B favoured by 2.55, **9.8× its 0.26 replicate spread** |
 
 The two pairs now read differently, and the write-up must not treat them as one finding.
 
@@ -147,18 +153,23 @@ The two pairs now read differently, and the write-up must not treat them as one 
 scores alone. Dynamics neither confirms nor refutes it; it lacks the resolution to speak, and that
 is the honest outcome.
 
-**MAO-A vs MAO-B — a direction, not a number.** Docking and MM-GBSA independently agree that
-MAO-B is favoured. But the margin is comparable to the 2.08 kcal/mol replicate spread measured on
-TTBK1, so "no *significant* discrimination" still holds even though "no discrimination" no longer
-does. Velocity replicates of the two best on-pose MAO systems are running to measure the MAO arms'
-own spread directly.
+**MAO-A vs MAO-B — a direction *and* a size.** Docking and MM-GBSA independently agree that MAO-B
+is favoured, and velocity replicates of both best-pose systems put the margin at 2.55 kcal/mol
+against a measured spread of 0.24–0.26 — roughly a tenfold separation. For this pair, neither
+"no discrimination" nor "no *significant* discrimination" holds any more. The magnitude is
+protocol-bound: FAD is restrained in both arms, which damps the run-to-run variation.
 
 ### Two methodological findings worth more than the numbers
 
-1. **The SEM is not the error bar.** `MMPBSA.py` computes the standard error as if 200 frames
-   sampled 10 ps apart were independent draws. Reported SEMs run 0.15–0.27 kcal/mol while the
-   true replicate-to-replicate spread is ~2.08 — about 10× larger. Quoting the SEM on a ΔΔG is
-   the easiest way to manufacture a significant selectivity result from this pipeline.
+1. **The SEM is not the error bar, and its failure scales with pose instability.** `MMPBSA.py`
+   computes the standard error as if 200 frames sampled 10 ps apart were independent draws. Across
+   four replicate pairs the ratio of true spread to reported SEM climbs monotonically with ligand
+   RMSD — about 2× for the tightly held MAO poses, 8× for TTBK1, 33× for the TTBK2 pair that
+   drifted and dissociated. The reported SEM stays in a narrow 0.15–0.27 kcal/mol band while
+   the measured spread ranges from 0.24 to 6.89 — a 29-fold range. Quoting the SEM on a ΔΔG is
+   the easiest way to manufacture a significant selectivity result from this pipeline, and the
+   sharper rule is that **the SEM is only as good as the pose is stable** — which you cannot
+   know without running a replicate.
 2. **Both arms of a comparison must be symmetric.** Three separate false positives this
    project produced all had the same root cause: an asymmetry between the two things being
    compared (a 0-vs-5 water shell; a pose scan against a replicate scan; an on-pose run against
