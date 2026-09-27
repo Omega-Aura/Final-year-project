@@ -33,3 +33,13 @@ __pycache__/
 REINVENT4/
 generation/*.chkpt
 generation/tb_logs/
+
+# MD trajectories and MM-GBSA byproducts. Regenerable, and too large to version.
+#   reference.frc            194-339 MB per system, written by MMPBSA.py. Over GitHub's
+#                            100 MB hard per-file limit, so any history containing one
+#                            cannot be pushed at all.
+#   production_full_stripped.nc  55-95 MB, produced from production.dcd by strip_traj.cpptraj.
+# Both are rebuilt by scripts/run_mmgbsa.sh. *.dcd and *.prmtop above are excluded for the
+# same reason, which is why these two patterns were the gap: they were simply missed.
+*.frc
+*.nc

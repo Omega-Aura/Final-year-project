@@ -204,15 +204,28 @@ Per system directory:
 | `FAD_NEW.pdb`, `FAD_AC.{lib,frcmod}` | cofactor (MAO systems only) |
 | `complex.{prmtop,inpcrd}` | solvated topology and coordinates |
 | `complex_dry_check.pdb` | dry complex, for visual verification of the build |
-| `production*.dcd` | raw solvated trajectory (primary data) |
+| `production*.dcd` | raw solvated trajectory (primary data) — **not in git**, `*.dcd` is ignored |
 | `production*.log` | per-frame state: step, time, energy, temperature, volume, speed |
-| `production_full_stripped.nc` + `stripped.complex.prmtop` | **analysis trajectory** — all reported numbers come from here |
+| `production_full_stripped.nc` + `stripped.complex.prmtop` | **analysis trajectory** — all reported numbers come from here. **Not in git** (see below) |
 | `final_state.xml`, `final.pdb` | restart state and final frame |
 | `lig_rmsd.dat`, `prot_rmsd.dat`, `fad_rmsd.dat` | RMSD traces |
 | `rmsf_byres.dat` | per-residue CA fluctuation (MAO only) — identifies the flailing C-terminal tail |
 | `prot_core_rmsd.dat`, `lig_corefit_rmsd.dat`, `fad_corefit_rmsd.dat` | the same RMSDs refit on the ordered core `:1-496` (MAO only) |
 | `mmgbsa_results*.dat` | MM-GBSA output (see step 7) |
 | `gb_{complex,receptor,ligand}.prmtop` | GB topologies from `ante-MMPBSA.py` |
+
+**Trajectories are deliberately not version-controlled.** `.gitignore` excludes `*.dcd`,
+`*.prmtop`, `*.nc` and `*.frc`: the raw trajectories are 1.0–1.4 GB per system, and
+`reference.frc` (an `MMPBSA.py` byproduct) is 194–339 MB, which is over GitHub's 100 MB hard
+per-file limit. All of them are regenerable — the `.nc` from the `.dcd` via
+`strip_traj.cpptraj`, and the `.frc` and GB topologies by re-running
+[`../scripts/run_mmgbsa.sh`](../scripts/run_mmgbsa.sh). What *is* in git is everything needed
+to regenerate them plus every derived number: the build inputs, the `.cpptraj` and `mmpbsa.in`
+inputs, `production.log`, the `.dat` RMSD traces and `mmgbsa_results.dat`.
+
+This means **a fresh clone cannot reproduce the reported numbers without re-running the MD.**
+That is a deliberate trade: the alternative is a multi-gigabyte repository that GitHub will
+not accept. The trajectories live on local disk and should be backed up separately.
 
 Shared:
 
