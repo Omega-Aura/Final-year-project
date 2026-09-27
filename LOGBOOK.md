@@ -2705,3 +2705,95 @@ Files: `07_mmgbsa/md_mmgbsa_summary.csv` (16 rows, `dG_raw` column added),
 `07_mmgbsa/README.md`, `06_md/README.md`, `08_analysis/README.md`, `09_manuscript/README.md`
 (§3.6 and §3.7), `README.md`, and `06_md/system_{MAOA_p3,MAOB_p2}_r2/` (two completed 10.1 ns
 systems with full analysis).
+
+## 2026-09-27 — E (cleanup carried out; repository pushed; workflow document rewritten)
+
+Executed the deletion that had been quarantined since 26 Sep, tidied the top level, and pushed the
+whole project to GitHub for the first time since 21 Sep.
+
+### 2.2 GB deleted, with the redundancy re-verified rather than trusted
+
+The quarantine README asserted that 30 files were byte-identical duplicates. **That assertion was
+re-checked by md5 at deletion time rather than taken on trust, and it was wrong for three of them**
+— not because they were unique, but because the earlier audit matched on basename while the
+surviving copy has a different filename:
+
+| Quarantined | Actual surviving copy |
+|---|---|
+| `artifacts/2Z5X.pdb` | `03_receptors/2Z5X/raw.pdb` |
+| `artifacts/7Q8Y.pdb` | `03_receptors/7Q8Y/raw.pdb` |
+| `artifacts/phase0_flavonoid_library.csv` | `00_library/flavonoid_library.csv` |
+
+All three were confirmed byte-identical before removal. The lesson is narrow but worth keeping: a
+same-basename search is not a duplicate check, and a previous session's verification is evidence,
+not proof.
+
+Removed in three groups:
+
+- **7 × `reference.frc`, 1.83 GB.** `MMPBSA.py` force dumps. The only mentions anywhere are
+  `.gitignore` and a note in `06_md/README.md` saying they are a byproduct; `run_mmgbsa.sh`
+  regenerates them.
+- **28 duplicates, ~11 MB.** Each re-hashed against its surviving copy immediately before removal.
+- **4 × RL checkpoints, 379 MB.** The one irreversible loss: stage-1 weights for generative
+  campaigns 1 and 2, held as two unique files plus two exact duplicates. Those campaigns can no
+  longer be resumed or re-sampled. Their CSVs, score plots and `.toml` configs remain, so they stay
+  documented; campaign 3, which produced `cand_003`, keeps `generation/rl_stage1_v3.chkpt`.
+
+Negative results were kept throughout — the dissociated MD runs, the failed campaign 1 outputs, the
+superseded free-conformer parameters, the 1 ns MM-GBSA estimate, and the off-pose −44.22
+trajectory. In this project those carry most of the findings.
+
+### The top level was the real problem, not the contents
+
+`_ARCHIVE_TO_DELETE/` and `_REVIEW_REQUIRED/` were both visible at the root of the repository, and
+their names announce unfinished business to anyone browsing it. Both removed. `provenance/` replaces
+them, holding the two original 17 Aug project plans (kept: they show the pipeline was specified
+before it was run), the deletion manifest, the relocation log and a README explaining what went and
+why. The three root-level queue logs moved to `06_md/queue_logs/` with a README, since they are the
+MD run record and belong beside the runs.
+
+Every documentation reference to the removed folders was updated and all links verified to resolve.
+
+### Pushed to GitHub, which required rewriting the unpushed history
+
+The branch had been unpushable since the 26th: eleven `reference.frc` blobs of 194–339 MB sat inside
+commits `0a758cb` and `74129f0`, over GitHub's 100 MB hard per-file limit, which is enforced against
+every blob in the pushed history. Deleting them in a later commit does not help.
+
+`git filter-branch --index-filter` over `origin/master..HEAD` stripped `*.frc` and `*.nc` from the
+five unpushed commits. Safe because nothing had been pushed, so no other history was affected. The
+correctness check was that **HEAD's tree hash came out byte-identical before and after**
+(`54d8330`) — which it must, since those patterns were already untracked at HEAD — with all five
+commit messages preserved. Upload fell from 4.46 GB to 478 MB. Pushed `a27a5d8..f913df9`.
+
+A `backup-before-strip` tag points at the pre-rewrite commit locally.
+
+### Workflow document rewritten as a single protocol
+
+`Complete_Workflow_Two_Person.md` → [`WORKFLOW.md`](WORKFLOW.md), restructured from parallel tracks
+into one continuous protocol. The document is now silent on personnel: it describes what the
+procedure is and why, not who performs it.
+
+Two substantive improvements while rewriting it:
+
+- **It now states that it is the plan, not the record.** The original read as a description of the
+  project, but execution diverged materially — 16 MD systems rather than 4, 10.1 ns at 300 K rather
+  than 3 × 20 ns at 310 K, three docked poses per target rather than replicates alone, FAD
+  restrained rather than covalently modelled. A divergence table sits at the top and names
+  `LOGBOOK.md` as primary wherever the two disagree. Left unmarked, the document would have
+  misdescribed the work.
+- **Part 6 no longer inlines script bodies.** It listed full source for six scripts that now exist
+  for real in `scripts/`. A second copy drifts from the first, and a reader following the stale copy
+  gets different numbers — the same failure the summary-CSV generator exists to prevent. Replaced
+  with a table pointing at the real files.
+
+It also absorbs the findings that postdate the original plan: the SEM's failure scaling with pose
+stability, never computing MM-GBSA off-pose, pose spread not substituting for replicate spread,
+absolute ΔG not comparing across proteins, the 0.861 kcal/mol calibration bias, and the operational
+traps (MGLTools' Python 2.7 first on PATH, OpenMM needing `conda run` for CUDA, `-sp` aborting
+against a stripped trajectory, no checkpointing in `run_md_restrained.py`).
+
+Files: `provenance/` (new: 2 plans, deletion manifest, relocation log, README),
+`06_md/queue_logs/` (new), `WORKFLOW.md` (new), `Complete_Workflow_Two_Person.md` (removed),
+`_ARCHIVE_TO_DELETE/` and `_REVIEW_REQUIRED/` (removed), `README.md`, `INVENTORY.md`,
+`00_library/README.md`, `.gitignore`. Commits `e2cc22d`, `461b6b0`, `f913df9`, `0b53435`, `a7044bc`.
