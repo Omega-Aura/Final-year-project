@@ -95,7 +95,7 @@ than softened. Four independent lines converge on it:
 | Evidence | Result |
 |---|---|
 | Docking, water-symmetric | TTBK2 favoured ~1.6 kcal/mol; 0/56 favourable to TTBK1 |
-| Protocol calibration (9IV) | 1.018 kcal/mol systematic bias toward TTBK2, against a measured ΔΔG of −0.234 |
+| Protocol calibration (9IV) | ~1.0 ± 0.25 kcal/mol systematic bias toward TTBK2; interpretability floor ~1.3 |
 | MD pose stability | no difference — 1/3 poses each under a symmetric test |
 | MM-GBSA | no resolvable difference (1.45 < 2.08 replicate spread) |
 
@@ -124,11 +124,13 @@ above are unchanged. **Write the two pairs separately — they now reach opposit
 Every row in [`../01_smiles/references.csv`](../01_smiles/references.csv) now carries a traced
 source; no `CONFIRM` markers remain. Three outcomes bear directly on the manuscript:
 
-1. **The calibration bias is 1.018 kcal/mol, not 0.861.** The 9IV pair had been mixing a
+1. **The calibration bias is ~1.0 ± 0.25 kcal/mol, not 0.861.** The 9IV pair had been mixing a
    cross-paper midpoint (TTBK1 430 nM) against a single-paper value (TTBK2 490 nM). Both numbers
    exist in one assay in Nozal et al. 2022 — 330 and 490 nM — giving an experimental ΔΔG of
    −0.234 kcal/mol and a larger protocol bias. **This strengthens §3.7**: the interpretability
-   floor rises to ~1.0 kcal/mol, so the TTBK2 margin is even more clearly inside the bias. Update
+   floor rises to ~1.3 kcal/mol (bias + 1 SD), so the TTBK2 margin is even more clearly inside
+   the bias. **Quote the bias as ~1.0, never 1.018** — its inputs are two unreplicated IC50s
+   and do not support three significant figures. Update
    every occurrence, and state that the pair is same-assay — that is what makes it a calibration.
 2. **Never quote DTQ's 240 nM as an IC50.** It is a *K*d from surface plasmon resonance. The
    enzymatic IC50 for the same compound is 4610 nM, 19× weaker.

@@ -50,7 +50,7 @@ Both values exist in one paper and one assay format: Nozal et al. 2022 report **
 enzyme with the RICDLHDDEEDEAMSITA substrate, curated as `ChEMBL5200069` whose SMILES matches the
 row exactly. Using the arm-symmetric pair moves the experimental ΔΔG from −0.077 to
 **−0.234 kcal/mol**, and therefore the protocol's systematic bias from 0.861 to
-**1.018 kcal/mol** — see [step 5](../05_validation/).
+**~1.0 ± 0.25 kcal/mol** — see [step 5](../05_validation/).
 
 **2. DTQ's 240 nM is a *K*d, not an IC50.** Xue et al. 2013 measured binding by surface plasmon
 resonance. RCSB 4BTK reports both a **Kd of 240 nM** and an **IC50 of 4610 nM** for the same

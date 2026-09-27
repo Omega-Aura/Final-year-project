@@ -61,7 +61,22 @@ both TTBK1 and TTBK2, so the docking ΔΔG can be compared directly against expe
 | Docking consensus, 7Q8Y (TTBK2) | −8.899 ± 0.022 |
 | **Docking margin** | **0.784 kcal/mol favouring TTBK2** |
 | **Experimental ΔΔG** | **−0.234 kcal/mol** (TTBK1 IC50 330 nM vs TTBK2 490 nM, same assay) |
-| **Systematic bias** | **1.018 kcal/mol** |
+| **Systematic bias** | **~1.0 ± 0.25 kcal/mol** (1.018; see the precision note below) |
+| **Interpretability floor** | **~1.3 kcal/mol** (bias + 1 SD) |
+
+**The precision note, because this number gates every selectivity claim in the study.** The bias
+is the difference between a docking margin and an experimental ΔΔG, and almost all of its
+uncertainty comes from the experimental side. The two IC50s are single values from one assay and
+**Nozal 2022 publishes no error on either**, so the ± 0.25 is an *assumed* 30% within-assay IC50
+precision propagated through the log — an assumption named as `IC50_REL_SD` in
+[`../scripts/calibration_9iv.py`](../scripts/calibration_9iv.py), not a measurement. That assumed
+term is **16× larger than the docking SEM**, so the calibration's precision is set by the
+literature value, not by the docking, and no amount of extra docking would tighten it.
+
+Consequently: **quote the bias as ~1.0, never as 1.018.** Two unreplicated IC50s do not support
+three significant figures, and a bare "1.018" would repeat exactly the error this project
+documents in [step 7](../07_mmgbsa/) — a precise-looking number with its real uncertainty
+unstated.
 
 ## Final result
 
@@ -70,16 +85,17 @@ both TTBK1 and TTBK2, so the docking ΔΔG can be compared directly against expe
 All six receptors pass redocking, four of them under 0.7 Å. The protocol reliably reproduces
 crystallographic poses, so pose-level conclusions rest on solid ground.
 
-The 9IV calibration tells a different story. Experiment says 9IV has **essentially no preference**
-between TTBK1 and TTBK2 (ΔΔG −0.234, a slight preference for TTBK1). The docking protocol
-reports a 0.784 kcal/mol preference for TTBK2 — a **1.018 kcal/mol systematic bias toward
-TTBK2** on a case
-where the true answer is known to be "no difference".
+The 9IV calibration tells a different story. Measured in one assay, 9IV slightly prefers
+**TTBK1** — IC50 330 nM against 490 nM for TTBK2, a ΔΔG of −0.234 kcal/mol. The docking protocol
+reports the opposite: a 0.784 kcal/mol preference for **TTBK2**. The protocol therefore carries a
+**~1.0 kcal/mol systematic bias toward TTBK2**, on a compound crystallised in both paralogs where
+the real difference is small and points the other way.
 
 This matters directly for the study's central claim. Any TTBK2-over-TTBK1 margin smaller than
-~1.0 kcal/mol is within the protocol's demonstrated bias and cannot be read as selectivity. The
-MAO benchmark in [`benchmark_mao.csv`](benchmark_mao.csv) plays the same role for the
-flavoenzymes.
+**~1.3 kcal/mol** — the bias plus its own uncertainty — is inside the protocol's demonstrated bias
+and cannot be read as selectivity. The water-symmetric margin of ~1.6 kcal/mol clears that floor
+only barely, and subtracting the bias leaves ~0.6. The MAO benchmark in
+[`benchmark_mao.csv`](benchmark_mao.csv) plays the same role for the flavoenzymes.
 
 ## Relevant files
 

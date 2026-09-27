@@ -126,9 +126,10 @@ Three independent lines say the original TTBK2 liability claim does not survive:
 
 - The +0.12 kcal/mol docking margin came from a receptor pair with **five waters in one site and
   none in the other**; run water-symmetrically, the margin *reverses* to favour TTBK2 by ~1.6.
-- The protocol carries a **1.018 kcal/mol systematic bias toward TTBK2** on the 9IV pair,
-  against a same-assay experimental ΔΔG of −0.234 kcal/mol. Any margin below ~1.0 is inside
-  the bias.
+- The protocol carries a **~1.0 ± 0.25 kcal/mol systematic bias toward TTBK2** on the 9IV pair,
+  against a same-assay experimental ΔΔG of −0.234 kcal/mol. Any margin below **~1.3** — the
+  bias plus its own uncertainty — is inside it. That uncertainty is 16× the docking SEM, so it
+  is set by the experimental reference, not by the docking.
 - MD and MM-GBSA find no resolvable difference.
 
 **The honest outcome is that dynamics lacks the resolution to speak on TTBK1 vs TTBK2 at all.**
@@ -182,7 +183,7 @@ This is the section to write the thesis and the manuscript Results from.
 | 5 | The compound favours MAO-B over MAO-A — the intended direction | **Supportable** | all 12 on-pose pairings agree; docking agrees independently |
 | 6 | …by about 2.55 kcal/mol | **Supportable, protocol-bound** | 9.8× the measured 0.24–0.26 replicate spread; both arms share the FAD restraint that damps it |
 | 7 | The compound is selective for TTBK1 over TTBK2 | **Not supportable** | 1.45 < 2.08 replicate spread; no pose-stability difference |
-| 8 | TTBK2 is an off-target liability for this series | **Docking only** | reverses under a symmetric water shell; inside the 1.018 protocol bias |
+| 8 | TTBK2 is an off-target liability for this series | **Docking only** | reverses under a symmetric water shell; inside the ~1.0 protocol bias |
 | 9 | The reported SEM is not a usable error bar, and its failure scales with pose instability | **Supportable, strongly** | 4 replicate pairs, ratio 2× to 33×, monotonic in ligand RMSD |
 | 10 | Absolute ΔG values are comparable between targets | **Not supportable** | protein-specific desolvation/surface terms do not cancel |
 

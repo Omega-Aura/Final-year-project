@@ -1,12 +1,18 @@
 {
   "margin_kcal_mol": 0.784,
   "margin_sem": 0.015,
+  "margin_sem_basis": "spread across 3 velocity seeds; seed noise only",
   "experimental_ddG_kcal_mol": -0.234,
+  "experimental_ddG_sd": 0.251,
   "experimental_ddG_range": [
-    -0.234,
-    -0.234
+    -0.486,
+    0.017
   ],
+  "experimental_ddG_basis": "TTBK1 330 nM vs TTBK2 490 nM, both single values from one assay in Nozal 2022 (PMID 34978799). The paper publishes no error on either, so the +/- is an ASSUMED 30% within-assay IC50 precision propagated through the log, not a measured uncertainty.",
   "systematic_bias_kcal_mol": 1.018,
+  "systematic_bias_sd": 0.252,
+  "systematic_bias_quote_as": "~1.0 kcal/mol",
+  "interpretability_floor_kcal_mol": 1.3,
   "per_receptor": {
     "7Q8V": {
       "protein": "TTBK1",

@@ -2905,3 +2905,58 @@ Sources consulted via PubMed: PMIDs 34978799, 24039150, 23631427, 18181565, 1791
 8687491, 29496172, 32583952. Curated cross-checks via ChEMBL (CHEMBL5200069, CHEMBL396778,
 CHEMBL972, CHEMBL887, CHEMBL8706, documents CHEMBL5154682/CHEMBL2380255/CHEMBL1141467) and
 BindingDB via RCSB annotations for 7Q8V, 7Q8Y, 4BTK and 2V5Z.
+
+## 2026-09-27 — G (the calibration bias had no error bar; fixed, and the interpretability floor rises to ~1.3)
+
+`05_validation/calibration_9IV_margin.json` was reporting
+`"experimental_ddG_range": [-0.234, -0.234]` — a range with identical endpoints. A defect I
+introduced in entry F: when the IC50 inputs were narrowed to a single arm-symmetric pair, the
+min/max machinery was left in place and produced a degenerate band.
+
+The cosmetic bug was hiding a real one. `bias = margin - mid` was being reported as **1.018 with
+no uncertainty whatsoever.** Three significant figures, no error bar, on the number that gates
+every TTBK1/TTBK2 selectivity claim in the project — which is precisely the failure this project
+documents in step 7 about the MM-GBSA SEM. The ±0.015 on the docking margin is seed noise; the
+experimental reference contributed nothing at all, because the two IC50s are single values and
+**Nozal 2022 publishes no error on either.**
+
+### The fix
+
+`IC50_REL_SD = 0.30` is now a named, documented assumption in `scripts/calibration_9iv.py` — a
+conventional within-assay precision for enzymatic IC50 replicates, which is the relevant scale
+since both values come from the same assay in the same paper. It propagates through the log and
+into the bias:
+
+| | Value |
+|---|---|
+| Docking margin | +0.784 ± 0.015 (seed noise only) |
+| Experimental ΔΔG | −0.234 ± 0.251 (**assumed** 30% IC50 precision, not measured) |
+| **Systematic bias** | **~1.0 ± 0.25 kcal/mol** |
+| **Interpretability floor** | **~1.3 kcal/mol** (bias + 1 SD) |
+
+**The assumed experimental term is 16× the docking SEM.** The calibration's precision is set by the
+literature value, not by the docking, so no amount of further docking would tighten it. That is
+worth stating plainly: the limit on this project's selectivity resolution is a published IC50 pair,
+not the compute.
+
+### What it changes
+
+The interpretability floor moves from ~1.0 to **~1.3 kcal/mol**, and this has one consequence that
+needed following up: **the ~1.6 kcal/mol water-symmetric margin clears the floor only barely**, and
+subtracting the bias leaves ~0.6. So the TTBK2-over-TTBK1 result remains uninterpretable as
+selectivity, now with a wider margin of safety rather than a narrower one. Recorded in
+`05_validation`, `04_docking`, `08_analysis` and `10_results`.
+
+Two wording errors fell out of the same review. `05_validation/README.md` said experiment shows
+"**essentially no preference**" and in the next clause "a slight preference for TTBK1" — a direct
+self-contradiction left by entry F's edit. It also still claimed "the true answer is known to be
+'no difference'". Both rewritten: the measured answer is a small preference for TTBK1, −0.234
+kcal/mol, and the protocol reports the opposite sign.
+
+**Quote the bias as ~1.0, never 1.018.** The docs now say so explicitly in three places, and the
+JSON carries `"systematic_bias_quote_as": "~1.0 kcal/mol"` plus an
+`experimental_ddG_basis` string spelling out that the ± is assumed rather than measured.
+
+Files: `scripts/calibration_9iv.py`, `05_validation/{README.md,calibration_9IV_margin.json}`,
+`01_smiles/README.md`, `04_docking/README.md`, `08_analysis/README.md`, `09_manuscript/README.md`,
+`10_results/README.md`, `README.md`, `WORKFLOW.md`.

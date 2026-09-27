@@ -80,20 +80,41 @@ margin_sem = float(np.hypot(sem["7Q8V"], sem["7Q8Y"]))
 
 # experimental ddG from the measured IC50s (TTBK1 minus TTBK2)
 mid = RT * np.log(IC50_NM["7Q8V"][0] / IC50_NM["7Q8Y"][0])
-lo = RT * np.log(IC50_NM["7Q8V"][1] / IC50_NM["7Q8Y"][2])
-hi = RT * np.log(IC50_NM["7Q8V"][2] / IC50_NM["7Q8Y"][1])
-exp_lo, exp_hi = min(lo, hi), max(lo, hi)
+
+# The two IC50s are single values from one assay and the paper publishes no error on either, so
+# the experimental ddG has no measured uncertainty. Reporting the bias as a bare "1.018" would
+# therefore put three significant figures on the number that gates every selectivity claim in
+# this project, with no error bar -- which is precisely the failure this project documents
+# elsewhere (see the SEM finding in 07_mmgbsa/README.md). Instead, propagate an EXPLICITLY
+# ASSUMED IC50 precision so the reader can see what the threshold actually rests on.
+#
+# IC50_REL_SD is an assumption, not a measurement. 0.30 is a conventional within-assay figure
+# for enzymatic IC50 replicates; both values here come from the same assay in the same paper, so
+# within-assay precision is the relevant scale rather than the larger inter-laboratory spread.
+# Change it and the band moves -- that is the point of having it named.
+IC50_REL_SD = 0.30
+
+# ddG = RT ln(A/B), so fractional errors on A and B add in quadrature through the log.
+exp_sd = RT * np.hypot(IC50_REL_SD, IC50_REL_SD)
+exp_lo, exp_hi = mid - exp_sd, mid + exp_sd
 
 bias = margin - mid  # what the protocol adds on top of the real difference
+# Dominated by the experimental term: the docking SEM is seed noise and ~17x smaller.
+bias_sd = float(np.hypot(margin_sem, exp_sd))
 
 print(df.to_string(index=False))
 print()
 print(summary.to_string(index=False))
 print()
-print(f"measured margin (7Q8V TTBK1 - 7Q8Y TTBK2) = {margin:+.3f} +/- {margin_sem:.3f} kcal/mol")
-print(f"experimental ddG from IC50                = {mid:+.3f} kcal/mol "
-      f"(range {exp_lo:+.3f} .. {exp_hi:+.3f})")
-print(f"systematic protocol bias                  = {bias:+.3f} kcal/mol")
+print(f"measured margin (7Q8V TTBK1 - 7Q8Y TTBK2) = {margin:+.3f} +/- {margin_sem:.3f} kcal/mol"
+      f"   (seed noise only)")
+print(f"experimental ddG from IC50                = {mid:+.3f} +/- {exp_sd:.3f} kcal/mol"
+      f"   (assumed {IC50_REL_SD:.0%} IC50 precision, NOT measured)")
+print(f"systematic protocol bias                  = {bias:+.3f} +/- {bias_sd:.3f} kcal/mol"
+      f"   -> quote as ~{bias:.1f}")
+print(f"  the bias uncertainty is {exp_sd / margin_sem:.0f}x the docking SEM, so it is set almost"
+      f" entirely by the\n  experimental reference, not by the docking. Margins below"
+      f" ~{bias + bias_sd:.1f} cannot be called selectivity.")
 print()
 if abs(margin) <= 2 * margin_sem or abs(bias) < 0.5:
     print("VERDICT: margin is not distinguishable from the near-zero experimental value.")
@@ -107,9 +128,19 @@ os.makedirs("05_validation", exist_ok=True)
 df.to_csv("05_validation/calibration_9IV.csv", index=False)
 json.dump({"margin_kcal_mol": round(float(margin), 3),
            "margin_sem": round(margin_sem, 3),
+           "margin_sem_basis": "spread across 3 velocity seeds; seed noise only",
            "experimental_ddG_kcal_mol": round(float(mid), 3),
+           "experimental_ddG_sd": round(float(exp_sd), 3),
            "experimental_ddG_range": [round(float(exp_lo), 3), round(float(exp_hi), 3)],
+           "experimental_ddG_basis": (
+               f"TTBK1 {IC50_NM['7Q8V'][0]:.0f} nM vs TTBK2 {IC50_NM['7Q8Y'][0]:.0f} nM, both "
+               "single values from one assay in Nozal 2022 (PMID 34978799). The paper publishes "
+               f"no error on either, so the +/- is an ASSUMED {IC50_REL_SD:.0%} within-assay IC50 "
+               "precision propagated through the log, not a measured uncertainty."),
            "systematic_bias_kcal_mol": round(float(bias), 3),
+           "systematic_bias_sd": round(bias_sd, 3),
+           "systematic_bias_quote_as": f"~{bias:.1f} kcal/mol",
+           "interpretability_floor_kcal_mol": round(float(bias + bias_sd), 1),
            "per_receptor": {r.receptor: {"protein": r.protein,
                                          "consensus": round(r.consensus, 3),
                                          "sd": round(r.sd, 3)}
