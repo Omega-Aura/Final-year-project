@@ -38,6 +38,7 @@ SEEDS="11 22 33"
 # arm 1 first: it is the one with the power to settle the question
 JOBS="
 7JXXdry:candidates_56
+2V5Zdry:candidates_56
 7JXXdry:references
 2V5Zdry:references
 2Z5Xdry:references

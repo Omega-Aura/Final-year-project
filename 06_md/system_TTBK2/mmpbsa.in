@@ -1,0 +1,8 @@
+Single trajectory GB MM-GBSA, cand_003 / TTBK2 (7Q8Y) -- protocol identical to the TTBK1 baseline
+&general
+  startframe=1, endframe=9999, interval=5,
+  verbose=2, keep_files=0,
+/
+&gb
+  igb=5, saltcon=0.150,
+/

@@ -1,0 +1,22 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+source leaprc.water.tip3p
+
+loadamberparams cand_003_AC.frcmod
+loadoff cand_003_AC.lib
+
+protein = loadpdb 7JXX_prot.pdb
+ligand = loadpdb cand_003_NEW.pdb
+
+complex = combine { protein ligand }
+
+solvateoct complex TIP3PBOX 10.0
+addIonsRand complex Na+ 0
+addIonsRand complex Cl- 0
+
+saveamberparm complex complex.prmtop complex.inpcrd
+saveamberparm protein protein_only.prmtop protein_only.inpcrd
+saveamberparm ligand ligand_only.prmtop ligand_only.inpcrd
+savepdb complex complex_dry_check.pdb
+
+quit

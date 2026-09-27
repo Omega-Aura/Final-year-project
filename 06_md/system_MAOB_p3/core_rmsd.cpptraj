@@ -1,0 +1,7 @@
+parm stripped.complex.prmtop
+trajin production_full_stripped.nc
+rms fitcore :1-496@CA,C,N out prot_core_rmsd.dat mass
+rms ligcore :MOL nofit out lig_corefit_rmsd.dat mass
+rms fadcore :FAD nofit out fad_corefit_rmsd.dat mass
+run
+quit

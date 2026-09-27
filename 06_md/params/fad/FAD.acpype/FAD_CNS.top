@@ -1,0 +1,618 @@
+Remarks FAD_CNS.top created by acpype (v: 2023.10.27) on Fri Sep 25 09:30:46 2026
+
+set echo=false end
+
+autogenerate angles=True dihedrals=True end
+
+{ atomType  mass }
+MASS p5_     30.970
+MASS o_      16.000
+MASS os_     16.000
+MASS c3_     12.010
+MASS c5_     12.010
+MASS oh_     16.000
+MASS na_     14.010
+MASS cc_     12.010
+MASS nd_     14.010
+MASS ca_     12.010
+MASS nv_     14.010
+MASS nb_     14.010
+MASS nc_     14.010
+MASS c_      12.010
+MASS ns_     14.010
+MASS cd_     12.010
+MASS h1_      1.008
+MASS ho_      1.008
+MASS h2_      1.008
+MASS h5_      1.008
+MASS hn_      1.008
+MASS ha_      1.008
+MASS hc_      1.008
+
+RESIdue MOL
+
+GROUP
+
+{ atomName  atomType  Charge }
+ATOM P1    TYPE= p5_   CHARGE=   1.6398 END
+ATOM O1    TYPE= o_    CHARGE=  -0.9035 END
+ATOM O2    TYPE= o_    CHARGE=  -0.9035 END
+ATOM O3    TYPE= os_   CHARGE=  -0.5902 END
+ATOM C1    TYPE= c3_   CHARGE=   0.1904 END
+ATOM C2    TYPE= c5_   CHARGE=   0.0861 END
+ATOM O4    TYPE= os_   CHARGE=  -0.4376 END
+ATOM C3    TYPE= c5_   CHARGE=   0.0931 END
+ATOM O5    TYPE= oh_   CHARGE=  -0.6138 END
+ATOM C4    TYPE= c5_   CHARGE=   0.0711 END
+ATOM O6    TYPE= oh_   CHARGE=  -0.5858 END
+ATOM C5    TYPE= c5_   CHARGE=   0.2178 END
+ATOM N1    TYPE= na_   CHARGE=  -0.2660 END
+ATOM C6    TYPE= cc_   CHARGE=   0.4627 END
+ATOM N2    TYPE= nd_   CHARGE=  -0.5811 END
+ATOM C7    TYPE= ca_   CHARGE=  -0.1952 END
+ATOM C8    TYPE= ca_   CHARGE=   0.7022 END
+ATOM N3    TYPE= nv_   CHARGE=  -0.9295 END
+ATOM N4    TYPE= nb_   CHARGE=  -0.7990 END
+ATOM C9    TYPE= ca_   CHARGE=   0.6469 END
+ATOM N5    TYPE= nb_   CHARGE=  -0.7220 END
+ATOM C10   TYPE= ca_   CHARGE=   0.4408 END
+ATOM N6    TYPE= nc_   CHARGE=  -0.4144 END
+ATOM C11   TYPE= c_    CHARGE=   0.8519 END
+ATOM O7    TYPE= o_    CHARGE=  -0.6235 END
+ATOM N7    TYPE= ns_   CHARGE=  -0.6235 END
+ATOM C12   TYPE= c_    CHARGE=   0.6140 END
+ATOM O8    TYPE= o_    CHARGE=  -0.6255 END
+ATOM C13   TYPE= cd_   CHARGE=   0.2678 END
+ATOM N8    TYPE= nc_   CHARGE=  -0.5270 END
+ATOM C14   TYPE= ca_   CHARGE=   0.2656 END
+ATOM C15   TYPE= ca_   CHARGE=  -0.1313 END
+ATOM C16   TYPE= ca_   CHARGE=  -0.1223 END
+ATOM C17   TYPE= c3_   CHARGE=  -0.0428 END
+ATOM C18   TYPE= ca_   CHARGE=  -0.0003 END
+ATOM C19   TYPE= c3_   CHARGE=  -0.0788 END
+ATOM C20   TYPE= ca_   CHARGE=  -0.1520 END
+ATOM C21   TYPE= ca_   CHARGE=   0.0094 END
+ATOM N9    TYPE= na_   CHARGE=  -0.0571 END
+ATOM C22   TYPE= cd_   CHARGE=   0.0874 END
+ATOM C23   TYPE= c3_   CHARGE=  -0.0267 END
+ATOM C24   TYPE= c3_   CHARGE=   0.1521 END
+ATOM O9    TYPE= oh_   CHARGE=  -0.6308 END
+ATOM C25   TYPE= c3_   CHARGE=   0.0901 END
+ATOM O10   TYPE= oh_   CHARGE=  -0.6388 END
+ATOM C26   TYPE= c3_   CHARGE=   0.0981 END
+ATOM O11   TYPE= oh_   CHARGE=  -0.6108 END
+ATOM C27   TYPE= c3_   CHARGE=   0.1654 END
+ATOM O12   TYPE= os_   CHARGE=  -0.5962 END
+ATOM P2    TYPE= p5_   CHARGE=   1.6018 END
+ATOM O13   TYPE= o_    CHARGE=  -0.8690 END
+ATOM O14   TYPE= o_    CHARGE=  -0.8690 END
+ATOM O15   TYPE= os_   CHARGE=  -0.8188 END
+ATOM H1    TYPE= h1_   CHARGE=   0.0477 END
+ATOM H2    TYPE= h1_   CHARGE=   0.0477 END
+ATOM H3    TYPE= h1_   CHARGE=   0.0657 END
+ATOM H4    TYPE= h1_   CHARGE=   0.1387 END
+ATOM H5    TYPE= ho_   CHARGE=   0.3930 END
+ATOM H6    TYPE= h1_   CHARGE=   0.1697 END
+ATOM H7    TYPE= ho_   CHARGE=   0.3980 END
+ATOM H8    TYPE= h2_   CHARGE=   0.0797 END
+ATOM H9    TYPE= h5_   CHARGE=   0.1768 END
+ATOM H10   TYPE= hn_   CHARGE=   0.4138 END
+ATOM H11   TYPE= hn_   CHARGE=   0.4138 END
+ATOM H12   TYPE= h5_   CHARGE=   0.0291 END
+ATOM H13   TYPE= hn_   CHARGE=   0.3275 END
+ATOM H14   TYPE= ha_   CHARGE=   0.1390 END
+ATOM H15   TYPE= hc_   CHARGE=   0.0380 END
+ATOM H16   TYPE= hc_   CHARGE=   0.0380 END
+ATOM H17   TYPE= hc_   CHARGE=   0.0380 END
+ATOM H18   TYPE= hc_   CHARGE=   0.0647 END
+ATOM H19   TYPE= hc_   CHARGE=   0.0647 END
+ATOM H20   TYPE= hc_   CHARGE=   0.0647 END
+ATOM H21   TYPE= ha_   CHARGE=   0.2460 END
+ATOM H22   TYPE= h1_   CHARGE=   0.1067 END
+ATOM H23   TYPE= h1_   CHARGE=   0.1067 END
+ATOM H24   TYPE= h1_   CHARGE=   0.0837 END
+ATOM H25   TYPE= ho_   CHARGE=   0.4560 END
+ATOM H26   TYPE= h1_   CHARGE=   0.0867 END
+ATOM H27   TYPE= ho_   CHARGE=   0.4620 END
+ATOM H28   TYPE= h1_   CHARGE=   0.0587 END
+ATOM H29   TYPE= ho_   CHARGE=   0.4220 END
+ATOM H30   TYPE= h1_   CHARGE=   0.0272 END
+ATOM H31   TYPE= h1_   CHARGE=   0.0272 END
+
+{ Bonds: atomName1  atomName2 }
+BOND C1    H1   
+BOND C1    H2   
+BOND C2    H3   
+BOND C3    H4   
+BOND O5    H5   
+BOND C4    H6   
+BOND O6    H7   
+BOND C5    H8   
+BOND C6    H9   
+BOND N3    H10  
+BOND N3    H11  
+BOND C9    H12  
+BOND N7    H13  
+BOND C15   H14  
+BOND C17   H15  
+BOND C17   H16  
+BOND C17   H17  
+BOND C19   H18  
+BOND C19   H19  
+BOND C19   H20  
+BOND C20   H21  
+BOND C23   H22  
+BOND C23   H23  
+BOND C24   H24  
+BOND O9    H25  
+BOND C25   H26  
+BOND O10   H27  
+BOND C26   H28  
+BOND O11   H29  
+BOND C27   H30  
+BOND C27   H31  
+BOND P1    O1   
+BOND P1    O2   
+BOND P1    O3   
+BOND P1    O15  
+BOND O3    C1   
+BOND C1    C2   
+BOND C2    O4   
+BOND C2    C3   
+BOND O4    C5   
+BOND C3    O5   
+BOND C3    C4   
+BOND C4    O6   
+BOND C4    C5   
+BOND C5    N1   
+BOND N1    C6   
+BOND N1    C10  
+BOND C6    N2   
+BOND N2    C7   
+BOND C7    C8   
+BOND C7    C10  
+BOND C8    N3   
+BOND C8    N4   
+BOND N4    C9   
+BOND C9    N5   
+BOND N5    C10  
+BOND N6    C11  
+BOND N6    C22  
+BOND C11   O7   
+BOND C11   N7   
+BOND N7    C12  
+BOND C12   O8   
+BOND C12   C13  
+BOND C13   N8   
+BOND C13   C22  
+BOND N8    C14  
+BOND C14   C15  
+BOND C14   C21  
+BOND C15   C16  
+BOND C16   C17  
+BOND C16   C18  
+BOND C18   C19  
+BOND C18   C20  
+BOND C20   C21  
+BOND C21   N9   
+BOND N9    C22  
+BOND N9    C23  
+BOND C23   C24  
+BOND C24   O9   
+BOND C24   C25  
+BOND C25   O10  
+BOND C25   C26  
+BOND C26   O11  
+BOND C26   C27  
+BOND C27   O12  
+BOND O12   P2   
+BOND P2    O13  
+BOND P2    O14  
+BOND P2    O15  
+
+{ Angles: atomName1 atomName2 atomName3}
+ANGLe O3    C1    H1   
+ANGLe O3    C1    H2   
+ANGLe C1    C2    H3   
+ANGLe C2    C1    H1   
+ANGLe C2    C1    H2   
+ANGLe C2    C3    H4   
+ANGLe O4    C2    H3   
+ANGLe O4    C5    H8   
+ANGLe C3    C2    H3   
+ANGLe C3    O5    H5   
+ANGLe C3    C4    H6   
+ANGLe O5    C3    H4   
+ANGLe C4    C3    H4   
+ANGLe C4    O6    H7   
+ANGLe C4    C5    H8   
+ANGLe O6    C4    H6   
+ANGLe C5    C4    H6   
+ANGLe N1    C5    H8   
+ANGLe N1    C6    H9   
+ANGLe N2    C6    H9   
+ANGLe C8    N3    H10  
+ANGLe C8    N3    H11  
+ANGLe N4    C9    H12  
+ANGLe N5    C9    H12  
+ANGLe C11   N7    H13  
+ANGLe C12   N7    H13  
+ANGLe C14   C15   H14  
+ANGLe C16   C15   H14  
+ANGLe C16   C17   H15  
+ANGLe C16   C17   H16  
+ANGLe C16   C17   H17  
+ANGLe C18   C19   H18  
+ANGLe C18   C19   H19  
+ANGLe C18   C19   H20  
+ANGLe C18   C20   H21  
+ANGLe C21   C20   H21  
+ANGLe N9    C23   H22  
+ANGLe N9    C23   H23  
+ANGLe C23   C24   H24  
+ANGLe C24   C23   H22  
+ANGLe C24   C23   H23  
+ANGLe C24   O9    H25  
+ANGLe C24   C25   H26  
+ANGLe O9    C24   H24  
+ANGLe C25   C24   H24  
+ANGLe C25   O10   H27  
+ANGLe C25   C26   H28  
+ANGLe O10   C25   H26  
+ANGLe C26   C25   H26  
+ANGLe C26   O11   H29  
+ANGLe C26   C27   H30  
+ANGLe C26   C27   H31  
+ANGLe O11   C26   H28  
+ANGLe C27   C26   H28  
+ANGLe O12   C27   H30  
+ANGLe O12   C27   H31  
+ANGLe H1    C1    H2   
+ANGLe H10   N3    H11  
+ANGLe H15   C17   H16  
+ANGLe H15   C17   H17  
+ANGLe H16   C17   H17  
+ANGLe H18   C19   H19  
+ANGLe H18   C19   H20  
+ANGLe H19   C19   H20  
+ANGLe H22   C23   H23  
+ANGLe H30   C27   H31  
+ANGLe P1    O3    C1   
+ANGLe P1    O15   P2   
+ANGLe O1    P1    O2   
+ANGLe O1    P1    O3   
+ANGLe O1    P1    O15  
+ANGLe O2    P1    O3   
+ANGLe O2    P1    O15  
+ANGLe O3    P1    O15  
+ANGLe O3    C1    C2   
+ANGLe C1    C2    O4   
+ANGLe C1    C2    C3   
+ANGLe C2    O4    C5   
+ANGLe C2    C3    O5   
+ANGLe C2    C3    C4   
+ANGLe O4    C2    C3   
+ANGLe O4    C5    C4   
+ANGLe O4    C5    N1   
+ANGLe C3    C4    O6   
+ANGLe C3    C4    C5   
+ANGLe O5    C3    C4   
+ANGLe C4    C5    N1   
+ANGLe O6    C4    C5   
+ANGLe C5    N1    C6   
+ANGLe C5    N1    C10  
+ANGLe N1    C6    N2   
+ANGLe N1    C10   C7   
+ANGLe N1    C10   N5   
+ANGLe C6    N1    C10  
+ANGLe C6    N2    C7   
+ANGLe N2    C7    C8   
+ANGLe N2    C7    C10  
+ANGLe C7    C8    N3   
+ANGLe C7    C8    N4   
+ANGLe C7    C10   N5   
+ANGLe C8    C7    C10  
+ANGLe C8    N4    C9   
+ANGLe N3    C8    N4   
+ANGLe N4    C9    N5   
+ANGLe C9    N5    C10  
+ANGLe N6    C11   O7   
+ANGLe N6    C11   N7   
+ANGLe N6    C22   N9   
+ANGLe N6    C22   C13  
+ANGLe C11   N6    C22  
+ANGLe C11   N7    C12  
+ANGLe O7    C11   N7   
+ANGLe N7    C12   O8   
+ANGLe N7    C12   C13  
+ANGLe C12   C13   N8   
+ANGLe C12   C13   C22  
+ANGLe O8    C12   C13  
+ANGLe C13   N8    C14  
+ANGLe C13   C22   N9   
+ANGLe N8    C13   C22  
+ANGLe N8    C14   C15  
+ANGLe N8    C14   C21  
+ANGLe C14   C15   C16  
+ANGLe C14   C21   C20  
+ANGLe C14   C21   N9   
+ANGLe C15   C14   C21  
+ANGLe C15   C16   C17  
+ANGLe C15   C16   C18  
+ANGLe C16   C18   C19  
+ANGLe C16   C18   C20  
+ANGLe C17   C16   C18  
+ANGLe C18   C20   C21  
+ANGLe C19   C18   C20  
+ANGLe C20   C21   N9   
+ANGLe C21   N9    C22  
+ANGLe C21   N9    C23  
+ANGLe N9    C23   C24  
+ANGLe C22   N9    C23  
+ANGLe C23   C24   O9   
+ANGLe C23   C24   C25  
+ANGLe C24   C25   O10  
+ANGLe C24   C25   C26  
+ANGLe O9    C24   C25  
+ANGLe C25   C26   O11  
+ANGLe C25   C26   C27  
+ANGLe O10   C25   C26  
+ANGLe C26   C27   O12  
+ANGLe O11   C26   C27  
+ANGLe C27   O12   P2   
+ANGLe O12   P2    O13  
+ANGLe O12   P2    O14  
+ANGLe O12   P2    O15  
+ANGLe O13   P2    O14  
+ANGLe O13   P2    O15  
+ANGLe O14   P2    O15  
+
+{ Proper Dihedrals: name1 name2 name3 name4 }
+DIHEdral P1    O3    C1    H1   
+DIHEdral P1    O3    C1    H2   
+DIHEdral O3    C1    C2    H3   
+DIHEdral C1    C2    C3    H4   
+DIHEdral C2    O4    C5    H8   
+DIHEdral C2    C3    O5    H5   
+DIHEdral C2    C3    C4    H6   
+DIHEdral O4    C2    C1    H1   
+DIHEdral O4    C2    C1    H2   
+DIHEdral O4    C2    C3    H4   
+DIHEdral O4    C5    C4    H6   
+DIHEdral C3    C2    C1    H1   
+DIHEdral C3    C2    C1    H2   
+DIHEdral C3    C4    O6    H7   
+DIHEdral C3    C4    C5    H8   
+DIHEdral O5    C3    C2    H3   
+DIHEdral O5    C3    C4    H6   
+DIHEdral C4    C3    C2    H3   
+DIHEdral C4    C3    O5    H5   
+DIHEdral O6    C4    C3    H4   
+DIHEdral O6    C4    C5    H8   
+DIHEdral C5    C4    C3    H4   
+DIHEdral C5    C4    O6    H7   
+DIHEdral C5    O4    C2    H3   
+DIHEdral C5    N1    C6    H9   
+DIHEdral N1    C5    C4    H6   
+DIHEdral C6    N1    C5    H8   
+DIHEdral C7    N2    C6    H9   
+DIHEdral C7    C8    N3    H10  
+DIHEdral C7    C8    N3    H11  
+DIHEdral C8    N4    C9    H12  
+DIHEdral N4    C8    N3    H10  
+DIHEdral N4    C8    N3    H11  
+DIHEdral C10   N5    C9    H12  
+DIHEdral C10   N1    C5    H8   
+DIHEdral C10   N1    C6    H9   
+DIHEdral N6    C11   N7    H13  
+DIHEdral O7    C11   N7    H13  
+DIHEdral O8    C12   N7    H13  
+DIHEdral C13   C12   N7    H13  
+DIHEdral N8    C14   C15   H14  
+DIHEdral C14   C21   C20   H21  
+DIHEdral C15   C16   C17   H15  
+DIHEdral C15   C16   C17   H16  
+DIHEdral C15   C16   C17   H17  
+DIHEdral C16   C18   C19   H18  
+DIHEdral C16   C18   C19   H19  
+DIHEdral C16   C18   C19   H20  
+DIHEdral C16   C18   C20   H21  
+DIHEdral C17   C16   C15   H14  
+DIHEdral C18   C16   C15   H14  
+DIHEdral C18   C16   C17   H15  
+DIHEdral C18   C16   C17   H16  
+DIHEdral C18   C16   C17   H17  
+DIHEdral C19   C18   C20   H21  
+DIHEdral C20   C18   C19   H18  
+DIHEdral C20   C18   C19   H19  
+DIHEdral C20   C18   C19   H20  
+DIHEdral C21   C14   C15   H14  
+DIHEdral C21   N9    C23   H22  
+DIHEdral C21   N9    C23   H23  
+DIHEdral N9    C21   C20   H21  
+DIHEdral N9    C23   C24   H24  
+DIHEdral C22   N9    C23   H22  
+DIHEdral C22   N9    C23   H23  
+DIHEdral C23   C24   O9    H25  
+DIHEdral C23   C24   C25   H26  
+DIHEdral C24   C25   O10   H27  
+DIHEdral C24   C25   C26   H28  
+DIHEdral O9    C24   C23   H22  
+DIHEdral O9    C24   C23   H23  
+DIHEdral O9    C24   C25   H26  
+DIHEdral C25   C24   C23   H22  
+DIHEdral C25   C24   C23   H23  
+DIHEdral C25   C24   O9    H25  
+DIHEdral C25   C26   O11   H29  
+DIHEdral C25   C26   C27   H30  
+DIHEdral C25   C26   C27   H31  
+DIHEdral O10   C25   C24   H24  
+DIHEdral O10   C25   C26   H28  
+DIHEdral C26   C25   C24   H24  
+DIHEdral C26   C25   O10   H27  
+DIHEdral O11   C26   C25   H26  
+DIHEdral O11   C26   C27   H30  
+DIHEdral O11   C26   C27   H31  
+DIHEdral C27   C26   C25   H26  
+DIHEdral C27   C26   O11   H29  
+DIHEdral O12   C27   C26   H28  
+DIHEdral P2    O12   C27   H30  
+DIHEdral P2    O12   C27   H31  
+DIHEdral H1    C1    C2    H3   
+DIHEdral H2    C1    C2    H3   
+DIHEdral H3    C2    C3    H4   
+DIHEdral H4    C3    O5    H5   
+DIHEdral H4    C3    C4    H6   
+DIHEdral H6    C4    O6    H7   
+DIHEdral H6    C4    C5    H8   
+DIHEdral H22   C23   C24   H24  
+DIHEdral H23   C23   C24   H24  
+DIHEdral H24   C24   O9    H25  
+DIHEdral H24   C24   C25   H26  
+DIHEdral H26   C25   O10   H27  
+DIHEdral H26   C25   C26   H28  
+DIHEdral H28   C26   O11   H29  
+DIHEdral H28   C26   C27   H30  
+DIHEdral H28   C26   C27   H31  
+DIHEdral P1    O3    C1    C2   
+DIHEdral P1    O15   P2    O12  
+DIHEdral P1    O15   P2    O13  
+DIHEdral P1    O15   P2    O14  
+DIHEdral O1    P1    O3    C1   
+DIHEdral O1    P1    O15   P2   
+DIHEdral O2    P1    O3    C1   
+DIHEdral O2    P1    O15   P2   
+DIHEdral O3    P1    O15   P2   
+DIHEdral O3    C1    C2    O4   
+DIHEdral O3    C1    C2    C3   
+DIHEdral O15   P1    O3    C1   
+DIHEdral C1    C2    O4    C5   
+DIHEdral C1    C2    C3    O5   
+DIHEdral C1    C2    C3    C4   
+DIHEdral C2    O4    C5    C4   
+DIHEdral C2    O4    C5    N1   
+DIHEdral C2    C3    C4    O6   
+DIHEdral C2    C3    C4    C5   
+DIHEdral O4    C2    C3    O5   
+DIHEdral O4    C2    C3    C4   
+DIHEdral O4    C5    C4    C3   
+DIHEdral O4    C5    C4    O6   
+DIHEdral O4    C5    N1    C6   
+DIHEdral O4    C5    N1    C10  
+DIHEdral C3    C2    O4    C5   
+DIHEdral C3    C4    C5    N1   
+DIHEdral O5    C3    C4    O6   
+DIHEdral O5    C3    C4    C5   
+DIHEdral C4    C5    N1    C6   
+DIHEdral C4    C5    N1    C10  
+DIHEdral O6    C4    C5    N1   
+DIHEdral C5    N1    C6    N2   
+DIHEdral C5    N1    C10   C7   
+DIHEdral C5    N1    C10   N5   
+DIHEdral N1    C6    N2    C7   
+DIHEdral N1    C10   C7    N2   
+DIHEdral N1    C10   C7    C8   
+DIHEdral N1    C10   N5    C9   
+DIHEdral C6    N1    C10   C7   
+DIHEdral C6    N1    C10   N5   
+DIHEdral C6    N2    C7    C8   
+DIHEdral C6    N2    C7    C10  
+DIHEdral N2    C6    N1    C10  
+DIHEdral N2    C7    C8    N3   
+DIHEdral N2    C7    C8    N4   
+DIHEdral N2    C7    C10   N5   
+DIHEdral C7    C8    N4    C9   
+DIHEdral C7    C10   N5    C9   
+DIHEdral C8    C7    C10   N5   
+DIHEdral C8    N4    C9    N5   
+DIHEdral N3    C8    C7    C10  
+DIHEdral N3    C8    N4    C9   
+DIHEdral N4    C8    C7    C10  
+DIHEdral N4    C9    N5    C10  
+DIHEdral N6    C11   N7    C12  
+DIHEdral N6    C22   N9    C21  
+DIHEdral N6    C22   N9    C23  
+DIHEdral N6    C22   C13   C12  
+DIHEdral N6    C22   C13   N8   
+DIHEdral C11   N6    C22   N9   
+DIHEdral C11   N6    C22   C13  
+DIHEdral C11   N7    C12   O8   
+DIHEdral C11   N7    C12   C13  
+DIHEdral O7    C11   N6    C22  
+DIHEdral O7    C11   N7    C12  
+DIHEdral N7    C11   N6    C22  
+DIHEdral N7    C12   C13   N8   
+DIHEdral N7    C12   C13   C22  
+DIHEdral C12   C13   N8    C14  
+DIHEdral C12   C13   C22   N9   
+DIHEdral O8    C12   C13   N8   
+DIHEdral O8    C12   C13   C22  
+DIHEdral C13   N8    C14   C15  
+DIHEdral C13   N8    C14   C21  
+DIHEdral C13   C22   N9    C21  
+DIHEdral C13   C22   N9    C23  
+DIHEdral N8    C13   C22   N9   
+DIHEdral N8    C14   C15   C16  
+DIHEdral N8    C14   C21   C20  
+DIHEdral N8    C14   C21   N9   
+DIHEdral C14   N8    C13   C22  
+DIHEdral C14   C15   C16   C17  
+DIHEdral C14   C15   C16   C18  
+DIHEdral C14   C21   C20   C18  
+DIHEdral C14   C21   N9    C22  
+DIHEdral C14   C21   N9    C23  
+DIHEdral C15   C14   C21   C20  
+DIHEdral C15   C14   C21   N9   
+DIHEdral C15   C16   C18   C19  
+DIHEdral C15   C16   C18   C20  
+DIHEdral C16   C15   C14   C21  
+DIHEdral C16   C18   C20   C21  
+DIHEdral C17   C16   C18   C19  
+DIHEdral C17   C16   C18   C20  
+DIHEdral C18   C20   C21   N9   
+DIHEdral C19   C18   C20   C21  
+DIHEdral C20   C21   N9    C22  
+DIHEdral C20   C21   N9    C23  
+DIHEdral C21   N9    C23   C24  
+DIHEdral N9    C23   C24   O9   
+DIHEdral N9    C23   C24   C25  
+DIHEdral C22   N9    C23   C24  
+DIHEdral C23   C24   C25   O10  
+DIHEdral C23   C24   C25   C26  
+DIHEdral C24   C25   C26   O11  
+DIHEdral C24   C25   C26   C27  
+DIHEdral O9    C24   C25   O10  
+DIHEdral O9    C24   C25   C26  
+DIHEdral C25   C26   C27   O12  
+DIHEdral O10   C25   C26   O11  
+DIHEdral O10   C25   C26   C27  
+DIHEdral C26   C27   O12   P2   
+DIHEdral O11   C26   C27   O12  
+DIHEdral C27   O12   P2    O13  
+DIHEdral C27   O12   P2    O14  
+DIHEdral C27   O12   P2    O15  
+
+{ Improper Dihedrals: aName1 aName2 aName3 aName4 }
+IMPRoper H9    N1    C6    N2   
+IMPRoper C8    H10   N3    H11  
+IMPRoper H12   N4    C9    N5   
+IMPRoper C11   C12   N7    H13  
+IMPRoper C14   C16   C15   H14  
+IMPRoper C18   C21   C20   H21  
+IMPRoper C5    C10   N1    C6   
+IMPRoper C8    C10   C7    N2   
+IMPRoper C7    N4    C8    N3   
+IMPRoper C7    N1    C10   N5   
+IMPRoper N6    N7    C11   O7   
+IMPRoper C13   N7    C12   O8   
+IMPRoper C12   C22   C13   N8   
+IMPRoper C15   C21   C14   N8   
+IMPRoper C15   C18   C16   C17  
+IMPRoper C19   C16   C18   C20  
+IMPRoper C14   C20   C21   N9   
+IMPRoper C23   C21   N9    C22  
+IMPRoper C13   N9    C22   N6   
+
+END {RESIdue MOL}
+
+set echo=true end

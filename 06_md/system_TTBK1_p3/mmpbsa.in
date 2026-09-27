@@ -1,0 +1,8 @@
+Single trajectory GB MM-GBSA, cand_003 / TTBK1 (7JXX) docked pose 3 -- protocol identical to the TTBK1 pose-1 baseline (igb=5, 0.15 M, every 5th frame)
+&general
+  startframe=1, endframe=9999, interval=5,
+  verbose=2, keep_files=0,
+/
+&gb
+  igb=5, saltcon=0.150,
+/

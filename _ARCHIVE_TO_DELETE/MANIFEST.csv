@@ -1,0 +1,41 @@
+original_path,archive_path,category,bytes,reason
+06_md\system\reference.frc,_ARCHIVE_TO_DELETE\06_md\system\reference.frc,INTERMEDIATE,305881840,MMPBSA.py forces dump; no script or result reads it; regenerated per run
+06_md\system_MAOA\reference.frc,_ARCHIVE_TO_DELETE\06_md\system_MAOA\reference.frc,INTERMEDIATE,355661812,MMPBSA.py forces dump; no script or result reads it; regenerated per run
+06_md\system_MAOB\reference.frc,_ARCHIVE_TO_DELETE\06_md\system_MAOB\reference.frc,INTERMEDIATE,345104636,MMPBSA.py forces dump; no script or result reads it; regenerated per run
+06_md\system_TTBK1_r2\reference.frc,_ARCHIVE_TO_DELETE\06_md\system_TTBK1_r2\reference.frc,INTERMEDIATE,203925174,MMPBSA.py forces dump; no script or result reads it; regenerated per run
+06_md\system_TTBK2\reference.frc,_ARCHIVE_TO_DELETE\06_md\system_TTBK2\reference.frc,INTERMEDIATE,206392400,MMPBSA.py forces dump; no script or result reads it; regenerated per run
+06_md\system_TTBK2_p2\reference.frc,_ARCHIVE_TO_DELETE\06_md\system_TTBK2_p2\reference.frc,INTERMEDIATE,206392400,MMPBSA.py forces dump; no script or result reads it; regenerated per run
+06_md\system_TTBK2m\reference.frc,_ARCHIVE_TO_DELETE\06_md\system_TTBK2m\reference.frc,INTERMEDIATE,206392400,MMPBSA.py forces dump; no script or result reads it; regenerated per run
+00_library\reinvent4_output\campaign1_first_failed\rl_stage1_chunk1.chkpt,_ARCHIVE_TO_DELETE\00_library\reinvent4_output\campaign1_first_failed\rl_stage1_chunk1.chkpt,OUTDATED,94764245,superseded RL campaign checkpoint; v3 is the campaign behind the final candidate set (generation/rl_stage1_v3.chkpt retained)
+00_library\reinvent4_output\campaign2_v2\rl_v2_stage1_chunk1.chkpt,_ARCHIVE_TO_DELETE\00_library\reinvent4_output\campaign2_v2\rl_v2_stage1_chunk1.chkpt,OUTDATED,94764325,superseded RL campaign checkpoint; v3 is the campaign behind the final candidate set (generation/rl_stage1_v3.chkpt retained)
+artifacts\2Z5X.pdb,_ARCHIVE_TO_DELETE\artifacts\2Z5X.pdb,DUPLICATE,410751,byte-identical to 03_receptors\2Z5X\raw.pdb (md5 5fb3443c928e)
+artifacts\7Q8Y.pdb,_ARCHIVE_TO_DELETE\artifacts\7Q8Y.pdb,DUPLICATE,905823,byte-identical to 03_receptors\7Q8Y\raw.pdb (md5 c2a8a42720c4)
+artifacts\flavonol_7deoxy_scaffold.smi,_ARCHIVE_TO_DELETE\artifacts\flavonol_7deoxy_scaffold.smi,DUPLICATE,48,byte-identical to 00_library\reinvent4_output\flavonol_7deoxy_scaffold.smi (md5 9d2028820d45)
+artifacts\manuscript_dualtarget_flavonol.docx,_ARCHIVE_TO_DELETE\artifacts\manuscript_dualtarget_flavonol.docx,DUPLICATE,2420589,byte-identical to 09_manuscript\manuscript_dualtarget_flavonol.docx (md5 27d1470d3a10)
+artifacts\manuscript_dualtarget_flavonol.html,_ARCHIVE_TO_DELETE\artifacts\manuscript_dualtarget_flavonol.html,DUPLICATE,3370398,byte-identical to 09_manuscript\manuscript_dualtarget_flavonol.html (md5 aa8eb8abb0b5)
+artifacts\manuscript_dualtarget_flavonol.md,_ARCHIVE_TO_DELETE\artifacts\manuscript_dualtarget_flavonol.md,DUPLICATE,31922,byte-identical to 09_manuscript\manuscript_dualtarget_flavonol.md (md5 70ea96efb39c)
+artifacts\manuscript_figures_tables_and_journals.md,_ARCHIVE_TO_DELETE\artifacts\manuscript_figures_tables_and_journals.md,DUPLICATE,7533,byte-identical to 09_manuscript\manuscript_figures_tables_and_journals.md (md5 3c0254ff0538)
+artifacts\pdbqt_utils.py,_ARCHIVE_TO_DELETE\artifacts\pdbqt_utils.py,DUPLICATE,4494,byte-identical to scripts\pdbqt_utils.py (md5 6849434ac40e)
+artifacts\phase0_flavonoid_library.csv,_ARCHIVE_TO_DELETE\artifacts\phase0_flavonoid_library.csv,DUPLICATE,7328,byte-identical to 00_library\flavonoid_library.csv (md5 37d8f9e8b8f4)
+artifacts\rl_chunk1_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_chunk1_1.csv,DUPLICATE,62537,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_chunk1_1.csv (md5 395a0ba09592)
+artifacts\rl_chunk2_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_chunk2_1.csv,DUPLICATE,52012,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_chunk2_1.csv (md5 dc2b44fb1068)
+artifacts\rl_chunk3_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_chunk3_1.csv,DUPLICATE,53896,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_chunk3_1.csv (md5 8c9f56426d23)
+artifacts\rl_chunk4_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_chunk4_1.csv,DUPLICATE,55648,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_chunk4_1.csv (md5 482f3b450d66)
+artifacts\rl_chunk5_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_chunk5_1.csv,DUPLICATE,55550,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_chunk5_1.csv (md5 00267a61c9f6)
+artifacts\rl_filtered_full.csv,_ARCHIVE_TO_DELETE\artifacts\rl_filtered_full.csv,DUPLICATE,111880,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_filtered_full.csv (md5 491de81129d7)
+artifacts\rl_full_run_combined.csv,_ARCHIVE_TO_DELETE\artifacts\rl_full_run_combined.csv,DUPLICATE,273903,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_full_run_combined.csv (md5 475e8b8d64fc)
+artifacts\rl_score_progression.png,_ARCHIVE_TO_DELETE\artifacts\rl_score_progression.png,DUPLICATE,86491,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_score_progression.png (md5 37091732b9be)
+artifacts\rl_stage1_chunk1.chkpt,_ARCHIVE_TO_DELETE\artifacts\rl_stage1_chunk1.chkpt,DUPLICATE,94764245,byte-identical to 00_library\reinvent4_output\campaign1_first_failed\rl_stage1_chunk1.chkpt (md5 6ba617507ced)
+artifacts\rl_staged_learning_v2.toml,_ARCHIVE_TO_DELETE\artifacts\rl_staged_learning_v2.toml,DUPLICATE,3329,byte-identical to 00_library\reinvent4_output\rl_staged_learning_v2.toml (md5 0d4bda794a7e)
+artifacts\rl_v2_chunk1_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_chunk1_1.csv,DUPLICATE,66247,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_chunk1_1.csv (md5 be057e935d11)
+artifacts\rl_v2_chunk2_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_chunk2_1.csv,DUPLICATE,55335,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_chunk2_1.csv (md5 08734e6efb47)
+artifacts\rl_v2_chunk3_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_chunk3_1.csv,DUPLICATE,55401,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_chunk3_1.csv (md5 ad1737780683)
+artifacts\rl_v2_chunk4_1.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_chunk4_1.csv,DUPLICATE,54061,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_chunk4_1.csv (md5 ecfd3056f7ee)
+artifacts\rl_v2_filtered_full.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_filtered_full.csv,DUPLICATE,64074,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_filtered_full.csv (md5 0ec7d8f5fdeb)
+artifacts\rl_v2_full_run_combined.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_full_run_combined.csv,DUPLICATE,229518,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_full_run_combined.csv (md5 6bab5c0f2467)
+artifacts\rl_v2_score_progression.png,_ARCHIVE_TO_DELETE\artifacts\rl_v2_score_progression.png,DUPLICATE,128200,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_score_progression.png (md5 b85726f758e1)
+artifacts\rl_v2_shortlist_56.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_shortlist_56.csv,DUPLICATE,11543,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_shortlist_56.csv (md5 7d69421c1e2c)
+artifacts\rl_v2_stage1_chunk1.chkpt,_ARCHIVE_TO_DELETE\artifacts\rl_v2_stage1_chunk1.chkpt,DUPLICATE,94764325,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_stage1_chunk1.chkpt (md5 6f3b35e006fa)
+artifacts\rl_v2_top20_shortlist.csv,_ARCHIVE_TO_DELETE\artifacts\rl_v2_top20_shortlist.csv,DUPLICATE,5038,byte-identical to 00_library\reinvent4_output\campaign2_v2\rl_v2_top20_shortlist.csv (md5 eff4e3cdda2b)
+artifacts\run_prolif_v2.py,_ARCHIVE_TO_DELETE\artifacts\run_prolif_v2.py,DUPLICATE,3350,byte-identical to scripts\run_prolif_v2.py (md5 f166797206f0)
+filtering\__pycache__\boiled_egg_coords.cpython-310.pyc,_ARCHIVE_TO_DELETE\filtering\__pycache__\boiled_egg_coords.cpython-310.pyc,INTERMEDIATE,7569,python bytecode cache; regenerated on import

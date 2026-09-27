@@ -1,0 +1,23 @@
+source leaprc.protein.ff14SB
+source leaprc.gaff2
+source leaprc.water.tip3p
+
+loadamberparams cand_003_AC.frcmod
+loadoff cand_003_AC.lib
+loadamberparams FAD_AC.frcmod
+loadoff FAD_AC.lib
+
+protein = loadpdb 2Z5X_prot.pdb
+cofactor = loadpdb FAD_NEW.pdb
+ligand = loadpdb cand_003_NEW.pdb
+
+complex = combine { protein cofactor ligand }
+
+solvateoct complex TIP3PBOX 10.0
+addIonsRand complex Na+ 0
+addIonsRand complex Cl- 0
+
+saveamberparm complex complex.prmtop complex.inpcrd
+savepdb complex complex_dry_check.pdb
+
+quit

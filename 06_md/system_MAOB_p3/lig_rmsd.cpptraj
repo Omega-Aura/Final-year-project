@@ -1,0 +1,16 @@
+parm stripped.complex.prmtop
+trajin production_full_stripped.nc
+# Fit on the FOLDED CORE only. MAO-A (2Z5X) carries a ~15-residue disordered C-terminal tail
+# with CA RMSF up to 8 A, which MAO-B (2V5Z) does not have. Fitting on all backbone lets that
+# tail drag the superposition and inflates the ligand RMSD measured in that frame -- it added
+# +0.64 A to MAO-A pose 2 and would have made an on-pose run (1.79 A) look borderline (2.43 A).
+# Residues 1-496 are core in both proteins, so this mask keeps the two arms comparable.
+rms fitcore :1-496@CA,C,N out prot_core_rmsd.dat mass
+rms ligcore :MOL nofit out lig_corefit_rmsd.dat mass
+rms fadcore :FAD nofit out fad_corefit_rmsd.dat mass
+# whole-protein fit kept alongside for continuity with the earlier runs
+rms fitall @CA,C,N out prot_rmsd.dat mass
+rms ligall :MOL nofit out lig_rmsd.dat mass
+rms fadall :FAD nofit out fad_rmsd.dat mass
+run
+quit

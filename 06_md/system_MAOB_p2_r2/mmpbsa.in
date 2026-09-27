@@ -1,0 +1,8 @@
+Single trajectory GB MM-GBSA, cand_003 / MAO-B (2V5Z) pose 2, VELOCITY REPLICATE (run 2) -- protocol byte-identical to run 1 (igb=5, 0.15 M, every 5th frame); the only difference between the two runs is the random velocity seed
+&general
+  startframe=1, endframe=9999, interval=5,
+  verbose=2, keep_files=0,
+/
+&gb
+  igb=5, saltcon=0.150,
+/

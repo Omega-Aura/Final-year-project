@@ -1,0 +1,6 @@
+parm stripped.complex.prmtop
+trajin production_full_stripped.nc
+rms fitprot @CA,C,N mass
+atomicfluct out rmsf_byres.dat @CA byres
+run
+quit

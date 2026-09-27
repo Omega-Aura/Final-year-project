@@ -1,0 +1,8 @@
+parm complex.prmtop
+trajin production.dcd
+
+autoimage
+strip :WAT,Na+,Cl- outprefix stripped
+trajout production_full_stripped.nc netcdf
+run
+quit

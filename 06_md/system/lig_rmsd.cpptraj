@@ -1,0 +1,6 @@
+parm stripped.complex.prmtop
+trajin production_full_stripped.nc
+rms fitprot @CA,C,N out prot_rmsd.dat mass
+rms ligrms :MOL nofit out lig_rmsd.dat mass
+run
+quit

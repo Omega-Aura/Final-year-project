@@ -1425,3 +1425,1139 @@ before the water treatment is settled would produce a number that cannot be inte
 current job is being allowed to finish because the references runs are the objective test —
 those 16 compounds have measured IC50s, so whether the wet receptors predict experiment better
 or worse than the dry ones can be measured rather than argued.
+
+**Amendment to the correction — the sign inversion is a 7JXX effect, not a universal one.**
+Replicating the same test on 2V5Z, whose A5 table also survives in `consensus_new.csv`:
+
+    receptor   score vs MW (old -> new)      delta vs TPSA    Spearman(old,new)   top-15
+    7JXX        -0.337  ->  +0.458  INVERTED   +0.792 ***          0.475            9/15
+    2V5Z        +0.271  ->  +0.566  same sign  +0.589 ***          0.748           11/15
+
+On 2V5Z the *old* receptor already scored larger ligands worse, which is chemically reasonable
+for MAO-B's narrow substrate cavity, so the waters strengthen an existing trend rather than
+reversing one. Presenting sign inversion as the general signature of the artifact was an
+overstatement; it is one receptor's symptom. What replicates across both proteins is the
+polarity penalty — delta vs TPSA positive and strongly significant in each — and that is the
+claim worth keeping. Magnitudes differ substantially: 7JXX is badly disturbed (sd 0.833, six of
+fifteen shortlist members change), 2V5Z much less (sd 0.463, mean delta -0.504, i.e. the waters
+slightly *improved* MAO-B scores on average).
+
+Also worth stating plainly: old-vs-new compares across a whole receptor regeneration, so it is
+not a clean measurement of the waters alone. The wet-vs-dry runs now in progress are the clean
+one — the dry receptors are the wet files with only the water atoms deleted, so nothing else
+can differ.
+
+## 2026-09-25 — A (water-shell test: the artifact is confirmed and fully attributed)
+
+Required set finished 03:02, all 12 runs clean, `08_analysis/consensus_week2.csv` written
+(165 rows, 3 seeds throughout). GATE 1 gap from earlier today also closed: **2V5Z redocks SAG
+at 0.66 A PASS** against the current receptor, so the "all six receptors" claim is now measured
+rather than asserted.
+
+**Arm 1 — candidates on 7JXX, wet vs dry.** Same receptor file, water atoms deleted, nothing
+else touched, so the waters are the only variable:
+
+    score vs MW      WET r = +0.458 (p=3.9e-04)      DRY r = -0.337 (p=1.1e-02)
+    score vs TPSA    WET r = +0.792 (p=3.7e-13)      DRY r = +0.049 (p=0.72, n.s.)
+    score vs Rings   WET r = +0.612 (p=5.4e-07)      DRY r = -0.287 (p=3.2e-02)
+
+Removing the waters **abolishes the polarity penalty entirely** — TPSA goes from the strongest
+correlate in the set to statistically indistinguishable from zero — and restores Vina's normal
+negative size bias. This is as clean as this kind of test gets.
+
+**The attribution is exact.** The dry receptor reproduces the pre-rebuild A5 table to
+**max |diff| = 0.0000 kcal/mol over all 56 candidates, Pearson r = 1.0000, top-15 overlap
+15/15**. cand_013 comes back at -8.826 and cand_003 at -8.385, the A5 values to three decimals.
+So every other element of this week's 7JXX rebuild — Meeko re-run, polymer/cofactor split —
+changed the scores by nothing whatsoever, and the 5 A water shell accounts for 100% of the
+difference between the A5 table and the new one. cand_013's -8.826 -> -5.785 collapse is
+entirely the waters. (It also confirms the pipeline is exactly reproducible given receptor,
+ligand and seed, which is worth knowing independently.)
+
+**Arm 2 — correlation with measured IC50. This one does NOT support removing the waters, and
+that has to be said rather than buried.**
+
+    MAO-B 2V5Z  n=3   safinamide  pIC50 8.12   wet -10.300  dry  -9.989
+                      lazabemide  pIC50 7.20   wet  -7.183  dry  -6.601
+                      isatin      pIC50 5.52   wet  -7.678  dry  -7.299
+    MAO-A 2Z5X  n=2   kaempferol  pIC50 6.15   wet  -8.362  dry  -8.952
+                      quercetin   pIC50 5.82   wet  -7.424  dry  -8.102
+    TTBK1 7JXX  n=1   9IV         pIC50 6.37   wet  -8.968  dry  -8.624
+
+    pooled   WET r = -0.627 (p=0.18)      DRY r = -0.410 (p=0.42)
+
+The wet receptors correlate *better* with experiment, not worse. With n=6 pooled across three
+different proteins, neither correlation is significant and the difference between them is
+meaningless — this arm cannot decide anything, exactly as predicted before it was run. It is
+recorded because it is evidence that points the other way, and the honest position is that the
+experimental data available cannot adjudicate this. Note in passing that the two flavonoids,
+the compounds most like the 56 candidates, are the two that score *better* dry.
+
+**Where this leaves the protocol.** What is established: the shell imposes a large,
+systematic, polarity-dependent penalty on non-native ligands, and it is the sole cause of the
+candidate ranking change. What is NOT established: that dry receptors predict experiment
+better. The case for a minimal-water protocol therefore rests on the mechanism and on GATE 1,
+not on arm 2:
+
+  - dry already passes GATE 1 on 7JXX (0.71), 4BTK (0.75) and 2V5Z (0.56) — the three
+    receptors that carry candidate scoring, so the shell buys nothing where it costs most;
+  - waters are load-bearing only on 7Q8V (4.21 -> 0.70, one bridging water) and 7Q8Y
+    (5.60 -> 1.45), both 9IV structures;
+  - the native-redock justification is circular for cross-docking, since the retained waters
+    are by construction the ones that coexist with the native ligand.
+
+Unresolved tension to settle before re-docking: rule 1.5 requires receptors whose scores are
+compared to be prepared identically, but TTBK1/TTBK2 selectivity compares 7JXX against 7Q8Y,
+and 7Q8Y genuinely needs water while 7JXX does not. Options are to run the paralog comparison
+on 7Q8V vs 7Q8Y (both minimal-water TTBK1/TTBK2) rather than 7JXX vs 7Q8Y, or to accept
+non-uniform preparation and state it. Not decided here.
+
+**Practical consequence worth flagging: if the dry protocol is adopted, the A5 candidate
+numbers for 7JXX are still valid** — they are bit-identical to the dry re-dock. It is the
+wet-receptor production run finished tonight that would be discarded, not the older work.
+Whether the same holds for 2V5Z is untested; its cofactor route also changed, and candidates
+were only re-docked there wet.
+
+Files: `scripts/run_water_test.sh`, `scripts/analyze_water_test.py`,
+`03_receptors/{7JXX,2V5Z,2Z5X}dry/`, `08_analysis/water_test_candidates.csv`,
+`08_analysis/water_test_references.csv`.
+
+### 2V5Z wet-vs-dry: the artifact is receptor-dependent, and MAO-B keeps a real polarity term
+
+The 2V5Z gap flagged earlier is now closed — candidates docked on 2V5Zdry (168 dockings), so
+both scoring receptors have a clean wet-vs-dry comparison with the waters as the only variable.
+
+                          7JXX                        2V5Z
+    dry vs A5       max|diff| 0.0000  r=1.0000   max|diff| 0.0867  r=0.9993
+    TPSA  wet            +0.792 ***                  +0.788 ***
+    TPSA  dry            +0.049  n.s.                +0.407  (p=0.0018)
+    MW    wet            +0.458                      +0.566
+    MW    dry            -0.337                      +0.270
+    delta(wet-dry)   mean -0.080  sd 0.833       mean -0.503  sd 0.460
+    delta vs TPSA        +0.792 ***                  +0.596 ***
+    Spearman(wet,dry)     0.475   top-15 9/15         0.749   top-15 10/15
+
+Two corrections to the earlier write-up follow from this.
+
+**1. The A5 tables are not universally recoverable.** 7JXX dry reproduces A5 exactly, but 2V5Z
+dry differs by up to 0.087 kcal/mol (r = 0.9993). That is the cofactor route change showing up
+precisely where it was predicted to — the ligand-route FAD carries net charge -2.002 against
+Meeko's -2.000 — and it is real, if tiny. So the earlier note that "the A5 candidate numbers
+are still valid if dry is adopted" holds for 7JXX only. 2V5Z would need regenerating either
+way, which the run just completed has already done.
+
+**2. The polarity penalty is not purely an artifact on every receptor.** On 7JXX removing the
+waters takes TPSA from the strongest correlate in the set to indistinguishable from zero — the
+whole correlation was the water shell. On 2V5Z it only falls from +0.788 to +0.407, and the dry
+value is still significant at p = 0.0018. The natural reading is that MAO-B's substrate cavity
+is genuinely hydrophobic, so a real chemical polarity term exists there and the waters add an
+artifact on top of it (delta vs TPSA +0.596). Saying flatly that "the waters cause the polarity
+penalty" was therefore too broad: it is true on TTBK1, and only partly true on MAO-B.
+
+2V5Z is also less disturbed overall — Spearman 0.749 against 7JXX's 0.475 — and the waters
+slightly *improve* its scores on average (mean delta -0.503). The severity of the artifact
+tracks how much dead volume the shell adds relative to the pocket, which matches the earlier
+geometric finding that 8 of 7JXX's 10 waters touch no ligand atom at all.
+
+### Minimal-water probe: the protocol is viable, and half of 7Q8Y's waters do nothing
+
+12 dockings, GATE 1 native redocking on reduced-water receptors:
+
+    7JXXdry  (0 waters)   0.71 A  PASS     matches the documented dry value exactly
+    2V5Zdry  (0 waters)   0.51 A  PASS     documented 0.56; shifted by the cofactor route
+    2Z5Xdry  (0 waters)   1.02 A  PASS     MAO-A with no waters -- never tested until now
+    7Q8Ybrg  (5 waters)   1.45 A  PASS     IDENTICAL to the all-10-water result
+
+The 7Q8Y line is the important one. Keeping only the five waters that bridge 9IV and protein
+reproduces the full-shell result to the digit, so **the five spectator waters contribute
+nothing to validation** — exactly what the geometric analysis predicted, now measured rather
+than inferred. 2Z5X passing dry at 1.02 A was the other unknown, and it removes the last
+obstacle: every receptor that carries candidate scoring can be run with no waters at all.
+
+Resulting protocol, uniform in procedure (start dry, add back only until the native redock
+passes) and minimal in occlusion:
+
+    7JXX  0 waters    4BTK  0 waters    2V5Z  0 waters    2Z5X  0 waters
+    7Q8V  1 water  (required: dry fails at 4.21 A)
+    7Q8Y  5 waters (bridging only; the other 5 are dead volume)
+
+Note this is not a claim that the retained waters are "right" in any absolute sense, only that
+each receptor now carries the minimum demonstrably needed to reproduce its own crystal pose,
+and that the four receptors doing the candidate scoring carry none. The residual asymmetry
+between 7JXX (0) and 7Q8Y (5) for the TTBK1/TTBK2 comparison is unavoidable — 7Q8Y genuinely
+needs those waters — and should be stated in Methods rather than engineered away. Running that
+comparison as 7Q8V (1) vs 7Q8Y (5) narrows the gap if a closer match is wanted.
+
+Also worth recording: 2V5Zdry redocks at 0.51 A against the documented 0.56 A for the old dry
+receptor, a difference in the same direction and of the same order as the 0.087 kcal/mol score
+shift, i.e. the cofactor route change is visible in pose as well as score and both are small.
+
+## 2026-09-25 — A (selectivity docking resumed; TTBK2 MD launched)
+
+Session restart note: the selectivity job survived the previous session's exit and was still
+docking (2Z5Xdry seed11, log written one second before the check). Deliberately NOT restarted —
+a second orchestrator on the same output directories would interleave writes. Left to run.
+
+**TTBK2 MD system built and launched**, the step the manuscript itself names as decisive
+(4.3: extend MM-GBSA to TTBK2 and MAO-A). 48,158 atoms, 14,438 waters, 11 Cl-, net charge
++0.002; the TTBK1 baseline for comparison is 40,146 atoms, 12 Cl-, -0.001. Same recipe
+(ff14SB/gaff2/tip3p, solvateoct 10 A), 0 tleap errors. 10 ns at 2 fs, ~2 h expected (TTBK1 ran
+at 168 ns/day; this system is ~20% larger). Runs on the GPU while docking continues on CPU, so
+the two do not compete.
+
+Two decisions worth recording:
+
+**Ligand parameters were reused, not regenerated.** The TTBK2 complex uses the *same*
+`cand_003_AC.lib`/`.frcmod` as TTBK1, with only the coordinates changed to the TTBK2 docked
+pose. Re-running acpype would have produced slightly different AM1-BCC charges, and then a
+delta-G difference between the two complexes could reflect re-parameterisation rather than the
+protein — fatal for a selectivity comparison, which is the entire purpose of the run.
+
+**The coordinate transfer was verified rather than assumed.** Atom order turned out to be
+identical across all four ligand files, but that was checked, not trusted. The first validation
+(full inter-atomic distance matrix, max 2.19 A) appeared to fail; inspecting the worst pairs
+showed they were all H...H and F...H, i.e. a CF3/hydroxyl torsion, with the mapping perfectly
+correct. Re-validated on 1-2 and 1-3 distances, which are fixed by covalent geometry and
+conformation-independent: **bonds agree to 0.068 A, angles to 0.057 A**. The original test was
+measuring the wrong thing for a molecule with a rotatable bond.
+
+**Preliminary and not to be quoted yet:** cand_003 docks to TTBK2 (7Q8Ybrg) at -8.089 against
+-8.385 on TTBK1, i.e. a *favourable* 0.30 kcal/mol on-target margin, where Table 3.7 currently
+reports +2.23 unfavourable. One compound, one seed, and the receptors differ in water content
+(0 vs 5). The 56 x 3 run in progress is what decides it — but the selectivity conclusion, which
+4.2 calls the dominant risk, may move.
+
+**MAO-A MD is the hard one and is not started.** FAD is absent from ff14SB/gaff2 and in MAO it
+is *covalently* bound through the 8alpha-S-cysteinyl linkage documented on 2026-09-24, so it
+needs a custom linked Cys-FAD residue rather than a stock parameter set. That is multi-day work
+with real failure risk against a 1.5-week deadline. Recommendation is to run TTBK2 now, and
+treat MAO-A MM-GBSA as declared future work unless time frees up.
+
+### MAO-A selectivity: the margin moves hugely, and 8 candidates do not dock at all
+
+First look at the MAO-B vs MAO-A margin on the corrected receptors gave **-3.89 kcal/mol with
+56/56 favourable**, against the +0.09 in manuscript Table 3.7. A uniform ~4 kcal/mol shift
+across every compound is the signature of a systematic receptor difference, so it was checked
+rather than reported.
+
+**Not the box.** Volumes and crowding are comparable: 2V5Zdry 6124 A^3 / 325 receptor atoms in
+box, 2Z5Xdry 5832 A^3 / 339 atoms.
+
+**It is the FAD.** Every MAO-A docking before 2026-09-24 ran in a pocket with no flavin at all.
+Deleting FAD from the current receptor (2Z5XnoFAD, 61 atoms removed) and re-docking reproduces
+the old regime:
+
+    cand_003   withFAD  -8.236    noFAD -11.38    FAD costs 3.14
+    cand_044   withFAD  -7.909    noFAD -11.41              3.50
+    cand_050   withFAD  -7.813    noFAD -11.36              3.55
+    cand_013   withFAD  -0.449    noFAD  -9.049             8.60
+
+So the shift is entirely the restored cofactor, and it is the quantitative confirmation of the
+prediction made on 2026-09-24 — harmine lost only 0.085 kcal/mol because it sits edge-on, while
+candidates stacking face-on against the flavin "stand to be affected far more". They lose ~3.5.
+
+**But cand_013's -0.449 is not a weak affinity, it is a failed docking**, and that had to be
+caught before any margin was quoted. Its mode table is:
+
+    mode 1  -0.449      mode 2  +0.708      mode 3  +1.363
+    mode 4 +12.99       mode 5  +45.17      (only 5 modes returned, not 9)
+
+Positive affinities are net repulsion: Vina never found a placeable pose. Across the set, 8 of
+56 candidates fail this way on 2Z5Xdry and **zero** fail on 2V5Zdry or 7JXXdry:
+
+    2Z5Xdry  median -7.41   8 failures: cand_013, 025, 056, 023, 029, 020, 032, 054
+    2V5Zdry  median -10.72  0 failures
+    7JXXdry  median -7.99   0 failures
+
+The eight are the largest compounds in the set (MW 420, 420, 380, 379, 365, 365, 351, 339),
+which is chemically coherent — MAO-A has a single smaller cavity where MAO-B has a bipartite
+one, and the flavin occupies part of it. `analyze_selectivity.py` now excludes any ligand whose
+best pose is worse than -5.0 kcal/mol from the margin statistics and reports it separately.
+Averaging a non-measurement into a delta-G would have manufactured selectivity out of a docking
+failure: it was that inclusion, not chemistry, that produced the initial -3.89.
+
+Handled honestly the result is arguably stronger, not weaker: 48 quantifiable candidates give a
+mean margin of **-3.28, favourable in 48/48**, and the remaining 8 are *sterically excluded*
+from MAO-A while binding MAO-B at -8.7 to -11.3. That is a qualitative selectivity statement,
+not a delta-G, and must be reported as such. Numbers are provisional until the 2Z5Xdry seed33
+run completes (52 ligands are still at fewer than 3 seeds).
+
+Files: `scripts/analyze_selectivity.py`, `03_receptors/2Z5XnoFAD/` (control receptor).
+
+### Selectivity margins on the corrected receptors — both Table 3.7 rows move, one is confounded
+
+2Z5Xdry and 7Q8Ybrg complete (168/168 each), 7Q8V still finishing.
+
+    row                manuscript 3.7          now
+    TTBK1 vs TTBK2     +2.23   0/15 fav        +0.12   25/56 fav  (shortlist -0.15, 12/15)
+    MAO-B vs MAO-A     +0.09   2/15 fav        -3.28   48/48 fav  + 8 sterically excluded
+
+**B4 cross-check settles its question, and the answer is negative.** Across the 56 candidates
+the 7Q8V-minus-7Q8Ybrg margin is **+0.100 +/- 0.323** (median +0.055, range -0.559..+0.916),
+with only 14/56 falling within +/-0.5 of the +0.784 measured on 9IV. The candidate margins
+cluster near zero, not near 9IV's value, so the offset is a property of **9IV specifically**
+and not of the TTBK1/TTBK2 receptor pair. It must not be applied as a blanket correction —
+which is exactly what the cross-check was designed to test, and it fails. (Provisional: 7Q8V is
+at fewer than 3 seeds until its last run lands.)
+
+**The MAO-A row is trustworthy; the TTBK2 row is not yet.** The MAO-B/MAO-A comparison is
+water-symmetric — both receptors carry zero waters — so the -3.28 reflects the restored flavin
+and genuine cavity differences, and its cause is independently confirmed by the 2Z5XnoFAD
+control.
+
+The TTBK1/TTBK2 comparison is **not** water-symmetric. The old +2.23 compared two water-free
+receptors; the new +0.12 compares 7JXXdry (**0** waters) against 7Q8Ybrg (**5** waters). Since
+waters were already shown to penalise these candidates by of order 1 kcal/mol, part or all of
+the apparent improvement could be the artifact operating in TTBK1's favour rather than real
+paralog selectivity. Reporting +0.12 as a chemistry result without testing this would repeat
+precisely the mistake made earlier today with cand_013.
+
+The clean comparison cannot simply be run: dry 7Q8Y fails GATE 1 at 5.60 A, so it is not a
+legitimate production receptor. It is still a valid *diagnostic*, and 7Q8Ydry has been built
+and queued to run after the selectivity job. Two readings will separate the causes:
+
+    7JXXdry vs 7Q8Ydry   both 0 waters -> water-symmetric margin. If this returns to ~+2.2,
+                         the entire improvement is the water artifact.
+    7Q8Ybrg vs 7Q8Ydry   same protein, 5 waters vs 0 -> the water cost on TTBK2 alone.
+
+One partial reassurance already in hand: two different TTBK1 receptors with different water
+counts give nearly the same margin against 7Q8Ybrg — 7JXXdry (0 waters) +0.12 and 7Q8V
+(1 water) +0.10 — so the result is at least not sensitive to the TTBK1 side of the pairing.
+
+If the diagnostic shows the improvement is genuine, manuscript 4.2 ("the selectivity liability
+is the dominant risk") no longer holds and the paper's central negative conclusion changes. If
+it shows the improvement is the water artifact, 4.2 stands and the corrected number must be
+reported with the asymmetry stated. Either way this is not a sentence to write before the
+diagnostic returns.
+
+### TTBK2 MM-GBSA — result obtained, then found to be parameter-confounded and rerun
+
+10 ns TTBK2 MD completed (10.1 ns, 301.2 K, 129 ns/day, 48,158 atoms). MM-GBSA first failed on
+my own error: the script passed `-sp complex.prmtop`, the *solvated* 48,158-atom topology,
+against an already-stripped 4,833-atom trajectory. `-sp` is only correct when the trajectory
+still contains solvent; here `-cp` (gb_complex, 4,833 atoms) already matches it. Fixed in
+`scripts/run_mmgbsa.sh` with the reason recorded; the strip and topology build had already
+succeeded so only the final step repeated.
+
+Result, identical protocol and frame count to the TTBK1 baseline (igb=5, saltcon=0.150,
+interval=5, 200.8 frames each):
+
+    TTBK1  cand_003   -31.3629   SD 3.8155   SEM 0.2698
+    TTBK2  cand_003   -29.7753   SD 2.3853   SEM 0.1687
+    ddG = -1.59 kcal/mol in favour of TTBK1 (on-target preferred)
+
+**This comparison is free of the docking water confound**, which is what makes it valuable:
+both complexes were built protein+ligand and then fully solvated in TIP3P, with zero crystal
+waters carried through (verified: 0 HOH lines in both `7JXX_prot.pdb` and `7Q8Y_prot.pdb`). So
+unlike the docking margin, it cannot be an artifact of the 0-vs-5 water asymmetry.
+
+**However the claim that the two complexes shared identical ligand parameters was wrong, and
+checking it is what caught the problem.** The `.lib` files differ:
+
+    06_md/params/docked/cand_003.acpype/cand_003_AC.lib   8a49b36b0f51  <- used by TTBK1
+    06_md/params/cand_003.acpype/cand_003_AC.lib          2de23f72608f  <- used by my TTBK2
+
+Same atom names and types (0 mismatches) but **charges differ by up to 0.063 e**, net -0.0010
+against +0.0020. The project holds two acpype runs for cand_003 and I took the wrong one. A
+0.063 e difference feeds directly into the EEL and EGB terms, and the effect is not obviously
+small next to a 1.59 kcal/mol delta — which is precisely the failure mode I set out to avoid
+when I chose to reuse parameters rather than regenerate them. The -1.59 therefore cannot be
+quoted as it stands.
+
+Rebuilt as `06_md/system_TTBK2m` with the lib matched to TTBK1 (md5 confirmed identical,
+tleap 0 errors) and the 10 ns MD relaunched on the idle GPU. The first run is kept rather than
+deleted: comparing the two gives a free measurement of how much a 0.063 e charge perturbation
+actually moves a single-trajectory GB MM-GBSA result, which is worth knowing in its own right.
+
+Standing caveats for whatever number the rerun gives: single-trajectory GB MM-GBSA carries no
+entropy term, the SEM assumes independent frames and so understates the true uncertainty on
+correlated MD, and this is one ligand with one replicate per target.
+
+### Diagnostic result: the TTBK2 "improvement" was the water artifact. Manuscript 4.2 stands.
+
+7Q8V and 7Q8Ydry both complete (168/168, 3 seeds throughout). The three-way comparison:
+
+    TTBK1 vs TTBK2, production   7JXXdry 0w vs 7Q8Ybrg 5w   +0.121   25/56 favourable
+    TTBK1 vs TTBK2, symmetric    7JXXdry 0w vs 7Q8Ydry  0w   +1.606    0/56 favourable
+    water cost on TTBK2 alone    7Q8Ybrg 5w vs 7Q8Ydry 0w    +1.486    0/56
+
+The production-to-symmetric difference is **-1.486**, matching the independently measured water
+cost on TTBK2 (**+1.486**) to three decimals. So essentially *all* of the apparent improvement
+from +2.23 to +0.12 is the 0-vs-5 water asymmetry penalising TTBK2, not paralog chemistry.
+Removing the confound restores an unfavourable margin with **0/56 candidates favourable** —
+the same qualitative conclusion as the published +2.23.
+
+**Manuscript 4.2 ("the selectivity liability is the dominant risk") therefore stands for the
+TTBK pair, and the earlier entry's speculation that it might not was wrong.** Writing +0.12 up
+as a chemistry result would have inverted the paper's central negative finding on the strength
+of an artifact I had already identified and documented hours earlier. The margin only looked
+good because the anti-target was carrying five waters the on-target was not.
+
+This leaves a genuine methodological bind that has to be stated rather than resolved by
+preference: the *validated* pairing (7Q8Ybrg passes GATE 1 at 1.45 A) is the confounded one,
+and the *unconfounded* pairing uses 7Q8Ydry, which fails GATE 1 at 5.60 A and so cannot carry a
+production number. Neither is clean. The defensible report is both, with the artifact named.
+
+**The MAO row is unaffected by any of this and is the one solid new result.** 2V5Zdry and
+2Z5Xdry both carry zero waters, so that comparison is water-symmetric by construction, and both
+pass GATE 1 (0.51 A and 1.02 A). Final numbers, all 3 seeds:
+
+    MAO-B vs MAO-A   -3.28   favourable 48/48   plus 8 candidates with no viable MAO-A pose
+                             (shortlist -3.21, 13/13)
+
+versus +0.09 and 2/15 in Table 3.7. The cause is established independently: the old MAO-A
+receptor had no flavin, and the 2Z5XnoFAD control reproduces the old regime (~3.5 kcal/mol).
+
+**B4 cross-check, final:** +0.101 +/- 0.322, median +0.061, 15/56 within +/-0.5 of 9IV's
++0.784. The offset is a property of 9IV, not of the receptor pair; do not apply it as a blanket
+correction.
+
+**Open tension for the write-up:** docking (water-symmetric) says TTBK2 is preferred by
+~1.6 kcal/mol, while MM-GBSA on cand_003 says TTBK1 is preferred by 1.59. The MM-GBSA
+comparison is water-symmetric by construction and uses a better energy model, but it is one
+ligand, one replicate, no entropy term, and currently being rerun with corrected ligand
+charges. The two methods disagreeing in sign is itself a reportable result and is exactly the
+test 4.3 proposed; it should not be resolved by picking the more convenient one.
+
+### The TTBK2 MM-GBSA numbers are not binding free energies — the ligand leaves the site
+
+Rerunning TTBK2 with ligand parameters matched to TTBK1 gave -22.88 against the first run's
+-29.78. A **6.9 kcal/mol** swing from a charge perturbation of at most 0.063 e is not credible
+as a parameter effect, so it was checked rather than reported, and the checking overturned the
+whole comparison.
+
+Ligand heavy-atom RMSD to the starting pose, protein-fitted, over 1000 frames:
+
+    TTBK1               mean 1.68 A   max 2.51   last-100 mean 1.88    stays bound
+    TTBK2 run 1         mean 1.86 A   max 4.63   last-100 mean 3.72    drifts
+    TTBK2 run 2         mean 4.48 A   max 7.78   last-100 mean 5.69    leaves the site
+
+Protein CA RMSD is 1.59-1.73 A in every case, so the simulations are sound; it is the ligand
+that moves. The 6.9 kcal/mol difference between the two TTBK2 runs is therefore sampling — how
+far cand_003 had dissociated by the end — not the charges I rebuilt the system for. The
+parameter mismatch was real and worth fixing, but it was not the cause.
+
+**Consequences, in order of importance.**
+
+1. **No MM-GBSA delta-G for TTBK2 can be quoted.** Those averages are taken over a trajectory
+   in which the ligand is leaving the pocket, so they are not binding free energies of a
+   complex. The earlier ddG of -1.59 must be withdrawn, and the -22.88 must not replace it.
+   Any TTBK1-vs-TTBK2 MM-GBSA number in the write-up would be meaningless.
+
+2. **The qualitative result is strong and reproducible, and it favours TTBK1.** cand_003 holds
+   its docked pose in TTBK1 for 10 ns and dissociates from TTBK2 in **both** independent
+   replicates, built from different parameter sets and different random velocities. Two
+   replicates agreeing is worth more here than either delta-G was.
+
+3. **Docking and MD now disagree about TTBK2 in an informative way.** Water-symmetric docking
+   scores TTBK2 *better* than TTBK1 by ~1.6 kcal/mol, yet the pose that score describes is not
+   stable for 10 ns. A good score attached to an unstable pose is a recognised docking failure
+   mode, and it is a more interesting finding than either number alone. It also means the
+   Table 3.7 TTBK2 liability, which rests entirely on docking scores, is not corroborated by
+   dynamics.
+
+**What cannot be concluded.** That cand_003 does not bind TTBK2. Dissociation in 10 ns from a
+docked starting pose is equally consistent with the *pose* being wrong rather than the binding
+being absent, and 7Q8Ybrg's own GATE 1 is the weakest in the set at 1.45 A. Distinguishing the
+two needs either longer sampling, multiple replicates from different starting poses, or a
+method that does not depend on one pose. That is a genuine limitation, not a formality.
+
+Files: `06_md/system_TTBK2m/` (matched-parameter rerun), `lig_rmsd.dat`/`prot_rmsd.dat` in each
+system directory.
+
+## 2026-09-25 — A (replicate MD set; MAO-A cofactor parameterisation started in parallel)
+
+**Priority chosen: replicate the MD, not extend it.** The only new MD finding — cand_003 stable
+in TTBK1, dissociating from TTBK2 — rests on two TTBK2 runs that started from the *same* docked
+pose, against a *single* TTBK1 run. Dissociation from one pose is as consistent with a bad pose
+as with weak binding, and one TTBK1 trajectory cannot establish that its stability is
+reproducible. Three runs fix both gaps, ~6 h unattended on an otherwise idle GPU:
+
+    system_TTBK2_p2   TTBK2 from docked pose 2   (-7.921, 4.50 A from pose 1)
+    system_TTBK2_p3   TTBK2 from docked pose 3   (-7.419, 5.06 A from pose 1)
+    system_TTBK1_r2   TTBK1, same pose, fresh velocities
+
+Poses 2 and 3 are genuinely independent starting points, not perturbations: 4.5-5.1 A from pose
+1 with comparable scores. All three built with the **docked** acpype parameters, matching the
+TTBK1 baseline — the mismatch found earlier today is not repeated, and the coordinate transfer
+now validates at 0.001 A on bonds and angles (against 0.068 A before) because the template and
+the docking prep finally come from the same acpype run. tleap: 0 errors on both new systems.
+
+**MAO-A started in parallel on the CPU, by the cheaper route.** The GPU is committed for ~6 h
+and FAD parameterisation is CPU work, so the two do not compete. Rather than building a custom
+covalent Cys-FAD residue — the multi-day, high-failure-risk path I advised against with a
+deadline this close — FAD is being parameterised as its **own GAFF2 residue** with AM1-BCC
+charges at net charge -2 (84 atoms, from the project's existing `cofactor_FAD.sdf`, which
+already carries correct bond orders from the RCSB ideal-chemistry route), to be held by
+positional restraints during MD.
+
+This is an approximation and must be labelled as one: the 8alpha-S-cysteinyl bond is not
+modelled, so FAD is present as a rigid pocket wall rather than a covalently tethered cofactor.
+For a single-trajectory MM-GBSA of the *ligand's* binding energy that is defensible — what
+matters is that the flavin occupies its crystallographic position and forms the cavity wall,
+which is precisely what its absence got wrong before 2026-09-24 — but it is not a substitute
+for proper covalent parameterisation and the manuscript must say so. If the charges or the
+restrained geometry do not validate cleanly, the fallback remains declaring MAO-A MM-GBSA as
+future work.
+
+### MAO-A system built — FAD parameterises cleanly, which was the main risk
+
+The cheaper MAO-A route worked, and the step that could have sunk it did not:
+
+    FAD GAFF2/AM1-BCC   84 atoms   net charge -1.9980 (target -2)   12 min
+    parmchk2 ATTN (guessed) parameters: 0
+
+**Zero guessed parameters** is the result that matters. parmchk2 found complete GAFF2 coverage
+for every bond, angle and dihedral in FAD, so none of the flavin's internal geometry rests on
+an interpolated guess. Had that come back with a long ATTN list the whole approach would have
+been abandoned, since guessed parameters on the cofactor forming the cavity wall would be
+worse than no MAO-A run at all.
+
+System: **118,896 atoms**, net charge +0.001, FAD 84 atoms, ligand 35, 36,859 waters, tleap 0
+errors. Protein plus FAD is charge-neutral so no counter-ions were required. It is 2.5x the
+TTBK2 system, so ~5 h for 10 ns rather than ~2 h.
+
+One collision caught during the build: acpype names its output residue `MOL`, the same name
+cand_003 already uses. Two residues sharing a name would have confused tleap and, worse, would
+have made the later `ante-MMPBSA -n :MOL` ligand selection silently ambiguous between the
+ligand and an 84-atom cofactor. Renamed to `FAD` in both the lib and the PDB before building.
+
+**The approximation, stated plainly.** FAD is a free GAFF2 residue held by positional restraints
+(10 kcal/mol/A^2 on heavy atoms, `06_md/run_md_restrained.py`), not the covalently bound
+8alpha-S-cysteinyl cofactor it is in reality. Consequences: the flavin cannot relax in response
+to the ligand, so induced fit involving it is suppressed, and the cofactor's own dynamics are
+absent. What it does buy is the cavity wall in its crystallographic position, which is the
+thing whose absence made every pre-2026-09-24 MAO-A number wrong. For a single-trajectory
+MM-GBSA of the *ligand's* binding energy this is defensible — FAD sits on both sides of the
+complex-minus-receptor subtraction and its internal energy cancels — but it is not equivalent
+to proper covalent parameterisation, and the manuscript must say so rather than imply a full
+cofactor treatment.
+
+Queued behind the replicate set: the chain polls for the replicates' completion marker and only
+then takes the GPU, so the two never contend.
+
+### Replicates overturn the dissociation claim: it was pose-dependent, not a TTBK2 property
+
+Two of three replicates complete. Ligand heavy-atom RMSD to the starting pose:
+
+    TTBK1  rep 1  (pose 1)   mean 1.68   max 2.51   last-100  1.88    stable
+    TTBK1  rep 2  (pose 1)   mean 1.56   max 2.40   last-100  1.38    stable
+    TTBK2  run 1  (pose 1)   mean 1.86   max 4.63   last-100  3.72    drifts
+    TTBK2  run 2  (pose 1)   mean 4.48   max 7.78   last-100  5.69    leaves site
+    TTBK2  pose 2            mean 2.33   max 4.21   last-100  1.99    STABLE
+
+**TTBK1 stability replicates cleanly** — two independent trajectories, last-100-frame RMSD 1.88
+and 1.38 A. That part of the earlier entry holds.
+
+**The TTBK2 dissociation does not.** Started from docked pose 2, cand_003 settles at 1.99 A,
+essentially as stable as TTBK1. So the earlier statement that cand_003 "dissociates from TTBK2
+in both independent replicates" was wrong in its implication: both of those replicates began
+from the *same* pose 1, so they were never independent in the way that mattered. Two runs
+agreeing told us only that pose 1 is unstable, not that TTBK2 binding is.
+
+The corrected reading is narrower and more interesting: **the top-scoring docked pose in TTBK2
+is unstable, while a lower-scoring alternative pose is stable.** Pose 1 scores -8.089 and falls
+apart; pose 2 scores -7.921, only 0.17 kcal/mol worse, and holds. That is a statement about the
+docking, not about the protein — Vina's ranking picked the pose that dynamics rejects. It also
+retrospectively explains the 6.9 kcal/mol spread between the two pose-1 runs: both were
+sampling a dissociating ligand, so neither number meant anything.
+
+Consequences:
+
+  - The qualitative selectivity claim drawn from MD — cand_003 stable in TTBK1, not in TTBK2 —
+    is **withdrawn**. There is a stable TTBK2 complex; docking just did not rank it first.
+  - Pose 2's trajectory has the ligand bound throughout, so it yields a *legitimate* MM-GBSA
+    delta-G, unlike either pose-1 run. Running it now, together with TTBK1 rep 2, which gives
+    the TTBK1 side a replicate rather than a single value to compare against.
+  - Whatever comes back must be read against TTBK1's own run-to-run spread, which rep 2 will
+    finally make measurable. A ddG smaller than that spread means nothing.
+
+Pose 3 still running; it will show whether pose 2's stability or pose 1's instability is the
+outlier.
+
+### MM-GBSA cannot resolve TTBK1 from TTBK2 — and the SEM would have said otherwise
+
+All 10 ns runs, same protocol, 200.8 frames each:
+
+    TTBK1  rep 1   (pose 1, stable)     -31.3629   SD 3.8155   SEM 0.2698
+    TTBK1  rep 2   (pose 1, stable)     -33.4396   SD 2.6330   SEM 0.1862
+    TTBK2  pose 2  (stable)             -30.9513   SD 3.8096   SEM 0.2694
+    TTBK2  pose 1 run 1  (drifting)     -29.7753   -- excluded, ligand not bound
+    TTBK2  pose 1 run 2  (dissociated)  -22.8840   -- excluded, ligand not bound
+
+Only the three stable trajectories carry meaning. Against them:
+
+    TTBK1 mean            -32.40
+    TTBK1 replicate spread  2.08 kcal/mol   (-31.36 vs -33.44)
+    TTBK2 pose 2          -30.95
+    ddG (TTBK1 - TTBK2)    -1.45
+
+**The apparent TTBK1 preference is smaller than TTBK1's own run-to-run variation.** Two
+trajectories of the *same complex*, differing only in random velocities, disagree by 2.08
+kcal/mol — more than the 1.45 separating the two proteins. MM-GBSA at this sampling therefore
+cannot resolve a TTBK1/TTBK2 difference, and no selectivity conclusion can be drawn from it in
+either direction.
+
+**The reported SEMs would have said the opposite, and that is the methodological point worth
+recording.** They run 0.17-0.27 kcal/mol, which would make -1.45 look overwhelming — roughly
+five sigma. The true replicate-to-replicate uncertainty is about **10x larger** than the SEM,
+because MMPBSA.py computes the SEM as if 200 frames sampled 10 ps apart were independent draws,
+which they are not. Quoting the SEM as an error bar on a ddG is the single easiest way to
+manufacture a significant selectivity result from this pipeline, and without the second TTBK1
+replicate that is exactly what would have happened here. The replicate spread, not the SEM, is
+the error bar.
+
+Running the second TTBK1 replicate was therefore not redundant: it is the only reason the
+uncertainty is known at all. One replicate per target would have produced a confident,
+publishable, wrong number.
+
+**Net position on TTBK1 vs TTBK2 after all of today's work:**
+
+    docking, water-symmetric   TTBK2 favoured by ~1.6 kcal/mol, 0/56 candidates favourable
+    docking, validated pair    +0.12, but confounded by a 0-vs-5 water asymmetry
+    MD pose stability          no difference -- both proteins hold the ligand, given a good pose
+    MM-GBSA                    no resolvable difference (1.45 < 2.08 replicate spread)
+
+The manuscript's Table 3.7 TTBK2 liability rests on docking scores. Dynamics neither confirms
+nor refutes it; it simply lacks the resolution to speak, and saying so is the honest outcome.
+
+### Third TTBK2 pose dissociates — and a design asymmetry that has to be fixed before comparing
+
+    TTBK2  pose 1 run 1   last-100 3.72 A   drifts
+    TTBK2  pose 1 run 2   last-100 5.69 A   leaves
+    TTBK2  pose 2         last-100 1.99 A   STABLE
+    TTBK2  pose 3         last-100 5.79 A   leaves
+
+So TTBK2 holds cand_003 in **1 of 3** docked poses. No MM-GBSA was run on pose 3: a
+dissociating trajectory yields no meaningful delta-G, and averaging one would repeat the error
+already made with the pose-1 runs.
+
+**The comparison as it stands is not valid, and the flaw is in the experimental design rather
+than the result.** TTBK2 was tested from three different docked poses; TTBK1 was tested from
+pose 1 only, twice. "TTBK2 fails in 2/3 poses while TTBK1 holds in 2/2 runs" therefore compares
+two different experiments: one probes pose sensitivity, the other probes velocity sensitivity.
+TTBK1 might well lose its ligand from poses 2 and 3 too — that has simply never been tested,
+and asserting a difference without testing it would be the same shape of error as the water
+asymmetry earlier today.
+
+TTBK1 poses 2 and 3 built (-8.118 and -8.066, 5.48 and 3.97 A from pose 1; tleap 0 errors,
+40,185 and 40,191 atoms, both neutral with 12 Cl-) and queued behind MAO-A, which now holds the
+GPU. That gives 3 poses per protein under one protocol and makes the pose test symmetric.
+
+Only then can the question "does cand_003 form a stable complex with TTBK1 more reliably than
+with TTBK2?" actually be answered. If TTBK1 also holds in only 1 of 3 poses, there is no
+stability difference and the MD contributes nothing to the selectivity question beyond what
+MM-GBSA already showed (no resolvable difference). If TTBK1 holds in 3 of 3, the asymmetry is
+real and reportable as a qualitative result.
+
+### MAO-A MD: the FAD approximation works, but the result cannot support a selectivity claim
+
+10 ns, 118,896 atoms, 61.8 ns/day on the RTX 4050.
+
+    FAD      mean 0.46 A   max 0.76   last-100 0.48    restraints held
+    protein  mean 1.76 A   max 3.14   last-100 1.79    stable
+    ligand   mean 3.57 A   max 5.34   last-100 3.24    moved off the docked pose
+    MM-GBSA  DELTA TOTAL -44.2194   SD 3.1486   SEM 0.2226
+
+**The cofactor scheme did its job.** FAD stayed within 0.5 A of its crystallographic position
+throughout, so the flavin wall of the cavity was present and rigid exactly as intended, and the
+84-atom GAFF2 residue with zero guessed parameters behaved stably in a 10 ns simulation. That
+part of the approach is validated.
+
+**The -44.22 is not usable as a selectivity number, for two independent reasons.**
+
+1. **There is no MAO-B counterpart.** MM-GBSA absolute values are not comparable between
+   different proteins — they carry protein-specific desolvation and surface terms that do not
+   cancel across systems. A MAO-B vs MAO-A ddG requires cand_003 simulated in 2V5Z under the
+   identical restrained-FAD protocol. Only MAO-A was built. Quoting -44.22 against TTBK1's -31
+   would compare a kinase to a flavoenzyme and mean nothing.
+2. **The ligand left its docked pose.** last-100 RMSD 3.24 A, against 1.38-1.99 A in the runs
+   that held. It has not dissociated the way TTBK2 poses 1 and 3 did (5.7-5.8 A), but the
+   structure the energy describes is not the structure that was docked, so the number cannot be
+   attached to the docking result it was meant to test.
+
+Note also that a *more* favourable MAO-A binding energy would, if taken at face value, point
+the opposite way to the docking margin of -3.28 favouring MAO-B. That tension is not resolvable
+from one unpaired run, and it would be wrong to present either number as corroborating the
+other.
+
+What the MAO-A work has established is narrower and still worth having: FAD can be parameterised
+and restrained well enough to run stable MD of a MAO complex, which removes the blocker that
+made MAO-A MM-GBSA look like multi-day work. The energetics need the MAO-B partner run before
+they say anything. 2V5Z also contains FAD, so it takes the same treatment and roughly the same
+5 h.
+
+### MAO-B partner run built and queued; RDKit blocked mid-session and was routed around
+
+MAO-B (2V5Z) built to pair with MAO-A: 90,129 atoms, net charge +0.001, FAD 84 atoms, tleap
+0 errors. **The FAD lib and frcmod are the same files used for MAO-A** — only the coordinates
+change, to 2V5Z's own crystallographic flavin — so the two MAO systems differ in protein and
+ligand pose alone and not in cofactor parameterisation. That is the same discipline the
+cand_003 charge mismatch earlier today showed to be necessary, applied pre-emptively this time.
+
+**RDKit stopped loading partway through the build:** `DLL load failed while importing
+rdmolfiles: An Application Control policy has blocked this file`. It had worked all day; this
+is a Windows policy change, not a code fault. Rather than wait on it, the coordinate-transfer
+step was rewritten to parse SDF V2000 directly (`mkligpdb2.py`) — the format is a fixed-width
+counts line, atom block and bond block, so nothing was lost and the pipeline no longer depends
+on RDKit for this step.
+
+**The validator then flagged the FAD transfer, correctly, and the flag turned out to be a false
+positive worth understanding.** Bonds differed by up to 0.305 A and angles 0.361 A, against
+thresholds of 0.15/0.20. Checking instead of overriding: the two FAD files have **identical
+element sequences and identical bond tables** (84 atoms, 89 bonds), because both were produced
+by the same `prep_cofactor.py` RCSB ideal-chemistry route, so atom correspondence is guaranteed
+by construction. The deviation is real crystallographic difference between two independently
+refined copies of the cofactor — precisely the phenomenon recorded on 2026-09-24, where the
+Cys-FAD bond refines to 2.31 A in 2V5Z and 1.65 A in 2Z5X. The thresholds were calibrated for
+same-source transfers (ligand pose onto its own acpype template, which validates at 0.001 A)
+and are simply wrong for a cross-crystal one. Now parameterised rather than hard-coded, with
+the reasoning recorded in the script.
+
+Queue: TTBK1 pose 2 (running) -> TTBK1 pose 3 -> MAO-B MD + MM-GBSA.
+
+## 2026-09-26 — A (post-restart recovery: the symmetric pose test resolves, and it is a null)
+
+**The machine restarted overnight under the MD load; no simulation was lost.** All three queued
+production runs had already completed before the restart — TTBK1 pose 2 (10.1 ns, 156 ns/day),
+TTBK1 pose 3 (10.1 ns, 177 ns/day) and MAO-B (10.1 ns, 81.4 ns/day) each reached step 5,050,000
+with stable temperature (~300 K) and potential energy. Only the post-processing was interrupted,
+which is minutes of work rather than hours. Recovered by re-running `cpptraj` strip + RMSD on
+the two TTBK1 poses and the RMSD analysis on MAO-B; MAO-B's MM-GBSA had already landed at 06:34.
+
+### TTBK1 holds cand_003 in 1 of 3 poses — exactly as TTBK2 does
+
+With poses 2 and 3 now analysed, the pose test is symmetric for the first time: three docked
+poses per protein, one protocol, 10.1 ns each.
+
+    TTBK1  pose 1 run 1   last-100 1.88 A   STABLE
+    TTBK1  pose 1 run 2   last-100 1.38 A   STABLE
+    TTBK1  pose 2         last-100 4.18 A   drifts
+    TTBK1  pose 3         last-100 3.42 A   drifts
+
+    TTBK2  pose 1 run 1   last-100 3.72 A   drifts
+    TTBK2  pose 1 run 2   last-100 5.69 A   leaves
+    TTBK2  pose 2         last-100 1.99 A   STABLE
+    TTBK2  pose 3         last-100 5.79 A   leaves
+
+**1 of 3 for TTBK1, 1 of 3 for TTBK2. There is no pose-stability difference between the two
+proteins.** Protein backbones were stable throughout in every run (1.48-1.81 A), so the ligand
+motion is ligand motion and not a collapsing binding site.
+
+This is the null outcome anticipated when the asymmetry was spotted, and it retires the
+apparent result that preceded it. "TTBK2 fails in 2/3 poses while TTBK1 holds in 2/2 runs" was
+**entirely an artifact of the experimental design**: TTBK2 had been probed across three poses
+while TTBK1 had been probed across two velocity seeds of a single pose. Comparing a pose scan
+against a replicate scan produced a difference that does not exist. Had the TTBK1 poses never
+been run, that artifact would have gone into the manuscript as a qualitative selectivity
+finding — the same failure mode as the water asymmetry on 2026-09-25 and the SEM-as-error-bar
+trap, now three times in one week from the same root cause: an asymmetry between the two arms
+of a comparison.
+
+Which pose survives differs between the proteins (TTBK1 pose 1, TTBK2 pose 2), but that is not
+a selectivity signal. It says the docking pose ranking does not predict which pose is
+dynamically stable, and it says so for both proteins equally.
+
+**No MM-GBSA was run on TTBK1 poses 2 or 3**, on the same grounds that TTBK2 pose 3 was skipped:
+a trajectory that has left the docked pose yields an energy for a structure that was never
+docked. Averaging those would repeat the error already made with the TTBK2 pose-1 runs.
+
+**Net position on TTBK1 vs TTBK2, final for Week 2:**
+
+    docking, water-symmetric   TTBK2 favoured by ~1.6 kcal/mol, 0/56 candidates favourable
+    docking, validated pair    +0.12, confounded by a 0-vs-5 water asymmetry
+    MD pose stability          NO difference -- 1/3 poses each, under a symmetric test
+    MM-GBSA                    no resolvable difference (1.45 < 2.08 replicate spread)
+
+Dynamics does not speak to the Table 3.7 TTBK2 liability in either direction. That claim rests
+on docking scores alone, and the MD contributes nothing further to it.
+
+### MAO-B completes the FAD pair; the cofactor scheme validates twice, the energetics still do not
+
+    FAD      mean 0.45 A   max 0.75   last-100 0.46    restraints held
+    protein  mean 1.12 A   max 1.58   last-100 1.32    stable
+    ligand   mean 1.95 A   max 3.75   last-100 2.28    HELD the docked pose
+    MM-GBSA  DELTA TOTAL -39.4802   SD 2.1998   SEM 0.1556
+
+**The FAD approach reproduced on a second, independently refined flavin** (0.46 A here vs 0.48 A
+for MAO-A), using the same lib and frcmod with only coordinates changed. The cofactor
+parameterisation is now validated on both MAO structures.
+
+**The MAO-A/MAO-B pair still cannot carry a selectivity claim, for a new reason on top of the
+old one.** MAO-A -44.22 vs MAO-B -39.48 is a 4.74 kcal/mol margin favouring MAO-A, but:
+
+1. **The pair is asymmetric in pose stability** — MAO-B held at 2.28 A while MAO-A drifted to
+   3.24 A. The more favourable of the two numbers is the one describing a structure that is not
+   the docked pose, so part of that margin is MAO-A relaxing elsewhere rather than binding
+   better. A like-for-like ddG needs both arms on-pose, and only one is.
+2. **It contradicts the docking.** Docking favoured MAO-B by -3.28; MM-GBSA now favours MAO-A by
+   +4.74. Opposite signs, one replicate each. Against the known ~2.08 kcal/mol replicate spread
+   the margin is not negligible, but a single replicate per target cannot settle a sign
+   disagreement, and presenting either number as corroborating the other would be wrong.
+
+Resolving this needs a MAO-A replicate from a pose that holds, not more targets.
+
+**Provenance defect fixed.** `06_md/system_TTBK1_p2/mmpbsa.in` and `p3/mmpbsa.in` were copied
+from the TTBK2 directory and their header lines still read `cand_003 / TTBK2 (7Q8Y)`. The systems
+are correctly built on 7JXX (`build.leap` loads `7JXX_prot.pdb`) and the numerical settings were
+identical, so no computed result was affected — but that line prints into the results file, and a
+results file that misreports its own target is exactly the kind of thing that survives into a
+manuscript. Corrected to name TTBK1 and the pose.
+
+Files: `06_md/system_TTBK1_p2/{production_full_stripped.nc,stripped.complex.prmtop,lig_rmsd.dat,
+prot_rmsd.dat}` (new), same for `system_TTBK1_p3` (new), `06_md/system_MAOB/{lig,prot,fad}_rmsd.dat`
+(new), `06_md/system_TTBK1_{p2,p3}/mmpbsa.in` (header corrected).
+
+**Queue is empty.** Every MD system built this week has run and been analysed. The open
+scientific item is a MAO-A replicate from an on-pose start, which is the only remaining way to
+make the MAO ddG interpretable.
+
+## 2026-09-26 — A (workspace restructure and cleanup, pass 1: inventory, quarantine, documentation)
+
+Restructured the workspace for the final analysis and proposal, following an
+inventory → classify → dependency-check → archive → restructure → verify sequence. **Nothing was
+permanently deleted.** Two findings during the dependency check changed the plan materially, and
+both are worth recording because in each case the obvious action would have been the wrong one.
+
+### The numbered directories turned out to be load-bearing, so they were not renamed
+
+The intent was to regroup files into per-analysis-step folders. A dependency scan first found the
+step directories hardcoded in **16+ places** across `scripts/` and `generation/` —
+`03_receptors/`, `01_smiles/`, `04_docking/`, `02_ligands/pdbqt/`, `06_md/system/`,
+`05_validation/`, `08_analysis/`, `00_library/reinvent4_output/campaign2_v2/`. Renaming any of
+them would have broken every driver script for no scientific gain.
+
+The existing `00_`–`09_` layout *is already* the workflow order. What was missing was not
+structure but documentation. So the restructure adds a layer in place: a `README.md` per step
+answering what / why / reference / inputs / analysis / result / files, plus a root `README.md`
+workflow index and `INVENTORY.md` carrying the classification. 16 step READMEs, 241 internal
+links, all verified to resolve.
+
+### `artifacts/` was not a duplicate mirror — it was the project's missing rationale trail
+
+`artifacts/` (202 MB) looked like a staging mirror: its two 95 MB RL checkpoints and the
+manuscript files were byte-identical to copies in `00_library/` and `09_manuscript/`. Deleting it
+would have been defensible from filenames alone.
+
+Hashing every file instead showed **144 of its 174 files were unique**, including the entire
+`phase0`–`phase8` report series this logbook cites constantly, the only copies of the earlier
+receptor set (`4NFM`, `6U0K`, `2V60`), and the prior-phase MM-GBSA results. The phase reports are
+the "why" documentation for the first half of the project; nothing else records it.
+
+Its 30 verified duplicates were quarantined and its 144 unique files distributed into the
+workflow step each belongs to, under `<step>/prior_phase/`. `artifacts/` no longer exists.
+`prior_phase/` is a subfolder rather than a merge into each step root **because the two passes
+used different receptor structures** — pooling `4NFM` results with `7JXX` results in one directory
+is the same shape of error as the water asymmetry and the pose/replicate asymmetry.
+
+This is the third time on this project that checking rather than assuming has overturned the
+obvious call, and the second time that the thing about to be discarded was load-bearing.
+
+### Quarantined: 2.2 GB, all of it verified byproduct
+
+`_ARCHIVE_TO_DELETE/` mirrors the original tree and carries a `MANIFEST.csv` with the original
+path, category, size and reason per file, so anything can be restored.
+
+    reference.frc x7        1.83 GB   MMPBSA.py forces dump
+    artifacts/ duplicates    198 MB   md5-identical to a copy that stays live
+    2 RL checkpoints + dups  379 MB   superseded campaigns; v3 checkpoint retained
+    __pycache__                8 KB   bytecode
+
+`reference.frc` is worth a note on how it was identified as a byproduct rather than assumed to be
+one: nothing in the repo references `.frc`; it exists in exactly the 7 system directories where
+MM-GBSA ran and in none of the 3 where it did not; and each file's mtime matches its own
+`mmgbsa_results.dat` to the minute. It is regenerated on any re-run.
+
+### What was kept against a "minimal workspace" reading
+
+The brief asked to remove outdated, duplicate and intermediate files. Several items qualify on
+their face and were kept because a conclusion depends on them:
+
+- **The dissociated and drifted MD runs** (`system_TTBK2m`, `system_TTBK2_p3`,
+  `system_TTBK1_p2`, `system_TTBK1_p3`). The headline result — 1 of 3 poses stable on each kinase,
+  therefore no stability difference — exists *only* because these failures were run and retained.
+  Deleting "failed runs" would have deleted the finding.
+- **`campaign1_first_failed/`** outputs: a docking-only reward yielding zero BBB-passing molecules
+  is what justifies the BBB-aware reward in the final campaign.
+- **`params/cand_003.acpype/`** (free-conformer, superseded) so the charge-mismatch incident stays
+  demonstrable against the docked-pose set actually used.
+- **`04_docking/*dry*`, `*noFAD*`, `*brg*`** — not redundant receptor variants but the controls
+  that quantified the water artifact and the cofactor dependency.
+- **All 6.75 GB of raw `production*.dcd`** and the `REINVENT4/` clone, by explicit decision.
+
+### New: a collected results table
+
+`07_mmgbsa/md_mmgbsa_summary.csv` now holds all ten MD systems in one table — target, structure,
+starting pose, frame count, ligand/protein/FAD RMSD (mean, max, last-100), pose verdict, and
+ΔG/SD/SEM — generated directly from the primary `.dat` files so it cannot drift from what was
+computed. Regenerating it reproduced the 2.08 kcal/mol TTBK1 replicate spread from primary data
+and surfaced the TTBK2 pose-1 spread at **6.90 kcal/mol** against quoted SEMs of 0.17 and 0.21, a
+40x discrepancy and the starkest illustration yet that the SEM is not the error bar.
+
+### Manuscript claims now out of date
+
+Recorded in `09_manuscript/README.md` rather than acted on, since revising them is science not
+cleanup. §3.5 ("Both complexes are stable over 20 ns") rests on the prior-phase apo-structure MD
+and must be rewritten — stability is pose-dependent, 1 of 3 either side. §3.6's MAO-B preference
+cannot be sourced to an MM-GBSA magnitude comparison, which points the other way and is unusable.
+§3.7 (the series does not discriminate either target from its paralog) is the one claim that came
+out of this week **stronger** than it went in, now supported by four independent lines.
+
+Also flagged: several `source` fields in `01_smiles/references.csv` still read "CONFIRM primary
+source before submission", and safinamide is not the same molecule as the PDB ligand `SAG`.
+
+### Verification
+
+241 documentation links resolve; every concrete path referenced by a script still exists (the one
+miss, `generation/rl_stage1.chkpt` in the v2 TOML, is a pre-existing stale *output* declaration,
+never tracked); all 10 MD systems retain trajectory, topology and RMSD data, and the 3 lacking
+MM-GBSA are exactly the 3 that intentionally have none.
+
+`_REVIEW_REQUIRED/` holds the two original project-plan JSONs (36 KB, 17 Aug) pending a decision.
+Permanent deletion of `_ARCHIVE_TO_DELETE/` awaits approval.
+
+Files: `README.md`, `INVENTORY.md` (new), `{00_library,01_smiles,02_ligands,03_receptors,
+04_docking,05_validation,06_md,07_mmgbsa,08_analysis,09_manuscript,filtering,generation,
+scripts}/README.md` (new), `07_mmgbsa/md_mmgbsa_summary.csv` (new),
+`_ARCHIVE_TO_DELETE/{README.md,MANIFEST.csv,RESTRUCTURE_MOVES.csv}` (new),
+`_REVIEW_REQUIRED/README.md` (new), `artifacts/` (removed, contents redistributed).
+
+## 2026-09-27 — MAO pose scan completed: the MAO-A/MAO-B sign inversion was an off-pose artifact
+
+Finished the four queued MAO pose runs (MAO-A poses 2 and 3, MAO-B poses 2 and 3), ran MM-GBSA and
+the full cpptraj chain on all of them, and closed the open item that had been blocking any MAO
+interpretation: **each arm now has a trajectory that holds its docked pose.** The headline is that
+the MAO-A-over-MAO-B preference recorded on 2026-09-26 was an artifact of a single off-pose
+trajectory, and the corrected comparison agrees with docking.
+
+| System | Ligand last-100 | Verdict | ΔG | SD | SEM |
+|---|---|---|---|---|---|
+| `system_MAOA` (pose 1) | 3.24 Å | drifts off pose | −44.22 | 3.15 | 0.22 |
+| `system_MAOA_p2` | 2.43 Å (1.79 core-fit) | holds, loose | −35.54 | 2.73 | 0.19 |
+| `system_MAOA_p3` | **1.43 Å** | stable | **−36.67** | 2.40 | 0.17 |
+| `system_MAOB` (pose 1) | 2.28 Å | stable | −39.48 | 2.20 | 0.16 |
+| `system_MAOB_p2` | **1.10 Å** | stable | **−39.20** | 2.13 | 0.15 |
+| `system_MAOB_p3` | 2.57 Å | holds, loose | −39.04 | 2.86 | 0.20 |
+
+### The −44.22 was never a binding energy
+
+Every on-pose MAO-A trajectory lands near −36 (−35.54, −36.67). The −44.22 is 7.6 kcal/mol more
+favourable than either, it is the largest MAO-A number, and it is **the only off-pose one**. The
+"MM-GBSA favours MAO-A by +4.74, contradicting docking" finding was therefore measuring how much
+energy MAO-A gains by relaxing somewhere it was never docked.
+
+Corrected: all six on-pose pairings favour **MAO-B**, by 2.37 to 3.94 kcal/mol. Docking favours
+MAO-B pose for pose on this ligand's Vina affinities by 3.03–3.22 kcal/mol (3.184 / 3.032 /
+3.221 for poses 1 / 2 / 3). The sign now agrees with docking *regardless of which poses are
+paired*, and the magnitudes overlap.
+
+Care with the docking figure: the −3.28 quoted in the earlier entries is the **library-wide**
+consensus margin (mean over the 56 candidates, favourable 48/48), not a per-pose number for
+`cand_003`. A first draft of this entry conflated the two and stated "3.18–3.28 across the same
+poses", which is wrong in both provenance and range. The per-pose deltas come from the Vina
+affinities recorded in `06_md/README.md`.
+
+This is the clearest instance in the project of the off-pose problem producing not merely a noisy
+number but an **inverted conclusion**. The existing rule — never compute MM-GBSA on a trajectory
+that left its docked pose — earned its keep here; the failure mode it prevents is not a wide error
+bar, it is a confident wrong answer.
+
+### What is still not claimable: the magnitude
+
+The 2.37–3.94 kcal/mol margin sits on top of the 2.08 kcal/mol velocity-replicate spread measured
+for TTBK1 and well under TTBK2's 6.90, and **neither MAO arm has a velocity replicate.** The
+direction is robust and pose-independent; the size is not resolved.
+
+The pose scan does supply a second kind of spread, and the temptation to substitute it must be
+resisted:
+
+| Target | On-pose trajectories | ΔG range | Pose spread |
+|---|---|---|---|
+| MAO-A | poses 2, 3 | −35.54, −36.67 | 1.13 kcal/mol |
+| MAO-B | poses 1, 2, 3 | −39.48, −39.20, −39.04 | **0.44 kcal/mol** |
+
+MAO-B's three independent poses agree to 0.44 kcal/mol, which looks like tight convergence right up
+until it is placed beside TTBK2's 6.90 kcal/mol between two runs differing **only in velocity
+seed**. Converging onto the same energy from different starting geometries says the basin is well
+defined; it says nothing about how far that energy wanders under resampling. The smaller variance
+cannot bound the larger one. Pose spread is not replicate spread.
+
+### Docking rank does not predict pose stability — now 1 of 4, not 1 of 2
+
+The best-holding pose is MAO-A's **worst**-ranked pose 3 (1.43 Å, Vina −7.399 against pose 1's
+−8.236) and MAO-B's pose 2 (1.10 Å, −11.26 against −11.42). Across all four targets the top-ranked
+docked pose was the most stable in **one of four** cases — TTBK1, the exception. At 3 poses × 4
+targets this is the project's best-supported methodological result, and it is why every MM-GBSA
+number in the table is tied to a named pose rather than to a target.
+
+### A 3.44 Å backbone RMSD that is not an unstable fold
+
+`system_MAOA_p2` reported the highest protein backbone RMSD in the project, 3.44 Å against a
+1.12–1.81 Å band everywhere else, which on its face looks like a failed run. Per-residue RMSF
+located it precisely: the maximum is always the last residues of the construct — MAO-A 510–513 of
+513, MAO-B 496–499 of 499 — fluctuating 5–8 Å. These are the membrane-anchoring end of the protein,
+simulated in water with no bilayer, so they flail. They also dominate any whole-protein fit.
+
+Refitting on the ordered core `:1-496` and re-measuring: **core RMSD is 1.06–1.63 Å across all six
+MAO runs and flat in time**, and the `system_MAOA_p2` ligand reads 1.79 Å rather than 2.43 Å. No
+MAO run has an unstable fold, and the tail motion never reaches the binding site. `rmsf.cpptraj`
+and `core_rmsd.cpptraj`, previously only in the two pose-1 MAO systems, were copied to the four new
+ones so all six are analysed identically.
+
+### The verdict scale needed a new band, so it got one rather than a rounding
+
+The first ten runs fell into groups at ≤ 2.28 Å and ≥ 3.24 Å with nothing in between, so
+`stable`/`drifts` had never had to be defined precisely. Two MAO pose runs landed in the gap, at
+2.43 and 2.57 Å. Rather than round them into whichever neighbouring label was convenient — which
+would have been an unrecorded judgement call affecting whether an energy gets quoted — they are
+labelled `holds, loose`, the thresholds are now explicit constants in the collector, and neither
+run is used as a primary number.
+
+### FAD restraint scheme validated six times
+
+FAD stayed 0.46–0.73 Å from its crystallographic position across all six MAO systems, same lib and
+frcmod, coordinates alone differing. Previously this was demonstrated twice at 0.46–0.48 Å.
+
+### The summary table now has a generator
+
+`07_mmgbsa/md_mmgbsa_summary.csv` claimed to be "generated directly from the primary `.dat` files
+so it cannot drift", but no generator was committed — the claim rested on whoever last edited it
+having been careful. `scripts/collect_md_summary.py` makes it true: it parses the cpptraj `.dat`
+files and the last `DELTA TOTAL` of each `mmgbsa_results*.dat`, and `--check` exits 1 if the
+committed CSV disagrees with primary data. It reproduced all ten pre-existing rows **byte-for-byte**
+before the four new ones were added, which is the regression test that it parses what was parsed
+before. Two columns were added, `lig_corefit_last100` and `prot_core_rmsd_last100`, populated for
+the MAO systems.
+
+Gotcha recorded in the script header: the `python` first on PATH is MGLTools' Python 2.7, there for
+the AutoDock prep scripts, so this must run through `conda run -n docking_project`.
+
+### One interruption, no lost science
+
+A machine restart at 16:06 on 2026-09-26 (initiated through `shutdown.exe` under this user — most
+likely Windows Update) killed the queue 0.77 ns into `system_MAOA_p3`. `run_md_restrained.py`
+writes no intermediate checkpoint, so the partial run could not be resumed; the system was re-run
+from the top and `system_MAOA_p2`, which already had `final_state.xml`, was skipped by the queue's
+existing resume check. The completed trajectory is a normal full 10.1 ns run with nothing stitched
+together. Throughput held: MAO-A 59.8–63.1 ns/day over three runs, MAO-B 80.9–82.0.
+
+**Worth doing before the next long queue:** `run_md_restrained.py` has no checkpointing, so any
+interruption costs the whole run. Adding an OpenMM checkpoint would not change the physics and
+would have saved nothing this time (0.77 ns), but the exposure grows with run length.
+
+### Manuscript claims revised
+
+`09_manuscript/README.md` §3.6 previously read that MM-GBSA "points the opposite way" to docking
+for MAO and was unusable in either direction. That is now wrong and was rewritten: the direction is
+supportable, the magnitude is not, and the −44.22 is flagged as never citable as a MAO-A binding
+energy.
+
+§3.5 gained the MAO pose-stability lines. Counting strictly, MAO-A holds 1 of 3 and MAO-B 2 of 3;
+no MAO run dissociated, the worst being 3.24 Å, against three of eight TTBK runs past 5 Å. "Both
+complexes are stable" is closest to true for the MAO pair and least true for TTBK2.
+
+§3.7 ("the series does not discriminate either target from its paralog/isoform") now **must be
+split by pair**, and this is the one revision that weakens a claim. Its four converging evidence
+lines are all TTBK1/TTBK2, where it still holds. For the MAO-A/MAO-B isoform pair it no longer
+reads the same way: docking and MM-GBSA now agree in sign on a MAO-B preference. "No *significant*
+discrimination" survives for MAO, since the margin is not resolvable; "no discrimination", and any
+wording implying the isoform comparison came out symmetric, does not.
+
+Files: `INVENTORY.md` (06_md now 14 GB / 582 files / 14 systems), `06_md/README.md`,
+`07_mmgbsa/README.md`, `07_mmgbsa/md_mmgbsa_summary.csv` (4 rows and 2
+columns added, regenerated), `09_manuscript/README.md`, `scripts/collect_md_summary.py` (new),
+`scripts/run_mao_pose_analysis.sh` (new), `06_md/system_MAO{A,B}_p{2,3}/` (4 completed 10.1 ns
+systems with trajectories, MM-GBSA and RMSD/RMSF analysis), `06_md/system_MAOA_p3/{rmsf,core_rmsd}.cpptraj`
+and `06_md/system_MAOB_p{2,3}/{rmsf,core_rmsd}.cpptraj` (copied from the pose-1 systems).
+
+## 2026-09-27 — B (results directory; five documentation errors found by cross-checking it)
+
+Built [`10_results/`](10_results/) — the consolidated results and interpretation, organised by
+**claim** rather than by method, with three figures and a `--check`-able provenance chain back to
+the primary `.dat` files. Then wrote a cross-check that compares every number in the new prose
+against the source table, and it immediately found five errors, two of them pre-existing and one
+of them scientifically misleading.
+
+### The receptor mislabel: the lead's best score was credited to the wrong protein
+
+`04_docking/README.md` and `08_analysis/README.md` both read:
+
+    cand_003 is the lead: #8/56 on 7JXX (-8.38) and #2/56 on 7Q8Y (-11.41)
+
+The −11.41 is **2V5Z (MAO-B)**, not 7Q8Y (TTBK2). `consensus_new.csv` contains no `7Q8Y`/`cand_003`
+row at all — the receptors present are 7JXX, 2V5Z and 4BTK.
+
+This one matters beyond bookkeeping. **7Q8Y is an anti-target and 2V5Z is an intended target**, so
+the mislabel credited the compound's single strongest docking score to the protein the design is
+trying to *avoid*, inverting what that number says about selectivity. Both files corrected, with a
+dated note, and the ranks restated as "over the 56 candidates, excluding the native reference
+ligand in the same file" — the 57th row is `native_VP7` / `native_SAG`, whose inclusion is what
+makes a naive rank read 9 instead of 8.
+
+### Three miscounts and a transcribed SEM
+
+| Where | Said | Is |
+|---|---|---|
+| `07_mmgbsa/README.md` table | TTBK2 pose 2 SEM **0.28** | **0.27** (primary output: 0.2694) |
+| `07_mmgbsa`, `09_manuscript` | SEMs run **0.16–0.28** | **0.15–0.27** across the 11 computed systems |
+| top-level `README.md` | SEMs run **0.17–0.27** | **0.15–0.27** |
+| `07_mmgbsa/README.md` | spread is **10× to 30×** the SEM | **8× to 41×** (7.7–10.9 TTBK1, 32.9–40.6 TTBK2) |
+| `09_manuscript`, top-level, and the first draft of `10_results` | **three** of eight TTBK runs passed 5 Å | **two** (5.69 and 5.79; nothing else reaches 5) |
+| first draft of `10_results` | **five** of fourteen runs hold their pose | **six** (1.88, 1.38, 1.99, 2.28, 1.43, 1.10) |
+
+Each is small on its own. The pattern is not: **every one of them is a number that was typed into
+prose rather than read out of a file**, which is the same failure mode the summary-CSV generator was
+written to stop. The lesson generalises past the CSV — a claim in a README is as much a data
+artifact as a row in a table, and it needs the same provenance.
+
+The cross-check that found them lives in this session's scratch space rather than the repo, because
+it hardcodes the prose's own numbers and would need editing on every revision. `--check` on
+`collect_md_summary.py` remains the durable invariant; the prose check is a one-shot audit, and it
+is worth re-running by hand whenever the results text is revised.
+
+### Velocity replicates launched, closing the last open item
+
+`scripts/run_mao_replicate_queue.sh` runs velocity replicates of the two best on-pose MAO systems,
+`system_MAOA_p3_r2` and `system_MAOB_p2_r2`, then their MM-GBSA and cpptraj chain. Started 11:30;
+MAO-A r2 at ~59 ns/day, so the pair plus analysis lands around 19:30.
+
+Each replicate directory carries `complex.prmtop` and `complex.inpcrd` copied byte-for-byte from its
+parent — **sha256-verified, and recorded in a per-directory `PROVENANCE.md`** — with no build inputs
+copied, because `tleap` was not re-run and shipping its inputs would imply otherwise. The only
+difference between run 1 and run 2 is the random velocity seed, which OpenMM draws itself since
+`run_md_restrained.py` sets none. Same mechanism that produced `system_TTBK1_r2`.
+
+These measure the MAO arms' own replicate spread, which is the one thing standing between the MAO
+result being *a direction* and being *a number with an error bar*. `make_figures.py` already has
+placeholder rows for them in figure 3 and will fill them in on the next run.
+
+### What the results directory concludes
+
+Ten claims, each with a status. The four that carry the project:
+
+- **Supportable, strongly** — docking rank does not predict which pose survives dynamics (1 of 4
+  targets, 3 poses each); and the reported SEM is not a usable error bar (8× and 41×).
+- **Direction only** — the compound favours MAO-B over the MAO-A anti-target. All six on-pose
+  pairings agree and docking agrees independently, but 2.37–3.94 kcal/mol sits inside the measured
+  replicate spread.
+- **Not supportable** — selectivity for TTBK1 over TTBK2 (1.45 < 2.08), and any cross-protein
+  comparison of absolute ΔG.
+
+Two explicit do-nots are recorded where the write-up will reach for them: do not quote the −44.22,
+and do not put TTBK and MAO binding energies on the same axis. Figure 2 is MAO-only for exactly
+that reason, while figure 1 shares an axis legitimately because ligand RMSD measures one ligand
+against its own starting pose.
+
+Figures were checked against the data-visualisation guidance and rendered before being accepted;
+three layout defects (band labels colliding with a legend, on-pose mean labels overrunning a title,
+SEM labels landing on the y-axis ticks) were fixed. The verdict scale is encoded by **position
+against threshold bands, not colour**: the project's four status colours fail the categorical
+normal-vision floor when validated as a 4-slot ramp (worst adjacent ΔE 13.6 against a floor of 15),
+and they are specified to ship with an icon and label rather than to carry meaning by hue.
+
+Files: `10_results/{README.md,make_figures.py,fig1_pose_stability.png,fig2_mao_binding_energy.png,fig3_sem_vs_replicate.png}`
+(new), `scripts/run_mao_replicate_queue.sh` (new),
+`06_md/system_{MAOA_p3,MAOB_p2}_r2/` (new, running),
+`README.md` (step 10 added to the index; SEM range and the 5 Å count corrected),
+`INVENTORY.md`, `04_docking/README.md` and `08_analysis/README.md` (receptor mislabel),
+`07_mmgbsa/README.md` (SEM 0.28→0.27, range, ratios), `09_manuscript/README.md` (range, 5 Å count).
