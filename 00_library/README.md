@@ -50,7 +50,8 @@ empty molecule.
 
 The final campaign (v3, BBB-aware reward) lives in [`../generation/`](../generation/); its
 checkpoint is the one retained. The two superseded campaign checkpoints have been moved to
-`_ARCHIVE_TO_DELETE/` — their CSV outputs and score-progression plots remain here, so the campaign
+deleted on 27 Sep 2026 (see [`../provenance/`](../provenance/)) — their CSV outputs and
+score-progression plots remain here, so the campaign
 history is still readable without the 95 MB model weights.
 
 ## Analysis performed

@@ -38,8 +38,7 @@ Supporting directories:
 | [`filtering/`](filtering/) | BOILED-Egg / BBB permeability gate |
 | [`scripts/`](scripts/) | All driver scripts; every step is re-runnable from here |
 | `REINVENT4/` | Third-party clone, installed locally (not vendored, untracked) |
-| `_ARCHIVE_TO_DELETE/` | Quarantined leftovers awaiting deletion approval — see its README |
-| `_REVIEW_REQUIRED/` | Items whose fate needs a human decision |
+| [`provenance/`](provenance/) | Original project plans, and the record of what the 27 Sep cleanup removed and why |
 
 **[`LOGBOOK.md`](LOGBOOK.md)** is the chronological record and the authoritative account of
 *why* each decision was made, including every defect found and corrected. Where a step README

@@ -15,7 +15,7 @@ Generated 26 Sep 2026.
 | **INTERMEDIATE** | temporary byproducts, regenerable | quarantined (1.83 GB) |
 | **OUTDATED** | superseded and carrying no remaining scientific meaning | quarantined (190 MB) |
 | **DUPLICATE** | byte-identical copy of a file that stays live | quarantined (198 MB) |
-| **REVIEW_REQUIRED** | could not be classified from content | parked in `_REVIEW_REQUIRED/` |
+| **REVIEW_REQUIRED** | could not be classified from content | resolved 27 Sep: the two project plans moved to `provenance/` |
 
 ## Where everything stands
 
@@ -36,8 +36,7 @@ Generated 26 Sep 2026.
 | `generation/` | 95 MB | 12 | **FINAL** + SUPPORTING — v3 campaign, config and checkpoint |
 | `scripts/` | 116 KB | 20 | **FINAL** — every step is re-runnable from here |
 | `REINVENT4/` | 1.1 GB | 3,679 | third-party clone, untracked; required to re-run generation |
-| `_ARCHIVE_TO_DELETE/` | 2.1 GB | 43 | quarantined, awaiting deletion approval |
-| `_REVIEW_REQUIRED/` | 40 KB | 3 | parked pending decision |
+| `provenance/` | 47 KB | 5 | original project plans + the record of what the cleanup removed |
 
 Workspace total: **11 GB**, of which 2.1 GB is quarantined.
 
@@ -81,8 +80,13 @@ them would invite exactly the kind of silent mismatch this project was bitten by
 | 2 RL checkpoints + their duplicates (4) | 379 MB | OUTDATED | superseded campaigns; v3 checkpoint retained. ⚠ **no live copy remains** — by decision |
 | `filtering/__pycache__/*.pyc` (1) | 8 KB | INTERMEDIATE | bytecode |
 
-Full record with per-file reasons: [`_ARCHIVE_TO_DELETE/MANIFEST.csv`](_ARCHIVE_TO_DELETE/MANIFEST.csv).
-Relocation log: [`_ARCHIVE_TO_DELETE/RESTRUCTURE_MOVES.csv`](_ARCHIVE_TO_DELETE/RESTRUCTURE_MOVES.csv).
+**Deletion carried out 27 Sep 2026**: 2.2 GB removed — 7 `reference.frc` byproducts (1.83 GB),
+28 verified duplicates (~11 MB, each re-hashed against its surviving copy at deletion time) and
+4 RL checkpoints (379 MB, the one irreversible loss: campaigns 1 and 2 can no longer be resumed).
+Full record with per-file reasons:
+[`provenance/deleted_files_manifest.csv`](provenance/deleted_files_manifest.csv).
+Relocation log: [`provenance/restructure_moves.csv`](provenance/restructure_moves.csv).
+Rationale: [`provenance/README.md`](provenance/README.md).
 
 ## Deliberately kept, against a "minimal" reading
 
@@ -113,8 +117,8 @@ Only true byproducts and verified duplicates were quarantined.
 
 ## Remaining decisions
 
-1. **Approve permanent deletion** of `_ARCHIVE_TO_DELETE/` (2.1 GB) — see its README first.
-2. **Decide on `_REVIEW_REQUIRED/`** — two 36 KB original project-plan JSONs.
+1. ~~Approve permanent deletion of the quarantine~~ — **done 27 Sep 2026**, 2.2 GB removed.
+2. ~~Decide on `_REVIEW_REQUIRED/`~~ — **done**: both project plans kept, moved to `provenance/`.
 3. **Three manuscript claims need revision** against the Week 1–2 data (§3.5, §3.6, §3.7) — see
    [`09_manuscript/README.md`](09_manuscript/README.md). This is a scientific task, not a cleanup one,
    but it is the most consequential item on this list.
