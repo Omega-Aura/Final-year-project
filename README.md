@@ -40,6 +40,9 @@ Supporting directories:
 | `REINVENT4/` | Third-party clone, installed locally (not vendored, untracked) |
 | [`provenance/`](provenance/) | Original project plans, and the record of what the 27 Sep cleanup removed and why |
 
+**[`WORKFLOW.md`](WORKFLOW.md)** is the protocol: conventions, phase-by-phase steps, go/no-go
+gates and failure modes. It is the plan as specified, and it flags where execution diverged.
+
 **[`LOGBOOK.md`](LOGBOOK.md)** is the chronological record and the authoritative account of
 *why* each decision was made, including every defect found and corrected. Where a step README
 and the logbook disagree, the logbook is the primary source.
