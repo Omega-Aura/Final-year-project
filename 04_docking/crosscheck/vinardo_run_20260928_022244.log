@@ -1,0 +1,19 @@
+ligand set candidates_56: 56 ligands
+[run] 7JXXdry candidates_56 seed11  (0/56 current)  02:22:45
+[ok] 7JXXdry candidates_56 seed11 (vinardo)
+[run] 7JXXdry candidates_56 seed22  (0/56 current)  02:40:31
+[ok] 7JXXdry candidates_56 seed22 (vinardo)
+[run] 7JXXdry candidates_56 seed33  (0/56 current)  02:59:34
+[ok] 7JXXdry candidates_56 seed33 (vinardo)
+[run] 2V5Zdry candidates_56 seed11  (0/56 current)  03:13:11
+[ok] 2V5Zdry candidates_56 seed11 (vinardo)
+[run] 2V5Zdry candidates_56 seed22  (0/56 current)  03:26:01
+[ok] 2V5Zdry candidates_56 seed22 (vinardo)
+[run] 2V5Zdry candidates_56 seed33  (0/56 current)  03:38:01
+[ok] 2V5Zdry candidates_56 seed33 (vinardo)
+
+runs needed: 6   already current: 0
+[complete] 2026-09-28 03:49:56
+
+Then analyse:
+  conda run -n docking_project python scripts/analyze_vinardo_crosscheck.py

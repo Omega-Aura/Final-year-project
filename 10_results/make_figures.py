@@ -187,16 +187,21 @@ def fig2_mao_energy(rows, out):
 def fig3_error_bars(rows, out):
     """Replicate spread against how well the pair held its pose, with the SEM for reference.
 
-    All four replicate pairs in the project are plotted. The spread is computed from `dG_raw`,
+    All five replicate pairs in the project are plotted. The spread is computed from `dG_raw`,
     not the 2 dp display column: it is a difference of two near-equal numbers, and rounding first
     turns the true 0.26/0.24 MAO spreads into 0.27/0.23.
 
     Both series are kcal/mol on one axis -- this is deliberately not a dual-axis chart. Ligand
     RMSD is the x position, so the reading is "as the pose holds less well, the spread grows while
     the reported SEM does not move".
+
+    TTBK2 pose 2 was added 2026-09-28 to give that arm its own error bar, not to test this
+    relationship -- and it landed where the ordering predicted, between TTBK1's 2.08 and TTBK2
+    pose 1's 6.89. That is why it is worth plotting all five rather than the original four.
     """
     PAIRS = [("TTBK1 pose 1", "system", "system_TTBK1_r2"),
              ("TTBK2 pose 1", "system_TTBK2", "system_TTBK2m"),
+             ("TTBK2 pose 2", "system_TTBK2_p2", "system_TTBK2_p2_r2"),
              ("MAO-A pose 3", "system_MAOA_p3", "system_MAOA_p3_r2"),
              ("MAO-B pose 2", "system_MAOB_p2", "system_MAOB_p2_r2")]
     pts = []
@@ -244,9 +249,9 @@ def fig3_error_bars(rows, out):
     ax.set_title("How far the SEM is from the real error bar depends on pose stability",
                  fontsize=12.5, color=INK, pad=14, loc="left", weight="medium")
     ax.legend(loc="upper left", frameon=False, fontsize=8.5, labelcolor=INK2)
-    fig.text(0.5, 0.018, "All four replicate pairs in the project. The SEM barely moves while the "
-             "measured spread grows 29-fold;\nn = 4 pairs across two protein families, so this is "
-             "a consistent pattern rather than a calibration.",
+    fig.text(0.5, 0.018, "All five replicate pairs in the project. The SEM barely moves while the "
+             "measured spread grows 29-fold;\nn = 5 pairs across two protein families and three "
+             "proteins, so this is a consistent pattern rather than a calibration.",
              ha="center", va="bottom", fontsize=8.2, color=MUTED, linespacing=1.5)
     fig.tight_layout(rect=(0, 0.085, 1, 1))
     fig.savefig(out, dpi=200, facecolor=SURFACE)

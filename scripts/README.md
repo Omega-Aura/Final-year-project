@@ -48,14 +48,58 @@ Every step of the workflow is re-runnable from here. Scripts are grouped by the 
 | [`../06_md/run_md_extend.py`](../06_md/) | [step 6](../06_md/) | continues from `final_state.xml` |
 | [`../06_md/run_md_restrained.py`](../06_md/) | [step 6](../06_md/) | FAD-restrained variant for MAO systems |
 | [`run_ttbk2_replicate.sh`](run_ttbk2_replicate.sh) | [step 6](../06_md/) | velocity replicate of `system_TTBK2_p2`, the only on-pose TTBK2 trajectory; **aborts** unless its inputs are byte-identical to run 1 |
+| [`run_vinardo_crosscheck.sh`](run_vinardo_crosscheck.sh) | [step 4](../04_docking/) | independent scoring-function cross-check on the **validated** receptors; writes to `04_docking/crosscheck/vinardo/`, deeper than every vina glob |
+| [`analyze_vinardo_crosscheck.py`](analyze_vinardo_crosscheck.py) | [step 8](../08_analysis/) | Vina vs Vinardo correlation and rank agreement; never pools or averages the two functions |
 | [`run_mmgbsa.sh`](run_mmgbsa.sh) | [step 7](../07_mmgbsa/) | strip → `ante-MMPBSA.py` → `MMPBSA.py`, inside WSL2 |
 
-## Two environments, one pipeline
+## Three environments, one pipeline
 
 AmberTools has no native Windows build, so parameterisation and MM-GBSA run in a **WSL2** conda
 environment (`mdgbsa`) while OpenMM runs **natively on the GPU** in the Windows `docking_project`
 environment. Scripts that cross the boundary call `wsl -e bash -lc` and translate paths to
 `/mnt/c/...`; [`run_mmgbsa.sh`](run_mmgbsa.sh) is the reference example.
+
+Since 2026-09-28 there is a third: **`ligprep`**, also in WSL2, for everything that needs RDKit.
+
+### Why RDKit moved out of Windows
+
+Windows Smart App Control blocks two unsigned conda-forge binaries in the native env:
+`rdkit\Chem\rdchem.pyd` and `Scripts\mk_export.exe`. Smart App Control has **no allowlist**, so a
+Defender `-ExclusionPath` cannot reach them -- that configures the antivirus, a different subsystem.
+Disabling Smart App Control is irreversible without reinstalling Windows. WSL2 runs ELF binaries and
+is not governed by it, which is why `mdgbsa` was unaffected throughout. See LOGBOOK entry M.
+
+**Run these through the bridge**, because they import RDKit:
+
+```bash
+bash scripts/wsl_run.sh python scripts/prep_ligands.py --csv 01_smiles/candidates_56.csv -o 02_ligands
+bash scripts/wsl_run.sh python scripts/filter_cascade.py ...
+bash scripts/wsl_run.sh python scripts/bbb_score.py ...
+bash scripts/wsl_run.sh python scripts/fix_native_bondorders.py ...
+bash scripts/wsl_run.sh --check      # verify the env by doing real work, not a --help probe
+```
+
+`prep_receptor.sh` is a shell script that calls `obabel` directly rather than importing RDKit, so
+route it the same way if it is ever re-run.
+
+`run_prolif_v2.py` is **not** in this list. It is prior-phase and cannot run at all -- its inputs
+(`prep/`, `ligands/`, `docking/`) were removed in the cleanup, so it would fail with or without
+RDKit. ProLIF 2.2.1 and MDAnalysis 2.9.0 are installed in `ligprep` regardless, so it has a home if
+it is ever brought forward to the numbered tree.
+
+Unaffected, still native: Vina scoring, OpenMM MD on CUDA, and every analysis and figure script.
+
+`ligprep` is pinned to the **same rdkit (2025.09.6) and meeko (0.7.1)** as the Windows env so it is
+a drop-in replacement, not a divergent toolchain. `openbabel` could not be matched (3.2.1 vs 3.1.1;
+3.1.1 conflicts with python 3.11 + rdkit 2025.09.6 via libxml2). That was verified rather than
+assumed harmless: WSL-prepped conformers are internally identical to the repo's (`GetBestRMS` =
+0.000, the difference being rigid-body frame only), and re-docking one at the identical box and seed
+reproduced the repo scores to **<=0.02 kcal/mol**, well under the inter-seed SD.
+
+Env spec: [`env_ligprep_wsl.yml`](env_ligprep_wsl.yml).
+
+**Existing ligands do not need re-prepping.** `ligprep` is for new work. Re-prepping is chemically
+safe but perturbs the absolute frame for no gain.
 
 ## Path dependencies — read before reorganising
 

@@ -43,3 +43,5 @@ generation/tb_logs/
 # same reason, which is why these two patterns were the gap: they were simply missed.
 *.frc
 *.nc
+
+11_viva_prep

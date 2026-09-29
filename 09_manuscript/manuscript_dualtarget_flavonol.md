@@ -215,9 +215,14 @@ manufactures selectivity out of a docking failure. Eight of the 56 candidates fa
 MAO-A; the margin is therefore quoted over the 48 quantifiable candidates, with the eight
 reported as a separate qualitative result.
 
-An independent scoring-function cross-check (Vinardo) was run in an earlier pass of this work,
-on the earlier receptor set. It has **not** been repeated on the validated receptors, and
-Section 3.3 is reported with that limitation explicit.
+An **independent scoring-function cross-check** was run on the validated receptors: all 56
+candidates against both validated on-targets (7JXX TTBK1, 2V5Z MAO-B) at three seeds under
+Vinardo, 336 dockings in total. Box, exhaustiveness, `num_modes` and seeds are identical to the
+production Vina run; **only the scoring function differs**, which is the same arm-symmetry rule
+applied everywhere else in this work. Vinardo output is written to a separate directory tree and
+the two functions are never pooled, averaged or plotted on a shared axis: they operate on
+different scales, and a consensus of two scoring functions masks a weak score rather than
+corroborating it. Only correlation and rank agreement between them are interpreted.
 
 ## 2.5 Molecular dynamics
 
@@ -321,7 +326,7 @@ Final cascade over the 405-molecule pool: 369 Lipinski-passing, 81 BBB-passing, 
 reversal the redesign targeted. The 56 span MW 310–420 Da, TPSA 70.7–77.2 Å² (inside the BBB
 region), WLogP 3.6–4.8, and 8 unique Murcko scaffolds.
 
-## 3.3 The lead compound, and the one cross-check that is missing
+## 3.3 The lead compound, and what an independent scoring function makes of it
 
 The compound carried forward is `cand_003`:
 
@@ -338,16 +343,41 @@ a 4-trifluoromethyl/methyl-decorated 7-deoxyflavonol.
 Consensus docking over three seeds on the validated receptors: **−8.39 kcal/mol at TTBK1
 (7JXX), rank 8 of 56**, and **−11.41 kcal/mol at MAO-B (2V5Z), rank 2 of 56**.
 
-**The limitation to state here rather than bury.** In an earlier pass of this work the top-15
-candidates were rescored with an independent scoring function (Vinardo), which agreed poorly
-with Vina — Pearson r = 0.56 at TTBK1 and **−0.28** at MAO-B — and that negative result was a
-primary finding: within an already narrow high-scoring slice of chemical space, fine-grained
-docking rank order does not survive a change of scoring function, even though all candidates
-score favourably in absolute terms under both. That cross-check was run on the **earlier
-receptor set** and has not been repeated on the validated receptors reported here. The
-scoring-function caveat therefore stands as a general warning supported by this project's
-earlier data, but it is **not** a cross-check of the present rankings, and `cand_003`'s rank of
-8 of 56 at TTBK1 should be read with that gap in mind.
+**The scoring-function cross-check, and why it confirms rather than resolves the caveat.** All 56
+candidates were rescored on both validated on-targets with an independent scoring function
+(Vinardo), three seeds each. Every candidate again scores favourably in absolute terms (Vinardo
+−7.72 to −4.99 at TTBK1, −9.42 to −4.55 at MAO-B), and across the full set the two
+functions correlate moderately and significantly:
+
+| Slice | TTBK1 (7JXX) | MAO-B (2V5Z) |
+|---|---|---|
+| All 56, Pearson | +0.489 (p = 1.3 × 10⁻⁴) | +0.690 (p = 4.1 × 10⁻⁹) |
+| All 56, Spearman | +0.463 (p = 3.3 × 10⁻⁴) | +0.516 (p = 4.6 × 10⁻⁵) |
+| **Top 15, Pearson** | **+0.354 (p = 0.20, n.s.)** | **+0.142 (p = 0.62, n.s.)** |
+| Top-15 membership overlap | 8 of 15 | 6 of 15 |
+| Best compound | `cand_013` vs `cand_002` | `cand_043` vs `cand_001` |
+| `cand_003` rank | 8 of 56 vs 12 of 56 | 2 of 56 vs 10 of 56 |
+
+The rows that matter are the last four. **Within the top-15 slice the correlation collapses to
+non-significance on both targets**, the two functions disagree on which compound is best in both
+arms, and only about half of each top-15 set is shared. The all-56 correlation is carried by
+dynamic range — both functions agree that weak binders are weak — and the Vina spread
+narrows from 1.87 to 0.60 kcal/mol at TTBK1 and from 2.92 to 0.77 at MAO-B once the slice is
+taken. This is not seed noise: mean inter-seed SD is 0.065 and 0.012 kcal/mol for Vina and 0.012
+and 0.009 for Vinardo, one to two orders of magnitude below the disagreement.
+
+So the cross-check **closes the methodological gap and confirms the caveat**: fine-grained docking
+rank within an already narrow high-scoring slice is a property of the scoring function, not of the
+chemistry, and no single compound should be selected on one function's ranking. What survives is
+weaker but real — `cand_003` sits in the top 12 of 56 under both functions on both targets
+(top ~21%), so it is robustly good without being demonstrably best. This is why pose stability,
+not docking rank, is the discriminating filter throughout this work (Sections 3.6–3.8).
+
+A prior pass reported r = 0.56 at TTBK1 and −0.28 at MAO-B. Those were top-15 values on the
+**superseded** receptor set (4NFM/2V5Z, with an apo TTBK1 structure carrying no passing redocking
+validation). Both the receptors and the slice differ, so the earlier figures are not directly
+comparable and no claim of improvement is made: this run measures the cross-check on the reported
+receptors for the first time.
 
 ## 3.4 All six receptors reproduce their crystallographic pose
 
@@ -638,9 +668,13 @@ but a precondition. It is cheap, and each of these four cost days.
    Defensible for ligand MM-GBSA, where FAD is part of the receptor on both sides of the
    subtraction; not a substitute for covalent parameterisation. It is also why the MAO replicate
    spread is so tight.
-7. **No independent scoring-function cross-check on the validated receptors** (Section 3.3).
-   The Vinardo result stands as a general warning from this project's earlier data, not as
-   validation of the rankings reported here.
+7. **Docking rank is not reproducible across scoring functions, and this is now measured on the
+   validated receptors** (Section 3.3). Over all 56 candidates Vina and Vinardo correlate
+   moderately (r = 0.49 at TTBK1, 0.69 at MAO-B), but within the top-15 slice the correlation is
+   **not significant** (r = 0.354, p = 0.20; r = 0.142, p = 0.62), the two functions pick
+   different best compounds in both arms, and top-15 membership overlaps by only 8 of 15 and 6 of
+   15. Absolute favourability is reproduced; fine-grained rank is not. No ranking in this work
+   should be read as identifying a uniquely best compound.
 8. **BBB assessment is a 2D property model.** It uses WLogP/TPSA and does not model efflux
    transporters, notably P-glycoprotein, to which flavonoids are known substrates.
 9. **The score-versus-potency correlation is mixed-species**, and its two rat-brain points are
@@ -666,8 +700,12 @@ but a precondition. It is cheap, and each of these four cost days.
 - **To generalise beyond `cand_003`**, run MD on the next two or three shortlisted candidates.
   Pose stability has been the discriminating filter at every step and is cheap relative to its
   value.
-- **To close the scoring-function gap**, repeat the independent-function cross-check on the
-  validated receptors.
+- **To rank candidates in a way docking cannot**, the scoring-function cross-check (Section 3.3)
+  showed that fine-grained rank inside the top-15 slice is not reproducible between Vina and
+  Vinardo. Adding a third function would not settle a disagreement between two; what would is
+  short MD on the shortlist, since pose stability has separated these compounds where score
+  could not. This is the same next step as the one above, and the cross-check is the reason to
+  prioritise it.
 - **Experimentally**, the informative first assay is not a single-target potency measurement but
   a side-by-side isoform panel — MAO-A/MAO-B and TTBK1/TTBK2 in parallel — since selectivity,
   not potency, is the open question. Covalent FAD parameterisation would be the corresponding

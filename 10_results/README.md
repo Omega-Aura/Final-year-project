@@ -6,7 +6,7 @@ Collected every quantitative result the pipeline produced into one place and ask
 question that matters for the project: **what can this study actually claim about `cand_003`, and
 with what confidence?**
 
-Nothing new was computed here. Every number is read from the primary files in steps 4–7 — mostly
+Nothing new was computed here. Every number is read from the primary files in steps 4–8 — mostly
 from [`../07_mmgbsa/md_mmgbsa_summary.csv`](../07_mmgbsa/md_mmgbsa_summary.csv), which is itself
 regenerated from the `.dat` files by
 [`../scripts/collect_md_summary.py`](../scripts/collect_md_summary.py). The figures here are drawn
@@ -18,9 +18,10 @@ text, and neither can disagree with what was computed.
 The step READMEs each answer *what happened at that step*. None of them answers **what the study
 concludes**, and that gap is where a project like this goes wrong: a reader assembles the headline
 from whichever numbers are largest, rather than from the numbers that are valid. This project has
-already produced four documented instances of exactly that failure, all with the same shape — a
-number that looked like a result until someone checked whether the two things being compared were
-comparable.
+already produced **five** documented instances of exactly that failure, all with the same shape — a
+number that looked like a result until someone checked whether the two things being compared
+were comparable. The fifth was the subtlest: a replicated arm judged against an unreplicated one,
+where both arms looked properly matched in design and the asymmetry was in the *uncertainty*.
 
 So this directory is organised by **claim**, not by method, and every claim carries its status.
 
@@ -52,7 +53,10 @@ flavonol from the REINVENT4 campaign.
 | 336.27 | 4.20 | 70.67 Å² | 2 | 4 | 0 violations | pass | pass | 0 |
 
 Docking consensus over 3 seeds on the validated receptors: **−8.39 kcal/mol on TTBK1 (7JXX),
-rank 8 of 56** and **−11.41 on MAO-B (2V5Z), rank 2 of 56**. It is drug-like and BBB-permeant on
+rank 8 of 56** and **−11.41 on MAO-B (2V5Z), rank 2 of 56**. **Read those ranks with Result 5:**
+they are Vina's, and an independent scoring function puts the same compound at 12 and 10 of 56
+while disagreeing with Vina about which compound is best in either arm. The absolute
+favourability reproduces; the rank is not a reproducible quantity. It is drug-like and BBB-permeant on
 the computed gates, which for a CNS target is the precondition for anything else mattering.
 
 ---
@@ -191,6 +195,57 @@ calibration curve.
 
 ---
 
+## Result 5 — Docking rank is not reproducible across scoring functions
+
+All 56 candidates were rescored on both validated on-targets with **Vinardo**, three seeds each,
+at identical box, exhaustiveness, `num_modes` and seeds — 336 dockings in which **only the
+scoring function differs.** This was the one cross-check the project had never run on the
+receptors it actually reports; the only prior Vinardo data was measured on a superseded receptor
+set whose TTBK1 structure was apo and carried no passing redocking validation.
+
+| | TTBK1 (7JXX) | MAO-B (2V5Z) |
+|---|---|---|
+| Pearson, all 56 | +0.489 (p = 1.3×10⁻⁴) | +0.690 (p = 4.1×10⁻⁹) |
+| **Pearson, top 15** | **+0.354 (p = 0.20, n.s.)** | **+0.142 (p = 0.62, n.s.)** |
+| Top-15 membership overlap | 8 of 15 | 6 of 15 |
+| Best compound | `cand_013` vs `cand_002` | `cand_043` vs `cand_001` |
+| `cand_003` rank | 8 vs 12 of 56 | 2 vs 10 of 56 |
+
+**The all-56 row is the reassuring one and it is the wrong one to read.** That correlation is
+carried by dynamic range — both functions agree that weak binders are weak. Restrict to the
+slice where selection actually happens and the Vina spread collapses from 1.87 to 0.60 kcal/mol at
+TTBK1 and from 2.92 to 0.77 at MAO-B, and the correlation collapses with it, to
+**non-significance on both targets.**
+
+**This is not seed noise.** Mean inter-seed SD is 0.065 and 0.012 kcal/mol for Vina and 0.012 and
+0.009 for Vinardo — one to two orders of magnitude below the disagreement. The two functions
+genuinely disagree; the search is not what is unstable.
+
+So **absolute favourability reproduces and fine-grained rank does not.** Every candidate again
+scores favourably under Vinardo (−7.72 to −4.99 at TTBK1, −9.42 to −4.55 at MAO-B), and
+neither arm's best compound agrees between functions.
+
+**What survives about the lead is weaker but real.** `cand_003` sits in the **top 12 of 56 under
+both functions on both targets** (top ~21%): robustly good, not demonstrably best. No ranking in
+this project should be read as identifying a uniquely best compound.
+
+**Read alongside Result 1, this is the same finding reached from the opposite direction.** Result 1
+tests docking rank against physics and finds it does not predict which pose survives dynamics.
+Result 5 tests docking rank against itself and finds it is not even reproducible between two
+empirical functions. Together they are why pose stability, not score, has been the discriminating
+filter at every step of this project.
+
+**The two functions are never pooled or averaged.** They run on different scales, and a consensus
+of two scoring functions masks a weak score rather than corroborating it — in the prior phase a
+combined Vina+Vinardo z-score ranking nearly selected a different lead. Vinardo output is kept in
+`../04_docking/crosscheck/vinardo/`, one directory level below the globs the Vina collectors use,
+so it cannot be pooled into a consensus or a selectivity margin even by accident. A *third*
+empirical function would not help: two disagreeing functions of the same kind cannot be
+adjudicated by a third of the same kind.
+
+---
+
+
 ## What the project can and cannot claim
 
 This is the section to write the thesis and the manuscript Results from.
@@ -198,7 +253,7 @@ This is the section to write the thesis and the manuscript Results from.
 | # | Claim | Status | Rests on |
 |---|---|---|---|
 | 1 | `cand_003` is drug-like and BBB-permeant on computed gates | **Supportable** | 0 Lipinski violations, BBB + GI pass, 0 structural alerts |
-| 2 | Docking rank does not predict which pose survives dynamics | **Supportable, strongly** | top-ranked pose most stable in 1 of 4 targets; 3 poses each, 16 runs |
+| 2 | Docking rank does not predict which pose survives dynamics | **Supportable, strongly** | top-ranked pose most stable in 1 of 4 targets; 3 poses each, 16 runs; and see claim 11, where rank is not reproducible between scoring functions either |
 | 3 | `cand_003` forms a stable complex with MAO-B | **Supportable** | 2 of 3 poses hold (1.10, 2.28 Å); no MAO-B run left the site |
 | 4 | `cand_003` forms a stable complex with TTBK1 | **Supportable, pose-specific** | pose 1 holds in both replicates (1.88, 1.38 Å); poses 2–3 drift |
 | 5 | The compound favours MAO-B over MAO-A — the intended direction | **Supportable** | all 12 on-pose pairings agree; docking agrees independently |
@@ -207,6 +262,7 @@ This is the section to write the thesis and the manuscript Results from.
 | 8 | TTBK2 is an off-target liability for this series | **Docking only** | reverses under a symmetric water shell; inside the ~1.0 protocol bias |
 | 9 | The reported SEM is not a usable error bar, and its failure scales with pose instability | **Supportable, strongly** | 5 replicate pairs, ratio 2× to 33×, spread monotonic in ligand RMSD |
 | 10 | Absolute ΔG values are comparable between targets | **Not supportable** | protein-specific desolvation/surface terms do not cancel |
+| 11 | Fine-grained docking rank is not reproducible across scoring functions | **Supportable, strongly** | top-15 Pearson +0.354 (p 0.20) and +0.142 (p 0.62); different best compound in both arms; 56 ligands × 2 targets × 3 seeds |
 
 ### Two things not to write
 
@@ -231,9 +287,12 @@ Stated plainly, because each one bounds a claim above.
 3. **Single-trajectory MM-GBSA, no entropy term.** These are interaction-energy estimates, not
    binding free energies in the thermodynamic sense, and their absolute values are not comparable
    to experiment.
-4. **Two replicates per MAO arm, not more.** Enough to measure a spread and show the ΔΔG clears
-   it ~10-fold; not enough for a distribution. The TTBK arms still have no on-pose replicate pair
-   beyond TTBK1 pose 1.
+4. **Two replicates per arm at most.** Every arm now carries one measured replicate pair — MAO-A
+   pose 3, MAO-B pose 2, TTBK1 pose 1 and TTBK2 pose 2, plus the off-pose TTBK2 pose 1 pair.
+   That is enough to measure a spread, and for MAO to show the ΔΔG clears it ~10-fold; it is
+   not enough to put a confidence interval on the spread itself, which is what a formal claim
+   about the MAO ΔΔG would eventually need. A third and fourth replicate per arm would turn the
+   spreads from point estimates into distributions.
 5. **FAD is a restrained GAFF2 residue, not the covalent 8α-S-cysteinyl cofactor it really is.**
    Beyond the induced-fit point below, this is also why the MAO replicate spread is so tight — the
    restraint removes receptor motion that would otherwise vary between seeds.
@@ -244,25 +303,26 @@ Stated plainly, because each one bounds a claim above.
 6. **No experimental validation.** Everything here is computational. The IC50 values in
    [`../01_smiles/`](../01_smiles/) are literature anchors for reference compounds, not measurements
    of `cand_003`.
+7. **One docking engine, two scoring functions, and they disagree on rank** (Result 5). Absolute
+   favourability is reproduced across functions but fine-grained rank is not, so the shortlist
+   should be treated as a set of plausible candidates rather than an ordered list. This bounds
+   every rank quoted in this file, including `cand_003`'s own 8 of 56 and 2 of 56.
 
 ## What would change the answer
 
-- **Done 2026-09-27:** velocity replicates of the two best on-pose MAO systems
-  (`system_MAOA_p3_r2`, `system_MAOB_p2_r2`) via
-  [`../scripts/run_mao_replicate_queue.sh`](../scripts/run_mao_replicate_queue.sh). They measured
-  the MAO arms' own spread — 0.26 and 0.24 kcal/mol — and moved claim 6 from unsupportable to
-  supportable.
-- **Done 2026-09-28:** the TTBK2 pose 2 velocity replicate (`system_TTBK2_p2_r2`) via
-  [`../scripts/run_ttbk2_replicate.sh`](../scripts/run_ttbk2_replicate.sh). Every arm in the
-  project now has a measured replicate spread. It gave the TTBK2 arm a spread of 3.97 kcal/mol,
-  moved the TTBK ΔΔG from 1.45 to **0.53**, reproduced the pose stability (1.89 Å against
-  1.99 Å), and supplied a fifth point to claim 9.
 - **To support claim 7 either way**, the TTBK arm needs either much longer sampling or an
   alternative free-energy method. With both arms now replicated the picture is worse, not better,
   for more of the same: the resolution floor is ~4 kcal/mol (the larger measured spread) against
   an effect size of ~0.53, and the ~1.3 kcal/mol calibration floor sits between them.
 - **To generalise beyond `cand_003`**, MD the next two or three shortlisted candidates. Pose
   stability has been the discriminating filter at every step and is cheap relative to its value.
+  **Result 5 makes this the priority rather than one option among several:** docking rank cannot
+  identify a best compound, and adding a third empirical scoring function would not settle a
+  disagreement between two. Short MD on the shortlist is the only available method that has
+  actually separated these compounds. Ligand parameterisation for this is no longer blocked.
+- **To put a confidence interval on the error bars themselves**, a third and fourth replicate per
+  arm would turn the spreads from point estimates into distributions — what a formal claim about
+  the MAO ΔΔG would eventually need (limitation 4).
 
 ## Relevant files
 
@@ -275,6 +335,8 @@ Stated plainly, because each one bounds a claim above.
 | [`../07_mmgbsa/md_mmgbsa_summary.csv`](../07_mmgbsa/md_mmgbsa_summary.csv) | **the source table** — every RMSD and energy quoted here |
 | [`../scripts/collect_md_summary.py`](../scripts/collect_md_summary.py) | regenerates that table from primary `.dat` files; `--check` fails if stale |
 | [`../08_analysis/selectivity_margins.csv`](../08_analysis/selectivity_margins.csv) | per-candidate docking margins against each anti-target |
+| [`../08_analysis/vinardo_crosscheck.csv`](../08_analysis/vinardo_crosscheck.csv) | **result 5's source table** — per-ligand Vina and Vinardo scores and ranks, both receptors |
+| [`../scripts/audit_vinardo.py`](../scripts/audit_vinardo.py) | recomputes every number in result 5 from that table; 66 checks |
 | [`../08_analysis/filter_cascade_candidates_56.csv`](../08_analysis/filter_cascade_candidates_56.csv) | the ADMET/BBB properties in the lead table above |
 | [`../LOGBOOK.md`](../LOGBOOK.md) | the chronological record, and the authoritative account of *why* — including every defect found |
 | [`../09_manuscript/README.md`](../09_manuscript/README.md) | which manuscript claims need revising, section by section |

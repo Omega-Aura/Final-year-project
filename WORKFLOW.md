@@ -401,7 +401,19 @@ is not one — see §Part 5.
 ### Week 3
 
 - MD runs continue overnight. As each completes, run MM-GBSA (igb=5, 0.150 M salt, every 5th frame,
-  **per replicate, never pooled**). Re-run Vinardo on the top-15 poses from the validated TTBK1.
+  **per replicate, never pooled**).
+
+- **Vinardo cross-check — DONE, and wider than planned.** Run over **all 56** candidates against
+  **both** validated on-targets (7JXXdry, 2V5Zdry) at three seeds — 336 dockings — not the top 15
+  of TTBK1 alone. Going wide is what made the result interpretable: across all 56 the functions
+  correlate (r = 0.49 TTBK1, 0.69 MAO-B), but **within the top 15 the correlation is not
+  significant** (r = 0.354, p = 0.20; r = 0.142, p = 0.62), and they disagree on the best compound
+  in both arms. Had only the top 15 been run, the non-significant correlation would have had
+  nothing to be contrasted against and would have looked like noise rather than range
+  restriction. `scripts/run_vinardo_crosscheck.sh` → `scripts/analyze_vinardo_crosscheck.py`;
+  output in `04_docking/crosscheck/vinardo/` and `08_analysis/vinardo_crosscheck.csv`.
+  Scores from the two functions are **never** pooled or averaged — see the prior-phase report,
+  where a combined Vina+Vinardo z-score ranking nearly selected a different lead.
 - **Strip solvent before MM-GBSA and do not pass `-sp`.** That flag expects the solvated topology
   and aborts on an atom-count mismatch against an already-stripped trajectory.
 - ADMET re-screen: all 56 candidates plus kaempferol and quercetin through **ADMETlab 3.0** and

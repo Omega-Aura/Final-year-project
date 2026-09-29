@@ -3443,3 +3443,267 @@ what each possible outcome would have meant, written *before* the result was kno
 `09_manuscript/manuscript_dualtarget_flavonol.md` (abstract, §2.5, §3.7, §3.8, §3.9, §4.2, §4.3,
 §4.4, §4.5, §5), `09_manuscript/manuscript_figures_tables_and_journals.md`, `README.md`,
 `INVENTORY.md`, `WORKFLOW.md`.
+
+## 2026-09-28 — M (Smart App Control blocks RDKit; the prep path moves into WSL2 and is shown equivalent to ≤0.02 kcal/mol)
+
+Windows Smart App Control began blocking two unsigned conda-forge binaries in the native
+`docking_project` env:
+
+```
+Lib\site-packages\rdkit\Chem\rdchem.pyd   -> "An Application Control policy has blocked this file"
+Scripts\mk_export.exe                    -> "blocked by your organization's Device Guard policy"
+```
+
+State at the time: `VerifiedAndReputablePolicyState = 1` (Enforced),
+`UsermodeCodeIntegrityPolicyEnforcementStatus = 2`.
+
+### Why the obvious fix does not work
+
+Smart App Control has **no allowlist**. `Add-MpPreference -ExclusionPath` configures Defender
+antivirus, which is a different subsystem, so a path exclusion cannot reach a file the Code
+Integrity policy has blocked. The exclusions were added and both files were confirmed still
+blocked, twice. Turning Smart App Control off is the only native fix and it **cannot be undone
+without reinstalling Windows** — far too much collateral for a toolchain problem.
+
+`rdchem.pyd` is also only the first of 63 `.pyd` files in that tree, so unblocking it individually
+would most likely just move the error to the next one.
+
+### What was affected, and what was not
+
+Blocked: `prep_ligands.py`, `prep_receptor.sh`, `filter_cascade.py`, `bbb_score.py`,
+`fix_native_bondorders.py`, and PDBQT → SDF export.
+
+**Correction to my own first pass:** I initially listed `run_prolif_v2.py` here too. It does
+import RDKit, but it is prior-phase and cannot run at all — `prep/`, `ligands/` and `docking/`
+were all removed in the cleanup, so it fails on missing inputs with or without RDKit. Leaving it
+on the blocked list would have sent someone to fix the wrong problem. ProLIF 2.2.1 and
+MDAnalysis 2.9.0 were installed into `ligprep` anyway, so it has a home if it is ever brought
+forward to the numbered tree.
+
+Unaffected: Vina scoring, OpenMM MD on CUDA, WSL MM-GBSA, and every analysis and figure script.
+The Vinardo cross-check ran throughout, because it is score-only (`DOCK_SDF=0`) and needs no SDF.
+
+### The fix: WSL2, which the policy does not govern
+
+WSL2 runs ELF binaries and is outside Smart App Control — which is also why AmberTools in the
+`mdgbsa` env kept working the whole time. A new env, `ligprep`, was built there (spec exported to
+`scripts/env_ligprep_wsl.yml`). It is deliberately **separate from `mdgbsa`**: a dependency solve
+that broke that AmberTools install would cost far more than it saves.
+
+`scripts/wsl_run.sh` is the bridge. The project's scripts take relative paths and run from the
+project root, so the whole script executes inside WSL unchanged — no per-binary shim and no
+argument rewriting for a caller to get subtly wrong. `shutil.which` inside those scripts then finds
+the Linux entry point names on its own.
+
+Two install notes:
+
+* `conda create` first failed on a **Terms-of-Service gate** for `repo.anaconda.com/pkgs/{main,r}`,
+  and `| tail -25` hid the failure behind exit code 0. Fixed with `--override-channels -c
+  conda-forge`, which is where everything here lives anyway — no ToS acceptance on the user's
+  behalf.
+* The entry point is `mk_export.py` on conda-forge Linux and `mk_export.exe` on Windows — same
+  meeko version, different script name. `wsl_run.sh` aliases the bare names so neither platform's
+  spelling breaks.
+
+### Versions pinned to match, and the two that could not be
+
+`ligprep` is pinned to the Windows env's versions so it is a drop-in replacement rather than a
+second, divergent toolchain. Final state (spec: `scripts/env_ligprep_wsl.yml`):
+
+```
+package       WSL ligprep    Windows
+rdkit         2025.09.6      2025.09.6    match
+meeko         0.7.1          0.7.1        match
+prolif        2.2.1          2.2.1        match
+MDAnalysis    2.9.0          2.9.0        match
+pandas        2.3.3          2.3.3        match  (pinned down from 3.0.6 -- see below)
+shapely       2.1.2          n/a          Windows copy is pip-installed
+openbabel     3.2.1          3.1.1        UNMATCHED
+numpy         2.4.6          2.0.1        UNMATCHED
+```
+
+Two could not be matched:
+
+* **openbabel**: 3.1.1 conflicts with python 3.11 + rdkit 2025.09.6 through libxml2. This is the one
+  that touches coordinates, via the `-p 7.4` protonation step, so it is the reason the verification
+  below measures geometry rather than assuming it.
+* **numpy**: 2.4.6 against 2.0.1. Left alone deliberately -- numpy 2.x is API-stable, RDKit's
+  geometry is C++ and does not route through it, and the docking equivalence test below passed under
+  this numpy.
+
+One was caught and corrected: the ProLIF solve pulled **pandas 3.0.6** in, a major-version jump from
+Windows' 2.3.3. pandas 3.x changes `read_csv` dtype inference and copy-on-write semantics, and
+`prep_ligands.py`, `filter_cascade.py` and `bbb_score.py` all read CSVs -- that is the class of
+difference that changes results silently instead of erroring, so it was pinned back to 2.3.3. Every
+verification below was then re-run on the final stack, not the intermediate one.
+
+### Verification — the real operation every time, never a `--help` probe
+
+A `--help` probe already produced one false "OK" for `mk_export.exe` earlier in this project: bash
+printed "Permission denied" and the probe read the exit status as success. So every check here does
+the actual work.
+
+1. rdkit + meeko import, and embed + MMFF + obabel + `mk_prepare_ligand` on a flavonol — OK.
+2. Real PDBQT → SDF on a docked pose: 486 lines, correct energies, `$$$$` terminator.
+3. `prep_ligands.py` end-to-end through the bridge on `cand_001..003` — all three prepped.
+4. **Conformer comparison against the repo copies: `GetBestRMS` = 0.0001 Å for all three** —
+   identical to printing precision. Raw RMSD differed (9.31, 0.006, 3.71 Å) purely as
+   rigid-body placement: same molecule, same internal geometry, different global frame. The frame
+   shift is obabel 3.2.1's, from the `-p 7.4` step. Re-measured on the final pinned stack after
+   the pandas correction, not only on the intermediate one.
+5. **The test that actually matters**, since a different starting frame could in principle perturb
+   the search: re-dock the WSL-prepped `cand_003` against `2V5Zdry` at the identical box,
+   exhaustiveness 32, `num_modes` 9 and seed 11.
+
+```
+pose      repo     WSL-prepped     delta
+  1     -11.42        -11.41        0.01
+  2     -11.26        -11.28        0.02
+  3     -10.62        -10.62        0.00
+  4      -9.347        -9.348       0.001
+```
+
+Agreement to **≤0.02 kcal/mol** — two orders of magnitude below this project's own inter-seed SD
+and far below any margin it reports. The obabel mismatch is therefore immaterial in practice.
+
+### Operational rule
+
+Existing ligands **do not need re-prepping** — they are already in the repo and nothing about them
+changed. `ligprep` exists to unblock *new* work. Re-prepping is chemically safe (identical
+conformer) but would perturb the absolute frame for no gain, so it should not be done gratuitously.
+
+### A verifier bug, caught by the operation succeeding
+
+The first bridge wrapper reported `[FAIL] no SDF produced` for a conversion that had in fact
+written a valid 486-line SDF. The bug was in the check, not the work: it ran `[ -s "$OUT" ]` on the
+Windows side against a `/mnt/c/...` path, which does not resolve there. All verification now
+happens inside WSL, where the path is certainly valid, and that wrapper was deleted in favour of
+the general `wsl_run.sh`.
+
+This is the same lesson as entries K and L, in the opposite direction: there the verifier invented
+a defect that was not in the data, here it invented a failure in an operation that had succeeded.
+**A verifier is code and gets the same scrutiny as the thing it verifies.**
+
+### Added
+
+`scripts/wsl_run.sh`, `scripts/env_ligprep_wsl.yml`.
+
+Propagated to `scripts/README.md` (the "Three environments, one pipeline" section replacing "Two").
+
+Still pending at the time of writing: `dock.sh` gains a preflight that resolves the export route
+once and falls back to the WSL bridge when the native `mk_export` is blocked, rather than aborting.
+It could not be applied while the Vinardo cross-check was running -- Windows holds a rename lock on
+a script bash has open, so the atomic `os.replace` returned `WinError 5`. That is the guard working
+as designed; the patch waits for the job to finish.
+
+## 2026-09-28 — N (the Vinardo cross-check on the validated receptors: the caveat is confirmed, not removed)
+
+336 dockings: all 56 candidates against both validated water-symmetric on-targets (7JXXdry TTBK1,
+2V5Zdry MAO-B), three seeds each, under Vinardo. Identical box, exhaustiveness 32, `num_modes` 9 and
+seeds as the production Vina run — **only the scoring function differs**. Ran 03:13–03:50, all 6
+runs `[ok]`, 336/336 logs.
+
+This closes the gap §3.3 and WORKFLOW Phase 3 both flagged. The only prior Vinardo data was
+prior-phase, measured on 4NFM/2V5Z — the superseded receptor set, whose TTBK1 structure was apo and
+carried no passing redocking validation — so the published caveat was a general warning from
+superseded receptors, not a cross-check of the rankings actually reported.
+
+### Result
+
+```
+                        TTBK1 (7JXXdry)        MAO-B (2V5Zdry)
+Pearson, all 56         +0.489 (p 1.3e-4)     +0.690 (p 4.1e-9)
+Spearman, all 56        +0.463 (p 3.3e-4)     +0.516 (p 4.6e-5)
+Pearson, top 15         +0.354 (p 0.20) n.s.  +0.142 (p 0.62) n.s.
+top-15 overlap          8 of 15                6 of 15
+best by vina/vinardo    cand_013 / cand_002    cand_043 / cand_001
+cand_003 rank           8 vs 12 of 56          2 vs 10 of 56
+vina spread all56/top15 1.87 / 0.60            2.92 / 0.77
+```
+
+### Why the top-15 row is the one that matters
+
+The all-56 correlation looks reassuring and is not. It is carried by **dynamic range** — both
+functions agree that weak binders are weak. Restrict to the slice where selection actually happens
+and the Vina spread collapses from 1.87 to 0.60 kcal/mol at TTBK1 and 2.92 to 0.77 at MAO-B, and with
+it the correlation, to **non-significance on both targets**.
+
+This is not seed noise. Mean inter-seed SD is 0.065 and 0.012 kcal/mol for Vina, 0.012 and 0.009 for
+Vinardo — one to two orders of magnitude below the disagreement. The functions genuinely disagree.
+
+So: **absolute favourability reproduces, fine-grained rank does not.** Every candidate again scores
+favourably under Vinardo (−7.72 to −4.99 at TTBK1, −9.42 to −4.55 at MAO-B). Neither arm's best
+compound agrees between functions. The cross-check therefore *confirms* the existing caveat rather
+than resolving it, and the manuscript was updated to say so rather than to report a closed gap.
+
+What survives is weaker but real: `cand_003` sits in the **top 12 of 56 under both functions on both
+targets** (top ~21%) — robustly good, not demonstrably best. That is the honest strength of the
+claim, and it is why pose stability rather than docking rank has been the discriminating filter
+throughout.
+
+### A comparison I nearly made and should not have
+
+My first reading was that MAO-B had "improved" from the prior phase's r = −0.28 to +0.690. That
+comparison is invalid: the prior figure was a **top-15** value on **different receptors**, and both
+the slice and the receptors changed. Range restriction alone attenuates correlation, which is
+exactly what the top-15 column here demonstrates. Computing the top-15-restricted values was what
+made the comparison honest — and on that like-for-like basis there is no improvement to claim, only
+a measurement made on the reported receptors for the first time.
+
+Had the run covered only the top 15, as WORKFLOW Phase 3 originally specified, the non-significant
+correlation would have had nothing to contrast against and would have read as noise rather than range
+restriction. Going wide is what made it interpretable.
+
+### Not done, deliberately
+
+No consensus of the two functions is computed. Averaging them is how the prior phase nearly selected
+a different lead — a weak Vina score got masked rather than corroborated. Agreement is tested, never
+averaged, and the two are never plotted on a shared axis. Vinardo output lives one directory level
+deeper, in `04_docking/crosscheck/vinardo/`, below the globs used by `collect_results.py`,
+`analyze_selectivity.py` and `analyze_water_test.py`, so it cannot be pooled into a Vina consensus or
+selectivity margin even by accident.
+
+A third empirical scoring function would not help: two disagreeing empirical functions cannot be
+adjudicated by a third of the same kind, a point WORKFLOW already made. §4.5 was rewritten to say
+the way past this is short MD on the shortlist, since pose stability has separated these compounds
+where score could not.
+
+### Added / changed
+
+`08_analysis/vinardo_crosscheck.csv` (112 rows), `08_analysis/vinardo_crosscheck_slices.csv`,
+`scripts/run_vinardo_crosscheck.sh`, `scripts/analyze_vinardo_crosscheck.py`.
+Propagated: manuscript §2.4, §3.3 (heading and body), §4.4 limitation 7, §4.5 next steps;
+`WORKFLOW.md` Week 3; `04_docking/README.md`.
+
+### Propagated to the results document (same day)
+
+`10_results/README.md` brought up to the current findings:
+
+- **New Result 5** for the cross-check, with the top-15 collapse as the headline rather than the
+  flattering all-56 correlation, and an explicit note that the all-56 row is the wrong one to read.
+- **New claim 11** ("fine-grained docking rank is not reproducible across scoring functions",
+  supportable strongly). Claims were **not** renumbered — claim 7 is cross-referenced later in the
+  same file. Claim 2's basis now cross-references claim 11: Result 1 tests docking rank against
+  physics, Result 5 tests it against itself, and they agree.
+- **The lead compound's ranks now carry the caveat where a reader meets them.** "Rank 8 of 56" and
+  "rank 2 of 56" were stated bare; they are Vina's, and Vinardo puts the same compound at 12 and 10.
+- **New limitation 7** bounding every rank quoted in the file.
+
+Two stale items were found while doing this, neither related to Vinardo:
+
+- **Limitation 4 contradicted the file's own Result 4 table.** It still read "The TTBK arms still
+  have no on-pose replicate pair beyond TTBK1 pose 1", which stopped being true when
+  `system_TTBK2_p2_r2` ran — and the Result 4 table four sections earlier already listed that pair.
+  Rewritten to state that every arm now carries one, and that the remaining gap is a distribution
+  rather than a point estimate.
+- **"four documented instances"** of the comparability failure, against the manuscript's five. The
+  fifth (a replicated arm judged against an unreplicated one) was added the same day as the TTBK2
+  replicate and never propagated here.
+
+Also: the two "Done 2026-09-27/28" bullets were removed from "What would change the answer", which
+is a forward-looking list. Nothing was lost — every number they carried (0.26, 0.24, 3.97, the
+1.45 → 0.53 fall) is already in the Results sections above, and the audit asserts they survive.
+
+Verified by `scripts/audit_results_readme.py` — 50 checks, recomputing the Vinardo statistics and
+the pose-verdict counts from the primary files rather than comparing text to text, and asserting
+the README agrees with the manuscript on the shared numbers.

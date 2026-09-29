@@ -69,8 +69,13 @@ cavity.
 ## Reference
 
 - **Engine** — AutoDock Vina
-- **Scoring** — default Vina function; Vinardo used as an independent cross-check in
-  [step 8](../08_analysis/)
+- **Scoring** — default Vina function. **Vinardo** is run as an independent cross-check over
+  all 56 candidates × both validated on-targets × 3 seeds, at identical box, exhaustiveness,
+  `num_modes` and seeds — only the function differs. Output is deliberately one directory
+  level deeper, in `crosscheck/vinardo/`, so the glob patterns used by `collect_results.py`,
+  `analyze_selectivity.py` and `analyze_water_test.py` cannot reach it: the two functions run
+  on different scales and must never be pooled into one consensus or margin. Analysis in
+  [step 8](../08_analysis/) (`vinardo_crosscheck.csv`).
 - **Ligand preparation** — Meeko / `obabel`, protonation via `dimorphite-dl` (see
   [step 2](../02_ligands/))
 - **Receptor preparation** — [`../scripts/prep_receptor.sh`](../scripts/prep_receptor.sh); grid
