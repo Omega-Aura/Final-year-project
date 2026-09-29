@@ -2,10 +2,10 @@
 
 ## What we did
 
-Ran 10.1 ns of unrestrained all-atom MD on sixteen explicitly solvated protein–ligand complexes:
-`cand_003` docked into TTBK1, TTBK2, MAO-A and MAO-B, covering **three independent docked poses
-per target**, plus velocity-seed replicates of the TTBK top poses and of the best on-pose
-trajectory in each MAO arm.
+Ran 10.1 ns of unrestrained all-atom MD on seventeen explicitly solvated protein–ligand
+complexes: `cand_003` docked into TTBK1, TTBK2, MAO-A and MAO-B, covering **three independent
+docked poses per target**, plus velocity-seed replicates of the best on-pose trajectory in
+**every one of the four arms**.
 
 | Directory | Target | Structure | Start | Ligand RMSD (last 100 frames) | Verdict |
 |---|---|---|---|---|---|
@@ -15,7 +15,8 @@ trajectory in each MAO arm.
 | `system_TTBK1_p3/` | TTBK1 | 7JXX | pose 3 | 3.42 Å | drifts |
 | `system_TTBK2/` | TTBK2 | 7Q8Y | pose 1, run 1 | 3.72 Å | drifts |
 | `system_TTBK2m/` | TTBK2 | 7Q8Y | pose 1, run 2 | 5.69 Å | dissociates |
-| `system_TTBK2_p2/` | TTBK2 | 7Q8Y | pose 2 | 1.99 Å | stable |
+| `system_TTBK2_p2/` | TTBK2 | 7Q8Y | pose 2, run 1 | 1.99 Å | stable |
+| `system_TTBK2_p2_r2/` | TTBK2 | 7Q8Y | pose 2, run 2 | 1.89 Å | stable |
 | `system_TTBK2_p3/` | TTBK2 | 7Q8Y | pose 3 | 5.79 Å | dissociates |
 | `system_MAOA/` | MAO-A | 2Z5X | pose 1 | 3.24 Å | drifts off pose |
 | `system_MAOA_p2/` | MAO-A | 2Z5X | pose 2 | 2.43 Å (1.79 core-fit) | holds, loose |
@@ -78,9 +79,12 @@ Three specific design choices each exist because of a defect found earlier in th
    from only one pose (twice). That produced an apparent "TTBK2 is less stable" result which was
    purely an artifact of comparing a *pose scan* against a *replicate scan*. Running TTBK1 poses
    2 and 3 made the test symmetric — and the difference vanished.
-2. **Two velocity replicates of the top pose.** One replicate per target would have made a
-   1.45 kcal/mol ΔΔG look like a five-sigma result against the reported SEM. The replicate spread
-   (~2.08 kcal/mol) is the real error bar, and it is only knowable from replicates.
+2. **A velocity replicate of the best on-pose trajectory in every arm.** One replicate per
+   target would have made a 1.45 kcal/mol ΔΔG look like a five-sigma result against the reported
+   SEM. The replicate spread is the real error bar, and it is only knowable from replicates —
+   which is also why the TTBK2 arm could not keep borrowing TTBK1's: measured on 2026-09-28, its
+   own spread is **3.97 kcal/mol**, nearly twice TTBK1's 2.08, and the ΔΔG computed from two
+   replicate means rather than one single run falls to **0.53 kcal/mol**.
 3. **Parameters generated from the docked pose, not a free conformer.** `params/cand_003.acpype/`
    was built from a relaxed free conformer; `params/docked/cand_003.acpype/` was rebuilt from the
    actual docked pose. Only the latter is used, so the MD starting geometry is the geometry the
@@ -135,7 +139,7 @@ System sizes and throughput:
 | MAO-A (2Z5X) | 118,896–118,923 | 59.8–63.1 ns/day (3 runs) |
 | MAO-B (2V5Z) | 90,129 | 80.9–82.0 ns/day (3 runs) |
 
-All sixteen runs completed to step 5,050,000 with temperature stable at ~300 K and potential
+All seventeen runs completed to step 5,050,000 with temperature stable at ~300 K and potential
 energy stable. `tleap` reported zero errors on every build; all systems neutral.
 
 One interruption, no lost science: a machine restart at 16:06 on 2026-09-26 killed the queue
@@ -162,8 +166,11 @@ to sit in here, and it dominates any whole-protein fit:
   MAO-B 496–499 of 499) at 5–8 Å.
 - **`core_rmsd.cpptraj`** — refits on the ordered core `:1-496@CA,C,N` and re-measures ligand and
   FAD against that. Outputs `prot_core_rmsd.dat`, `lig_corefit_rmsd.dat`, `fad_corefit_rmsd.dat`.
-  Without this, `system_MAOA_p2` reads 3.44 Å backbone RMSD — the highest in the project — and
-  looks like an unstable fold; its core is 1.28 Å and its ligand 1.79 Å rather than 2.43 Å.
+  Without this, `system_MAOA_p3_r2` reads 3.64 Å backbone RMSD and `system_MAOA_p2` 3.44 Å — the
+  two highest in the project — and both look like unstable folds. Neither is: `p3_r2`'s core is
+  1.50 Å and its ligand 1.07 Å, the most stable ligand in the project, and `p2`'s core is 1.28 Å
+  with its ligand at 1.79 Å rather than 2.43 Å. The tail fluctuates *more* in `p3_r2` (9.16 Å peak
+  at residue 511, against `p2`'s 8.29 Å), which is the whole of the difference between the two.
 
 Stability was judged on the **mean of the final 100 frames**, not the whole-run mean: a ligand
 that leaves late still shows a low whole-run average. The collected table is built from these
@@ -175,8 +182,11 @@ transcribed by hand.
 **No pose-stability difference between the kinases.** TTBK1 holds `cand_003` in 1 of 3 docked
 poses; TTBK2 also in 1 of 3. Which pose survives differs (TTBK1 pose 1, TTBK2 pose 2), but that
 is not a selectivity signal — it says the docking pose ranking does not predict dynamic
-stability, equally for both proteins. Protein backbones were stable throughout every run
-(1.12–1.81 Å, and 1.06–1.77 Å core-fit for the MAO systems).
+stability, equally for both proteins. Protein backbones were stable throughout every run: the
+eight TTBK runs sit at **1.34–1.90 Å** whole-protein, and the eight MAO runs at **1.06–1.77 Å**
+core-fit (1.19–3.64 Å whole-protein, the upper end being the membrane-anchoring tail rather than
+the fold — see the `core_rmsd.cpptraj` note above). All figures are means over the final 100
+frames, read from `07_mmgbsa/md_mmgbsa_summary.csv`.
 
 **Docking rank does not predict pose stability in the MAO pair either.** The pose that holds best
 is MAO-A's *worst*-ranked pose 3 (1.43 Å, Vina −7.399 against pose 1's −8.236) and MAO-B's pose 2

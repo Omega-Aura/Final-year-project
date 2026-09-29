@@ -8,9 +8,11 @@
 #
 # Usage: bash scripts/run_mmgbsa.sh <system_dir_name>      e.g. system_TTBK2
 set -euo pipefail
+. "$(dirname "$0")/md_paths.sh"
 
 SYS="${1:?usage: run_mmgbsa.sh <system_dir_name under 06_md/>}"
-WSLDIR="/mnt/c/Users/aritr/OneDrive/Desktop/Final year project/06_md/$SYS"
+SYSDIR=$(md_system_dir "$SYS") || { echo "[abort] no MD system dir for '$SYS'" >&2; exit 1; }
+WSLDIR="/mnt/c/Users/aritr/OneDrive/Desktop/Final year project/$SYSDIR"
 
 wsl -e bash -lc "
 source ~/miniconda3/etc/profile.d/conda.sh && conda activate mdgbsa

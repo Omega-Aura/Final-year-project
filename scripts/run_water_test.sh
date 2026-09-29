@@ -24,6 +24,8 @@
 #
 # Usage: bash scripts/run_water_test.sh [--dry-run]
 set -uo pipefail
+. "$(dirname "$0")/docking_paths.sh"
+. "$(dirname "$0")/receptor_paths.sh"   # docking_out / docking_glob: 04_docking layout
 
 DRY=0
 for arg in "$@"; do [ "$arg" = "--dry-run" ] && DRY=1; done
@@ -56,7 +58,7 @@ expected_count() {
 total_run=0; total_skip=0
 for J in $JOBS; do
     R="${J%%:*}"; SET="${J##*:}"
-    REC="03_receptors/$R/receptor.pdbqt"
+    REC=$(receptor_file "$R" receptor.pdbqt) || REC="03_receptors/$R/receptor.pdbqt"
     [ -f "$REC" ] || { echo "[skip] $R: no receptor.pdbqt -- run the dry-receptor build first"; continue; }
     N_EXP=$(expected_count "$SET")
     case "$N_EXP" in
@@ -64,7 +66,7 @@ for J in $JOBS; do
         0)           echo "[abort] $R $SET: ligand set is empty" >&2; exit 1 ;;
     esac
     for S in $SEEDS; do
-        OUT="04_docking/${R}_${SET}_seed${S}"
+        OUT=$(docking_out "$R" "$SET" "$S")
         N_FRESH=0
         [ -d "$OUT" ] && N_FRESH=$(find "$OUT" -name '*.log' -newer "$REC" 2>/dev/null | wc -l)
         if [ "$N_FRESH" -ge "$N_EXP" ]; then

@@ -21,6 +21,7 @@
 # whose scores are compared must be prepared by the same script in the same run) still
 # holds across the whole set.
 set -euo pipefail
+. "$(dirname "$0")/receptor_paths.sh"
 
 # Add conda env paths to PATH
 if [ -n "${CONDA_PREFIX:-}" ]; then
@@ -29,7 +30,8 @@ if [ -n "${CONDA_PREFIX:-}" ]; then
 fi
 
 PDB=$1; CHAIN=$2; LIG=$3; COFACTORS=${4:-""}; WATER_SHELL=${5:-5.0}
-D="03_receptors/$PDB"; mkdir -p "$D"
+# Grouped by target family; receptor_group is the one place that rule lives.
+D="03_receptors/$(receptor_group "$PDB")/$PDB"; mkdir -p "$D"
 
 if [ ! -f "$D/raw.pdb" ]; then
     if command -v wget >/dev/null 2>&1; then

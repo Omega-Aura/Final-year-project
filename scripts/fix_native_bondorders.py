@@ -21,7 +21,7 @@ The fix is to stop guessing: take the bond orders from the compound's verified S
 Component Dictionary) and transfer them onto the crystal coordinates via RDKit's
 AssignBondOrdersFromTemplate. Coordinates are untouched -- this only corrects chemistry.
 
-Output: 03_receptors/<PDB>/native_<LIG>_ref.sdf   (the RMSD reference to actually use)
+Output: 03_receptors/<family>/<PDB>/native_<LIG>_ref.sdf  (the RMSD reference to actually use)
 """
 import glob
 import os
@@ -40,7 +40,8 @@ rows = rows[rows["native_of_pdb"].notna()]
 fail = 0
 for _, r in rows.iterrows():
     pdb = str(r["native_of_pdb"]).strip()
-    hits = glob.glob(f"03_receptors/{pdb}/native_*.pdb")
+    hits = (glob.glob(f"03_receptors/{pdb}/native_*.pdb") +
+            glob.glob(f"03_receptors/*/{pdb}/native_*.pdb"))
     hits = [h for h in hits if not h.endswith("_ref.pdb")]
     if len(hits) != 1:
         print(f"[skip] {pdb}: expected 1 native_*.pdb, found {len(hits)}")
@@ -80,7 +81,8 @@ for _, r in rows.iterrows():
 
     Chem.SanitizeMol(fixed)
     fixed.SetProp("_Name", f"{lig}_from_{pdb}")
-    out = f"03_receptors/{pdb}/native_{lig}_ref.sdf"
+    # Write beside the structure's own PDB, wherever the family grouping put it.
+    out = os.path.join(os.path.dirname(hits[0]), f"native_{lig}_ref.sdf")
     w = Chem.SDWriter(out)
     w.write(fixed)
     w.close()

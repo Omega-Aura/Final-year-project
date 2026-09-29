@@ -5,7 +5,7 @@
 Computed single-trajectory MM-GBSA binding free energies for `cand_003` against TTBK1, TTBK2,
 MAO-A and MAO-B, from the 10.1 ns trajectories produced in [step 6](../06_md/).
 
-Results live **beside each trajectory** in `06_md/system_*/mmgbsa_results*.dat`, because
+Results live **beside each trajectory** in `06_md/systems/system_*/mmgbsa_results*.dat`, because
 `MMPBSA.py` must run in the directory holding the matching topologies. This directory holds the
 consolidated table and the prior-phase results.
 
@@ -92,21 +92,25 @@ atom-count mismatch against an already-stripped trajectory.
 Beyond the per-system energies, the replicate pairs were used to establish the actual
 uncertainty of the method on this system:
 
-All four replicate pairs in the project, each two runs differing **only** in the random velocity
+All five replicate pairs in the project, each two runs differing **only** in the random velocity
 seed. The spread is computed from `dG_raw` in the summary CSV, not the 2 dp column: it is a
 difference of two near-equal numbers, and rounding first turns the true MAO spreads of 0.26 and
 0.24 into 0.27 and 0.23.
 
 | Pair | Mean ligand RMSD | ΔG run 1 / run 2 | Spread | Larger SEM | Ratio |
 |---|---|---|---|---|---|
-| MAO-B pose 2 | 1.23 Å | −39.20 / −38.97 | **0.24** | 0.15 | 2× |
+| MAO-B pose 2 | 1.24 Å | −39.20 / −38.97 | **0.24** | 0.15 | 2× |
 | MAO-A pose 3 | 1.25 Å | −36.67 / −36.40 | **0.26** | 0.17 | 2× |
 | TTBK1 pose 1 | 1.63 Å | −31.36 / −33.44 | **2.08** | 0.27 | 8× |
-| TTBK2 pose 1 | 4.70 Å | −29.78 / −22.88 | **6.89** | 0.21 | 33× |
+| **TTBK2 pose 2** | **1.94 Å** | **−30.95 / −34.92** | **3.97** | 0.27 | **15×** |
+| TTBK2 pose 1 | 4.71 Å | −29.78 / −22.88 | **6.89** | 0.21 | 33× |
 
-**The spread tracks pose stability, monotonically across all four pairs.** Sorted by how well the
+**The spread tracks pose stability, monotonically across all five pairs.** Sorted by how well the
 pair held its pose, the spread rises 29-fold from 0.24 to 6.89 kcal/mol while the reported SEM
-barely moves. A trajectory that is leaving the site samples structures that were never the
+barely moves. The TTBK2 pose-2 pair was added on 2026-09-28 to give that arm an error bar, not to
+test this relationship, and it fell exactly where the ordering predicts — between TTBK1's 2.08 and
+TTBK2 pose 1's 6.89. (The ratio column is monotonic too, bar a tie: the two MAO pairs differ by
+0.01 Å in RMSD and sit at 1.6× and 1.5×, which is why both are quoted as 2×.) A trajectory that is leaving the site samples structures that were never the
 complex, so its energy varies wildly between seeds; a tightly held pose samples one basin and
 gives nearly the same number twice. See figure 3 in [`../10_results/`](../10_results/).
 
@@ -120,22 +124,29 @@ This also resolves a caution recorded before the replicates existed: that **pose
 replicate spread**. MAO-B's three independent *poses* agreed to 0.44 kcal/mol, which could not be
 used to bound the velocity-seed spread. It now turns out to have pointed the right way — the
 measured replicate spread is 0.24 — but that was not knowable in advance, and TTBK2 is the
-counter-example where a converged-looking arm hid a 6.89 spread.
+counter-example twice over: pose 1 hid a 6.89 spread behind a converged-looking arm, and pose 2 —
+a genuinely *stable* pair, 1.99 and 1.89 Å — still returned 3.97.
 
 **Both MAO constructs end in a solvent-exposed C-terminal tail that inflates whole-protein
 backbone RMSD.** Per-residue RMSF puts the maximum at the last residues of each construct —
 MAO-A 510–513 of 513, MAO-B 496–499 of 499 — at 5–8 Å. In the crystal these are the
 membrane-anchoring end of the protein; simulated in water with no bilayer they flail. This is
-what drives `system_MAOA_p2` to a 3.44 Å backbone RMSD, the highest in the project, while its
-core sits at 1.28 Å. Refitting on `:1-496` and re-measuring gives `prot_core_rmsd.dat` and
+what drives `system_MAOA_p3_r2` to 3.64 Å and `system_MAOA_p2` to 3.44 Å — the two highest
+backbone RMSDs in the project — while their cores sit at 1.50 and 1.28 Å. Refitting on `:1-496` and re-measuring gives `prot_core_rmsd.dat` and
 `lig_corefit_rmsd.dat`; core RMSD is 1.06–1.77 Å across all eight MAO runs and flat in time, so
 **no MAO run has an unstable fold** and the tail motion does not touch the binding site.
 
 ## Final result
 
-**No resolvable TTBK1 vs TTBK2 difference.** The best on-pose comparison is TTBK1 −31.36/−33.44
-against TTBK2 −30.95, a ΔΔG of ~1.45 kcal/mol — smaller than the 2.08 kcal/mol replicate spread
-for the same protein and pose. The pipeline cannot resolve a difference of this size.
+**No resolvable TTBK1 vs TTBK2 difference, and since 2026-09-28 both arms say so with their own
+error bar.** TTBK1's replicate mean is −32.40 (spread 2.08); TTBK2 pose 2's is −32.93 (spread
+**3.97**). Comparing replicate means gives a ΔΔG of **0.53 kcal/mol** — 7.4× smaller than the
+larger spread, and down from the 1.45 quoted while the TTBK2 arm had a single trajectory. The
+pipeline cannot resolve a difference of this size, and measuring the second arm made that more
+obvious rather than less: it moved the central value as well as adding the error bar.
+
+Quote **0.53** as the ΔΔG and **2.08 / 3.97** as the two arms' spreads. The older 1.45 came from
+one TTBK2 run and judged a two-arm difference with one arm's uncertainty.
 
 **The MAO sign disagreement is resolved, and it was an off-pose artifact.** The pose scan supplied
 what the open item asked for — a MAO-A trajectory that holds its docked pose (pose 3, 1.43 Å).
@@ -192,16 +203,17 @@ and not about MAO: no experimental validation, and a single ligand.
 
 **The SEM reported by `MMPBSA.py` is not the error bar, and how wrong it is depends on pose
 stability.** It is computed as if ~200 frames sampled 10 ps apart were independent draws, which
-they are not. Across the project's four replicate pairs the SEM stays in a narrow 0.15–0.27
+they are not. Across the project's five replicate pairs the SEM stays in a narrow 0.15–0.27
 kcal/mol band while the measured spread ranges from 0.24 to 6.89 — a 29-fold range — and the
-ratio between them climbs monotonically with the ligand's RMSD from its docked pose: about 2×
-for the two tightly held MAO poses, 8× for TTBK1, **33× for the TTBK2 pair that drifted and
-dissociated.**
+spread rises monotonically with the ligand's RMSD from its docked pose: about 2× the SEM for the
+two tightly held MAO poses, 8× for TTBK1, 15× for TTBK2 pose 2, **33× for the TTBK2 pair that
+drifted and dissociated.**
 
-Against the SEM, the 1.45 kcal/mol TTBK1-vs-TTBK2 margin would look like a five-sigma result.
-It is not significant at all. **Quoting the SEM as the uncertainty on a ΔΔG is the single easiest
-way to manufacture a significant selectivity result from this pipeline**, and without the second
-replicate that is exactly what would have happened here.
+Against the SEM, the TTBK1-vs-TTBK2 margin would look like a five-sigma result at either value it
+has taken — the 1.45 kcal/mol quoted while TTBK2 had one trajectory, or the **0.53** measured once
+both arms were replicated. It is not significant at all. **Quoting the SEM as the uncertainty on a
+ΔΔG is the single easiest way to manufacture a significant selectivity result from this
+pipeline**, and without the replicates that is exactly what would have happened here.
 
 The refined rule is therefore sharper than "never trust the SEM": **the SEM is only as good as the
 pose is stable, and you cannot know which case you are in without a replicate.** Measure the
@@ -214,10 +226,10 @@ stable.
 |---|---|
 | [`md_mmgbsa_summary.csv`](md_mmgbsa_summary.csv) | all fourteen systems, RMSD + energy, collected from primary data |
 | [`../scripts/collect_md_summary.py`](../scripts/collect_md_summary.py) | regenerates that CSV from the `.dat` files; `--check` fails if it is stale |
-| `../06_md/system_*/mmgbsa_results.dat` | per-system `MMPBSA.py` output (full decomposition) |
-| `../06_md/system/mmgbsa_results_full.dat` | the 10.1 ns TTBK1 baseline — **the number to quote** |
-| `../06_md/system/mmgbsa_results.dat` | the same run at 1 ns (−34.55); kept to show convergence |
-| `../06_md/system_*/gb_{complex,receptor,ligand}.prmtop` | GB topologies from `ante-MMPBSA.py` |
-| `../06_md/system_*/mmpbsa.in` | the exact input used, per system |
+| `../06_md/systems/system_*/mmgbsa_results.dat` | per-system `MMPBSA.py` output (full decomposition) |
+| `../06_md/systems/system/mmgbsa_results_full.dat` | the 10.1 ns TTBK1 baseline — **the number to quote** |
+| `../06_md/systems/system/mmgbsa_results.dat` | the same run at 1 ns (−34.55); kept to show convergence |
+| `../06_md/systems/system_*/gb_{complex,receptor,ligand}.prmtop` | GB topologies from `ante-MMPBSA.py` |
+| `../06_md/systems/system_*/mmpbsa.in` | the exact input used, per system |
 | [`../scripts/run_mmgbsa.sh`](../scripts/run_mmgbsa.sh) | driver; re-runs the full chain |
 | [`prior_phase/`](prior_phase/) | earlier-receptor MM-GBSA, superseded and not comparable |

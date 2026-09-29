@@ -2960,3 +2960,486 @@ JSON carries `"systematic_bias_quote_as": "~1.0 kcal/mol"` plus an
 Files: `scripts/calibration_9iv.py`, `05_validation/{README.md,calibration_9IV_margin.json}`,
 `01_smiles/README.md`, `04_docking/README.md`, `08_analysis/README.md`, `09_manuscript/README.md`,
 `10_results/README.md`, `README.md`, `WORKFLOW.md`.
+
+## 2026-09-27 — H (a completion audit; the withdrawn −3.89 was still standing in the top-level README)
+
+Swept the workspace for remaining work. The compute is finished: all 16 MD systems carry
+`final_state.xml`, the 3 without MM-GBSA are exactly the 3 that should have none, and
+`collect_md_summary.py --check` reports the summary table up to date. What the sweep found instead
+was five documentation defects, four of them created by the **last** batch of data — the MAO
+velocity replicates — which added two systems without the prose being re-read against them.
+
+### The withdrawn number was still in the shop window
+
+Entry on 2026-09-26 withdrew the **−3.89 kcal/mol** MAO-B/MAO-A docking margin: it averages in 8
+candidates that have *no viable MAO-A pose at all* (best mode worse than −5.0 kcal/mol), and
+averaging a non-measurement into a margin manufactures selectivity out of a docking failure. The
+honest figure is **−3.28 over the 48 quantifiable candidates, favourable 48/48**, with the other 8
+sterically excluded.
+
+**The withdrawal never reached the docs.** `08_analysis/README.md` carried −3.89 twice, once in the
+margins table (with an all-56 range of −10.78 to −1.80) and once as "the more robust signal ...
+across 56 candidates" — the precise framing that was withdrawn. `README.md` carried a hybrid:
+the withdrawn **−3.89** against the corrected **48/48** denominator, which is not a statistic that
+exists. Recomputed from `selectivity_margins.csv` excluding the 8 named failures: mean **−3.279**,
+favourable **48/48**, range **−6.04 to −1.80** — reproducing −3.28 exactly.
+
+**The root cause is a gap in the script, not just in the prose.** `analyze_selectivity.py` applies
+`FAIL_THRESHOLD` when it *prints*, but computes `m["no_pose"]` and then drops it from the returned
+columns, so `08_analysis/selectivity_margins.csv` ships all 56 rows with no flag on the 8. Anyone
+who averages the CSV — which is the obvious thing to do — gets −3.89 back. The docs now carry an
+explicit "do not average this CSV directly" warning naming the 8 ligands, but **propagating the
+`no_pose` column into the CSV is the actual fix and is still open.** This is the summary-CSV
+principle from step 10 applied one level down: a table a reader can misread is a table that will be
+misread.
+
+### Three stale counts and a band that mixed two statistics
+
+- **"3.44 Å, the highest in the project" is no longer true.** `system_MAOA_p3_r2` — a replicate
+  added the same day — reports **3.64 Å** whole-protein backbone. Verified against
+  `prot_rmsd.dat` (3.640) and `prot_core_rmsd.dat` (1.500). Its RMSF has the same signature as
+  `p2`: the maximum at the C-terminal tail, residues 506–513 of 513, peaking at **9.16 Å** against
+  `p2`'s 8.29 Å — which is the entire difference between 3.64 and 3.44. Same tail, flailing harder.
+  The run was undiscussed anywhere, and it is the sharpest example in the project of the point that
+  section exists to make: **`p3_r2` holds the project's most stable ligand (1.07 Å) and its highest
+  backbone RMSD at the same time.** Corrected in `06_md`, `07_mmgbsa` and `10_results`.
+- **The `1.12–1.81 Å` backbone band was two different statistics spliced together.** The `1.12` is
+  a *whole-run mean* (`system_MAOB`, logged above); the `1.81` is a *last-100 mean*. Quoted as a
+  range in three top-level documents, and it no longer covers the set either: last-100 across the
+  16 systems runs 1.19–3.64. Replaced with the honest split — TTBK **1.34–1.90 Å** whole-protein,
+  MAO **1.06–1.77 Å** core-fit — and the statistic is now named.
+- **`08_analysis/README.md` was pre-replicate**: "all six MAO-A/MAO-B pairings" (now twelve) and
+  "the *magnitude* is still inside method noise", which the replicates contradicted on 27 Sep. It
+  was the last document still saying the magnitude is unquotable.
+- **Two more counts left at six by the replicates**: `09_manuscript/README.md`'s "all six MAO runs
+  stayed in the site" and `10_results/README.md`'s FAD validation "across six systems". Both are
+  eight. The FAD *range* (0.46–0.73 Å) is unchanged — it already held across all eight.
+  `06_md/README.md`'s "all six MAO systems are neutral at +0.0010 e" was left alone: that sentence
+  is about the six pose-scan builds specifically, and is correct.
+
+### A rule that contradicted itself two paragraphs apart
+
+`README.md` said "**No MM-GBSA was computed for the runs that drifted or dissociated**" and then,
+immediately below, discussed −44.22 — a number from a run that drifted 3.24 Å. Three off-pose runs
+have computed energies (MAO-A pose 1 at −44.22; TTBK2 pose 1 runs at −29.78 and −22.88), and they
+were computed *deliberately*: the first inverted the MAO conclusion for two days and the pair
+supplied the 33× SEM discrepancy. The rule that was actually followed is **"no reported binding
+energy comes from an off-pose run"**, which is narrower and survives contact with the data.
+Rewritten to say that.
+
+### Also corrected: a Vinardo claim resting on the wrong receptors
+
+`08_analysis/README.md` called the lead "robust under both Vina and Vinardo" in the same sentence
+as its `7JXX`/`2V5Z` ranks. The Vinardo cross-check exists only in `prior_phase/`, run on `4NFM`.
+The claim is now attributed to the prior phase, and the open item — re-running Vinardo on the
+validated receptor, `WORKFLOW.md` Phase 3 — is named inline.
+
+### What remains
+
+1. **The manuscript body has not been touched since 20 Aug** and is still entirely prior-phase:
+   `4NFM`/`6U0K` receptors, 20 ns, the −26.32/−36.85 MM-GBSA pair quoted as SEM, a 15-candidate
+   shortlist, §3.7 unsplit, and §4.5 limitation 5 ("no replicate MD") now resolved and needing
+   deletion rather than softening. `09_manuscript/README.md` says what must change; nothing has.
+   This is the largest remaining task in the project.
+2. **Propagate `no_pose` into `selectivity_margins.csv`** so the −3.89 trap cannot be re-entered.
+3. **Vinardo on the validated receptor** (`WORKFLOW.md` Phase 3, manuscript §3.3).
+4. **TTBK2 pose 2 velocity replicate** — the one on-pose TTBK2 number (−30.95) still carries no
+   error bar of its own, and the TTBK1-vs-TTBK2 comparison rests on it.
+
+Process note, consistent with entry F's: **every defect in this entry was found by checking prose
+against the primary files, and four of five were introduced by adding data without re-reading the
+prose.** Adding a system to the summary table is not a complete change until the counts, ranges and
+superlatives that quantify over the set have been re-derived from it. The superlatives are the
+dangerous ones — "the highest in the project" is a claim about every row, so every new row can
+falsify it silently.
+
+Files: `README.md`, `06_md/README.md`, `07_mmgbsa/README.md`, `08_analysis/README.md`,
+`09_manuscript/README.md`, `10_results/README.md`. No computed result changed; no script changed.
+
+## 2026-09-27 — I (04_docking regrouped by purpose; a stale pIC50 found by baselining first)
+
+`04_docking/` held **77 sibling run directories, 5,160 files — 85% of everything tracked in this
+project**. Opening it told a reader nothing. Regrouped by purpose:
+
+    04_docking/candidates/      24 runs   the production screen
+               references/      18 runs   known-inhibitor benchmark
+               native_redock/   30 runs   redocking validation
+               controls/         5 runs   single-ligand controls (noFAD, bridging water)
+               prior_phase/               untouched
+
+**The run directory names are unchanged.** That is the whole reason this was safe: every parser
+recovers receptor, ligand set and seed from `basename $(dirname <log>)`, so the grouping is
+invisible to it. Readers glob one extra level (`04_docking/*/<REC>_<SET>_seed*/`), deliberately
+group-agnostic so that reclassifying a set can never hide its runs. Only the write side needs to
+know which group a set belongs to, and that mapping now lives in exactly one file,
+`scripts/docking_paths.sh`, sourced by all five scripts that create or locate run directories. Five
+copies of a `case` statement would have drifted, and a drifted copy writes a run where the reader
+cannot see it.
+
+The numbered step directories were **not** touched. There are **127** hardcoded path references in
+`scripts/`, `generation/` and `10_results/` — 48 to `06_md`, 23 to `03_receptors`, 16 to
+`01_smiles` — and the top-level README's own rule is to add to the structure rather than rearrange
+it. `06_md/` is 91% of the workspace by disk (17.5 GB, of which 13.3 GB is gitignored
+`production*.dcd`) but only 520 tracked files, so it is a disk question, not a navigability one.
+
+### Two glob hazards, checked rather than assumed
+
+1. **`prior_phase/` lives inside `04_docking/`**, so adding a wildcard level could have started
+   matching runs that the old one-level glob never saw — a silent change to what gets averaged, the
+   exact failure mode this project keeps hitting. Checked first: `prior_phase/` contains **zero**
+   `.log` files and no `*seed*` directories. No collision.
+2. **mtimes are load-bearent here.** Both `collect_results.py` and the shell resume logic compare a
+   log's mtime against its receptor's to drop stale runs. A copy would have reset them and silently
+   revalidated stale logs. `git mv` on one filesystem is a rename, and the mtimes were verified
+   afterwards as still 24–25 Sep.
+
+### Verification
+
+Baselined before touching anything, which is what caught the defect below. All four analysis
+entry points were run pre-move and post-move: `analyze_selectivity.py`, `analyze_water_test.py`,
+`calibration_9iv.py`, `collect_results.py`.
+
+| Check | Result |
+|---|---|
+| stdout, all four scripts | **byte-identical** |
+| stderr, all four scripts | **byte-identical** |
+| regenerated consensus table (558 rows) | **byte-identical** |
+| `bash -n` on all 11 shell scripts | pass |
+| `docking_out` vs disk, one probe per group | 4/4 resolve to real directories |
+| `run_week2_redock.sh --dry-run` | `runs needed: 0   already current: 15` |
+| `run_selectivity.sh --dry-run` | `runs needed: 0   already current: 9` |
+| `run_water_test.sh --dry-run` | `runs needed: 0   already current: 15` |
+
+The dry-runs are the decisive ones: had the write-side mapping been wrong, they would have reported
+15 runs needed and cheerfully re-docked several thousand files over the top of good results.
+
+### The baseline caught a stale derived value from entry F
+
+Re-running the scripts *before* the move changed one committed file, which means the change was
+pre-existing and nothing to do with the restructure. `08_analysis/water_test_references.csv` had
+`9IV_ttbk1` at pIC50 **6.3665** = −log10(430 nM) — the **withdrawn** value. Entry F corrected 9IV
+TTBK1 from 430 to 330 nM and regenerated the calibration files, but never regenerated this one.
+Correct value **6.4815** = −log10(330 nM), now written.
+
+Consequence is contained: the file feeds the score-vs-pIC50 correlation that
+`analyze_water_test.py` prints (n=6, r=−0.642 wet / −0.418 dry), and **no document quotes that
+r**, so no reported number moves. But it is the second derived artefact found carrying a withdrawn
+reference value, after the −3.89 margin in entry H. Both were found the same way — by regenerating
+and diffing rather than by reading. **A correction to `01_smiles/references.csv` is not complete
+until every derived file has been regenerated and diffed**; there is no index of which files those
+are, and building one is worth more than finding the third instance.
+
+`consensus_week2.csv` also differs from a fresh collect (165 pairs against 558), but that is by
+design: it is a snapshot of the week-2 redock subset, not of the whole directory. It was left
+alone; the fresh collect went to a scratch path.
+
+Files: `04_docking/` (77 directories moved via `git mv`, history preserved),
+`scripts/docking_paths.sh` (new), `scripts/{dock,run_selectivity,run_water_test,run_week2_redock,
+run_minwater_probe}.sh`, `scripts/{analyze_selectivity,analyze_water_test,calibration_9iv,
+collect_results}.py`, `08_analysis/water_test_references.csv` (regenerated, 9IV pIC50 corrected),
+`04_docking/README.md`, `scripts/README.md`, `README.md`, `INVENTORY.md`, `WORKFLOW.md`.
+No receptor, ligand, trajectory or energy was touched.
+
+## 2026-09-27 — J (the remaining directories restructured; one rule per boundary, readers resolve by glob)
+
+Continued entry I's regrouping through the rest of the workspace. Five directories changed, four
+were deliberately left alone, and the same design was used at every boundary.
+
+### The design, stated once because it is what makes this safe
+
+At each boundary there is **one writer that knows the rule** and **readers that carry no rule at
+all**, resolving by glob at either depth. So:
+
+- reclassifying something cannot make it silently unfindable;
+- a half-migrated tree still resolves;
+- an ambiguous hit (two copies of one receptor, one system, one ligand) **aborts** rather than
+  silently picking one — that last property matters most in `collect_md_summary.py`, where a
+  system it cannot find is dropped from the table rather than raising.
+
+The rule lives in exactly one place per boundary: `docking_paths.sh` (run groups),
+`receptor_paths.sh` (target families), `prep_ligands.py:ligand_group` (ligand classes). Where both
+shell and Python need to *read* a boundary, the Python side (`project_paths.py`) deliberately has
+**no** rule, only the glob — so there is nothing for a second copy to drift against.
+
+### What changed
+
+| Directory | Before | After |
+|---|---|---|
+| `02_ligands/{sdf,pdbqt}/` | 77 flat files each | `candidates/` 56, `natives/` 5, `references/` 16 |
+| `03_receptors/` | 12 receptor dirs at top level | `ttbk/` 7, `mao/` 5, plus `_cofactors/`, `prior_phase/` |
+| `05_validation/` | 11 flat files | 6 redock logs into `redock/` |
+| `06_md/` | 24 entries, 16 of them systems | `systems/` holds all 16; 9 entries |
+| `09_manuscript/` | rendered `.html`/`.docx` beside source | `rendered/` |
+
+Top-level entry counts now: `00_library` 4, `01_smiles` 6, `02_ligands` 4, `03_receptors` 6,
+`04_docking` 6, `05_validation` 6, `06_md` 9, `07_mmgbsa` 3, `08_analysis` 11, `09_manuscript` 5,
+`10_results` 6.
+
+### What was left alone, and why
+
+`00_library` (4 entries), `01_smiles` (6), `07_mmgbsa` (3) and `10_results` (5) are already
+minimal — subdividing them would add a lookup step and remove nothing. `08_analysis` is ten
+distinctly named CSVs, each with a row in its README table explaining what it is; grouping those
+would make the table's paths longer and the files harder to find, not easier. **Structure is only
+worth adding where it removes a choice a reader has to make.**
+
+`06_md/systems/` was deliberately **not** split further by target. The names already sort into
+target clusters, and every extra level has to be paid for again in three WSL absolute paths and in
+the summary table. One level bought the whole listing win at a fraction of the churn.
+
+### Two things that would have broken silently
+
+1. **`06_md/run_md.py` and `run_md_extend.py` hardcode `06_md/system/...`** rather than taking the
+   system directory as an argument — unlike `run_md_restrained.py` and `run_md_system.py`. Eleven
+   paths between them, and they are the scripts that produced the original TTBK1 baseline. Found by
+   grepping the Python inside `06_md/`, not just `scripts/`.
+2. **`prep_ligands.py` writes flat.** Grouping `02_ligands/` without teaching the writer the rule
+   would have meant the next `--csv` re-prep quietly scattering files back outside the groups, where
+   a group-only glob would miss them and `dock.sh`'s final `ls` fallback would then dock *a
+   different set*. Both were fixed: the writer now files into the group, and the reader accepts
+   either depth.
+
+### Verification
+
+Baseline captured before the first move (`scratchpad/verify.sh`, 8 checks: four analysis entry
+points, the MD summary freshness check, three driver `--dry-run`s, plus copies of six tracked
+output files), then re-run after **each** of the five directories.
+
+**Every check byte-identical at every step, with exactly one expected exception:** the
+`system_dir` column of `07_mmgbsa/md_mmgbsa_summary.csv`, which is a path and had to change.
+Compared column by column: `system_dir` moved on all 16 rows (`06_md/system` →
+`06_md/systems/system`), and **all 17 other columns byte-identical** — every RMSD, every ΔG, every
+SD, every verdict. `10_results/fig{1,2,3}.png` regenerate to **identical md5s**.
+
+Also: `bash -n` clean on all 11 shell scripts, `py_compile` clean on every Python file in
+`scripts/`, `06_md/` and `10_results/`, and each new resolver unit-tested including its
+not-found and ambiguous paths. All three docking drivers still report `runs needed: 0`.
+
+### Side effect worth recording
+
+`06_md/systems/` is a rename of **17.5 GB**. Instant on one volume, but this workspace lives under
+OneDrive, so the client may re-upload those files. Nothing is lost either way — the 13.3 GB of
+`production*.dcd` is gitignored and regenerable — but it is a real bandwidth cost that a
+restructure of a smaller directory would not have carried.
+
+Files: `02_ligands/{sdf,pdbqt}/` (154 files moved), `03_receptors/` (12 dirs moved),
+`05_validation/redock/` (6 moved), `06_md/systems/` (16 moved), `09_manuscript/rendered/` (2 moved),
+all via `git mv`. New: `scripts/receptor_paths.sh`, `scripts/project_paths.py`,
+`scripts/md_paths.sh`. Modified: `scripts/{dock,prep_receptor,prep_ligands,run_mmgbsa,
+run_minwater_probe,run_selectivity,run_water_test,run_week2_redock,run_mao_pose_analysis,
+run_mao_pose_queue,run_mao_replicate_queue}`, `scripts/{analyze_selectivity,analyze_water_test,
+collect_results,collect_md_summary,fix_native_bondorders}.py`, `06_md/{run_md,run_md_extend}.py`,
+`07_mmgbsa/md_mmgbsa_summary.csv` (path column only), and the layout sections of
+`README.md`, `WORKFLOW.md`, `INVENTORY.md`, `scripts/README.md`, `02_ligands/README.md`,
+`05_validation/README.md`, `07_mmgbsa/README.md`, `09_manuscript/README.md`,
+`generation/README.md`, `provenance/README.md`.
+No receptor, ligand, trajectory, score or energy was altered.
+
+## 2026-09-27 — K (the manuscript rewritten from the current dataset; the August draft archived, its renders deleted)
+
+The manuscript had not been touched since 20 Aug and was still entirely the prior-phase paper:
+`4NFM`/`6U0K`/`2V60` receptors, 20 ns MD, MM-GBSA quoted as ±SEM, a 15-candidate shortlist, one
+combined selectivity claim, and a limitation ("single 20 ns replicate, no replicate MD") that the
+September work had already resolved. `09_manuscript/README.md` had documented what each claim must
+become; none of it had been applied.
+
+**Rewritten rather than patched.** The receptor set, the MD protocol and the conclusions all
+changed together, so editing in place would have produced a document mixing two incompatible
+passes — exactly the silent-mismatch failure the `prior_phase/` convention exists to prevent.
+
+### What was removed, and what was kept
+
+- **Archived to `09_manuscript/prior_phase/`**: the August draft
+  (`manuscript_dualtarget_flavonol_AUG.md`), its figure/journal index, and
+  `Week1_Progress_Report.md`. Kept, not deleted, because the draft is the record of what was
+  claimed before the corrections — and this project's whole method is preserving that record.
+  The same reason `prior_phase/` exists in nine other step directories.
+- **Deleted**: `rendered/manuscript_dualtarget_flavonol.{html,docx}`, 5.8 MB generated from the
+  superseded draft. A stale render that looks authoritative is worse than no render, and both
+  remain in git history at `e442b33`. There are deliberately no rendered outputs now; re-render
+  when the text is final.
+
+### The new structure, and what changed in substance
+
+Results went from seven sections to nine, because three findings that did not exist in August are
+now primary:
+
+| August | Now |
+|---|---|
+| §3.5 "Both complexes are stable over 20 ns" | §3.7 stability is **pose-dependent** — 8 of 16 runs hold, 2 dissociate; **docking rank predicted the most stable pose in 1 of 4 targets** |
+| §3.6 MM-GBSA −26.32 ± 0.53 / −36.85 ± 0.23 (SEM) | §3.8 on-pose only, **replicate spread** as the error bar |
+| — | §3.9 **the reported SEM is not an error bar**, and its failure scales monotonically with pose instability (2× to 33×) |
+| — | §3.5 a measured **~1.0 ± 0.25 kcal/mol protocol bias toward TTBK2**, giving a ~1.3 floor |
+| — | §3.6 the TTBK margin is **largely a property of the water shell** |
+| §3.7 one combined "no isoform discrimination" claim | §3.8 **split by pair** — MAO supportable in direction *and* size (2.55 against 0.24–0.26); TTBK not supportable at all |
+| §4.4 limitation 5 "no replicate MD" | **deleted, not softened** — the replicates were run |
+
+§4.3 is new and collects all four arm-asymmetry false positives in one place: the water shell, the
+pose-scan-versus-replicate-scan, the on-pose-versus-off-pose inversion, and — the fourth, from
+entry F — the cross-paper-versus-single-paper IC50 in the calibration pair itself.
+
+The title changed to foreground the negatives, per the project's own framing rule. The
+contribution is now as much methodological as chemical, so `J Chem Inf Model` was added to the
+journal assessment alongside `J Cheminformatics`.
+
+**The one gap stated in the manuscript rather than hidden:** there is no independent
+scoring-function cross-check on the validated receptors. The Vinardo result (r = 0.56 at TTBK1,
+−0.28 at MAO-B) was run on the earlier receptor set, so §3.3 presents it as a general warning
+from this project's earlier data and explicitly *not* as validation of the current rankings.
+
+### Verification: every number in the manuscript regenerated from the primary files
+
+Wrote `scratchpad/audit_manuscript.py`, which parses the manuscript and re-derives its quantities
+from `07_mmgbsa/md_mmgbsa_summary.csv`, `08_analysis/selectivity_margins.csv` and
+`05_validation/calibration_9IV_margin.json`. **59 checks, all passing:** every system's last-100
+RMSD and on-pose ΔG appears as written; both replicate spreads (0.26, 0.24), both replicate means
+(−36.53, −39.09), the ΔΔG (2.55) and the ratio (9.8×) recompute; the TTBK spread (2.08) and ΔΔG
+(1.45) recompute; the 12 on-pose pairings and their 2.30–3.94 range recompute; the protein-RMSD
+bands, the FAD band over 8 systems, the verdict counts, the 48-candidate MAO margin (−3.28,
+48/48, −6.04 to −1.80) all recompute; and every referenced figure file exists.
+
+It also enforces the negative rules: **the two off-pose TTBK2 energies appear nowhere**, `−3.89`
+appears nowhere, and `1.018` appears nowhere.
+
+Three checks failed on the first run and are worth recording, because two were the audit's fault
+and only one was the manuscript's:
+
+1. **`−44.22` appeared zero times.** I had written around it. But `README.md` and the figure index
+   both state it appears once in §4.3 as the cautionary case, and a reader comparing against the
+   supplementary table needs to know *why* the most favourable MAO-A value is excluded. Naming it
+   once, explicitly as not-a-binding-energy, is more honest than omitting it. Added.
+2. **The audit computed the TTBK ΔΔG as 0.41, not 1.45** — it took the less-negative of the two
+   TTBK1 replicates instead of their mean. The documented basis is the replicate mean
+   (−32.40 against −30.95 = 1.4499). Audit corrected; the manuscript was right.
+3. **The audit counted 10 runs holding, not 8.** It pooled `stable` with `holds (loose)`. The
+   documented count is strictly `stable` = 8, with the two loose holds reported separately. Audit
+   corrected; the manuscript was right.
+
+That is the second time in two days a checking script has been wrong where the prose was right
+(the first was the `--check` false alarm in entry I's baseline). **A verifier is code and gets
+the same scrutiny as the thing it verifies** — a failing check is a hypothesis about a defect,
+not a defect.
+
+Also fixed while here: `04_docking/README.md` still showed `03_receptors/<PDB>/receptor.pdbqt`
+in its Vina invocation block, stale since entry J's family grouping; and the claims table in
+`10_results/README.md` said "14 runs" where there are 16.
+
+Files: `09_manuscript/manuscript_dualtarget_flavonol.md` (rewritten, 733 lines),
+`09_manuscript/manuscript_figures_tables_and_journals.md` (rewritten),
+`09_manuscript/README.md` (rewritten — the "claims requiring revision" section is now a record of
+what changed), `09_manuscript/prior_phase/` (3 files archived), `rendered/` (deleted),
+`04_docking/README.md`, `10_results/README.md`. No computed result was altered; no figure was
+regenerated.
+
+## 2026-09-28 — L (the TTBK2 replicate: the ΔΔG falls from 1.45 to 0.53, and the fifth pair lands where the trend predicted)
+
+Ran `system_TTBK2_p2_r2`, the velocity replicate of the project's **only on-pose TTBK2
+trajectory**. This was the last open scientific item. Launched 00:05, MD done 01:49 (10.1 ns at
+139 ns/day), MM-GBSA and cpptraj done 02:01. Driver:
+`scripts/run_ttbk2_replicate.sh`, resumable in both halves.
+
+### Why it had to be run rather than reasoned around
+
+`system_TTBK2_p2` at −30.95 kcal/mol was the single number the whole TTBK1-vs-TTBK2 comparison
+rested on, and it had no error bar of its own. The published verdict — "no resolvable
+discrimination" — compared a 1.45 kcal/mol ΔΔG against **TTBK1's** 2.08 replicate spread. That is
+a two-arm difference judged with one arm's uncertainty: the same class of asymmetry as the water
+shell, the pose-scan-versus-replicate-scan, the on-pose-versus-off-pose inversion and the
+cross-paper IC50. The other TTBK2 pair (pose 1, spread 6.89) could not stand in, because both of
+its runs left the docked pose and it therefore describes structures that were never the complex.
+
+### Result
+
+| | ΔG | spread |
+|---|---|---|
+| `system_TTBK2_p2` (run 1) | −30.95 | |
+| `system_TTBK2_p2_r2` (run 2) | **−34.92** | **3.97 kcal/mol** |
+
+**The conclusion held and the number moved.** TTBK2's own spread is 3.97 — nearly twice TTBK1's
+2.08, and the largest on-pose spread in the project. More consequentially, the ΔΔG computed from
+*two* replicate means rather than one single run is **0.53 kcal/mol**, down from 1.45:
+
+    TTBK1 replicate mean  -32.40  (spread 2.08)
+    TTBK2 replicate mean  -32.93  (spread 3.97)
+    ddG                     0.53  -- 7.4x smaller than the larger spread
+
+So the non-result is now emphatic and symmetric: both arms carry a measured error bar, and the
+difference is a third of what it appeared to be while one arm was unreplicated. **Measuring the
+second arm did not merely add an error bar — it moved the central value.** That is the argument
+for measuring it, and it is now recorded as the fifth arm-asymmetry false positive in the
+manuscript's §4.3. It is the subtlest of the five: the asymmetry was in the *uncertainty*, not in
+the systems, so both arms looked properly matched by design.
+
+**Pose stability reproduced.** 1.89 Å against run 1's 1.99 Å, both `stable`. TTBK2 still holds
+`cand_003` in 1 of 3 docked poses, as does TTBK1 — the symmetric test is unchanged.
+
+### The fifth replicate pair is an out-of-sample test of the SEM finding, and it passed
+
+The pair was run to give the TTBK2 arm an error bar, not to probe the SEM relationship. Sorted by
+how well each pair held its pose:
+
+| Pair | Mean ligand RMSD | Spread | Ratio to SEM |
+|---|---|---|---|
+| MAO-B pose 2 | 1.24 Å | 0.24 | 2× |
+| MAO-A pose 3 | 1.25 Å | 0.26 | 2× |
+| TTBK1 pose 1 | 1.63 Å | 2.08 | 8× |
+| **TTBK2 pose 2** | **1.94 Å** | **3.97** | **15×** |
+| TTBK2 pose 1 | 4.71 Å | 6.89 | 33× |
+
+**The measured spread is now monotonic in ligand RMSD across all five pairs**, and the new point
+fell between its neighbours in exactly the predicted order. With five pairs across two protein
+families and three proteins, this is a consistent pattern — though the docs now say explicitly
+that it should *not* be used to predict a spread from an RMSD.
+
+**And it sharpens the rule rather than just confirming it.** TTBK2 pose 2 is a *stable* pair —
+1.99 and 1.89 Å, comfortably inside this project's stability band — and it still returned a
+3.97 kcal/mol spread against a reported SEM of 0.27. So pose stability bounds how bad the SEM can
+be, but **a stable pose is not a licence to skip the replicate.** Every previous statement of this
+finding leaned on the unstable cases; this one does not.
+
+### A correction to my own analysis, caught before it reached any document
+
+My first pass computed the pairs' "mean ligand RMSD" from the `lig_rmsd_mean` column and concluded
+the relationship was **not** monotonic. Wrong column: the published table uses the mean of the
+pair's **last-100** values, which is also what every stability verdict in this project uses
+(a ligand that leaves late shows a low whole-run average — that is why the last-100 window exists
+at all). On the correct metric the relationship is monotonic. Recomputed before writing anything.
+
+That is now twice in two days that a checking script was wrong where the data was right, after
+entry K's two false audit failures. Recording the rule again because it keeps earning its place:
+**a verifier is code and gets the same scrutiny as the thing it verifies.**
+
+### Protocol notes
+
+- **`run_md_system.py`, not `run_md_restrained.py`.** TTBK2 has no FAD. This matters for reading
+  the spreads across arms: the MAO pairs' unusually tight 0.24–0.26 is partly an artifact of the
+  FAD restraint damping receptor motion, which this system does not have. Borrowing a MAO spread
+  for a TTBK arm would have been wrong in both directions.
+- **All five inputs verified byte-identical to run 1 by sha256** — `complex.prmtop`,
+  `complex.inpcrd` *and* the three analysis inputs (`strip_traj.cpptraj`, `mmpbsa.in`,
+  `lig_rmsd.cpptraj`). Copying rather than regenerating the last three means the strip mask, the
+  energy model and the RMSD masks provably cannot have drifted between the two runs. The driver
+  re-checks the hashes and **aborts** if they differ: a replicate with different topology is not a
+  velocity replicate, and its spread would be meaningless.
+- **`run_mmgbsa.sh` does not generate the cpptraj/mmpbsa inputs**, it expects them to exist. Had
+  they not been copied, the MD would have run for 1.75 h and the analysis would then have failed
+  immediately. Worth knowing before building any future system by hand.
+- No `rmsf.cpptraj` or `core_rmsd.cpptraj` here: those exist for the MAO systems because both MAO
+  constructs end in a solvent-exposed C-terminal tail that dominates a whole-protein fit. TTBK2
+  has no such tail and run 1 was analysed with `lig_rmsd` alone.
+
+### Propagated
+
+Summary table regenerated (17 systems, 14 with MM-GBSA); all three figures regenerated.
+`collect_md_summary.py` now lists the system and `system_TTBK2_p2` is relabelled "pose 2, run 1";
+`make_figures.py` has its label. The manuscript audit was extended to the new dataset — **64
+checks, all passing**, including that the stale 1.45 no longer appears as a current ΔΔG.
+
+Files: `06_md/systems/system_TTBK2_p2_r2/` (new, with `PROVENANCE.md` recording the sha256s and
+what each possible outcome would have meant, written *before* the result was known),
+`scripts/run_ttbk2_replicate.sh` (new), `scripts/collect_md_summary.py`,
+`10_results/make_figures.py`, `scripts/README.md`, `07_mmgbsa/md_mmgbsa_summary.csv`,
+`10_results/fig{1,2,3}.png`, `06_md/README.md`, `07_mmgbsa/README.md`, `10_results/README.md`,
+`09_manuscript/manuscript_dualtarget_flavonol.md` (abstract, §2.5, §3.7, §3.8, §3.9, §4.2, §4.3,
+§4.4, §4.5, §5), `09_manuscript/manuscript_figures_tables_and_journals.md`, `README.md`,
+`INVENTORY.md`, `WORKFLOW.md`.

@@ -1,127 +1,141 @@
-# Manuscript Figure & Table Index
+# Figures, tables, supplementary data and target journals
 
-Companion to `manuscript_dualtarget_flavonol.md`. Every entry is a saved project artifact.
-
-## Main figures
-
-| # | Artifact | Section | Content |
-|---|---|---|---|
-| 1 | `rl_v2_score_progression.png` | 3.2 | Composite reward trajectory across the 32-step BBB-aware RL run |
-| 2 | `phase6_vinardo_crosscheck_scatter.png` | 3.3 | Vina-consensus vs. Vinardo scatter, top-15, both targets |
-| 3 | `pose_primary_TTBK1.png` | 3.4 | Lead pose in the TTBK1 ATP pocket (4NFM), PyMOL render |
-| 4 | `pose_primary_MAOB.png` | 3.4 | Lead pose in the MAO-B substrate cavity (2V5Z), FAD-adjacent |
-| 5 | `md_trajectory_analysis.png` | 3.5 | 4-panel: protein/ligand RMSD and per-residue RMSF, both systems, 20 ns |
-| 6 | `mmgbsa_comparison.png` | 3.6 | Total MM-GBSA dG per target + per-component decomposition |
-| 7 | `selectivity_triangulation.png` | 3.7 | On- vs. anti-target docking margins + cross-method on-target confirmation |
-
-## Supplementary figures
-
-| # | Artifact | Content |
-|---|---|---|
-| S1 | `pose_benzylMeA_TTBK1.png` / `pose_benzylMeA_MAOB.png` | Vinardo-preferred regioisomer A poses, both targets |
-| S2 | `pose_benzylMeB_TTBK1.png` / `pose_benzylMeB_MAOB.png` | Regioisomer B poses, both targets |
-
-## Main tables
-
-| # | Source artifact | Section | Content |
-|---|---|---|---|
-| 1 | `phase0_species_selection.csv` | 2.1 | Six-species ranking: flavonoid coverage x literature gap |
-| 2 | `phase1_summary.json` | 2.2 | Receptor preparation status and redocking validation RMSDs |
-| 3 | (in text) | 3.1-3.2 | Filtering cascade attrition, both generative campaigns |
-| 4 | `phase6_top15_with_vinardo.csv` | 3.3 | Top-15 consensus + Vinardo scores, both targets |
-| 5 | `phase5_top3_interaction_fingerprints.csv` | 3.4 | ProLIF contact residues, 3 leads x 2 targets |
-| 6 | `mmgbsa_TTBK1_4NFM_results.dat` / `mmgbsa_MAOB_2V5Z_results.dat` | 3.6 | MM-GBSA component energies |
-| 7 | `phase6b_selectivity_top15.csv` | 3.7 | Anti-target margins, all 15 candidates x 3 anti-target receptors |
-
-## Supplementary data
-
-| Artifact | Content |
-|---|---|
-| `phase0_flavonoid_library.csv` | 24-entry natural-product library, SMILES + PMID provenance + confidence tier |
-| `phase0_reference_inhibitors.csv` | Reference inhibitor measured potencies (ChEMBL) |
-| `phase0_target_citations.csv` | PubMed query strings and raw hit counts underlying the novelty assessment |
-| `phase0_structures.csv` | PDB structure selection with resolution and ligand annotations |
-| `rl_v2_shortlist_56.csv` | Full 56-candidate all-filters-pass shortlist with descriptors |
-| `phase6_consensus_shortlist.csv` | Consensus docking, all 56 candidates, both on-targets |
-| `mmgbsa_TTBK1_4NFM_results.csv` / `mmgbsa_MAOB_2V5Z_results.csv` | Per-frame MM-GBSA energies (n = 100 each) |
-| `selectivity_triangulation.json` | Machine-readable triangulation record for the lead |
+Companion to [`manuscript_dualtarget_flavonol.md`](manuscript_dualtarget_flavonol.md).
+Regenerated 2026-09-27 against the Week 1–2 dataset; the August version is in
+[`prior_phase/`](prior_phase/) and refers to figures and receptors that are no longer used.
 
 ---
 
-# Target Journal Recommendations
+## Figures
 
-The manuscript's defining characteristic for journal fit is that **its two most solid
-findings are negative** (the scaffold BBB ceiling; scoring-function non-robustness) and its
-positive finding is explicitly hypothesis-generating with an unresolved selectivity
-liability and no experimental validation. Venues that require wet-lab confirmation of a
-computational lead are not viable, and venues that reward "we found a hit" framing would
-require overselling. The recommendations below are ordered by fit.
+Three figures exist as files and are drawn from the collected summary table by
+[`../10_results/make_figures.py`](../10_results/make_figures.py), so a figure cannot disagree
+with the text. Re-run that script after any new MD; it regenerates all three.
 
-## 1. *Journal of Cheminformatics* (Springer Nature) — recommended primary
+| # | File | Section | Content |
+|---|---|---|---|
+| 1 | [`../10_results/fig1_pose_stability.png`](../10_results/fig1_pose_stability.png) | 3.7 | Last-100-frame ligand RMSD for all seventeen systems, banded by verdict. **The paper's lead figure** — it carries the docking-rank-versus-stability result. |
+| 2 | [`../10_results/fig2_mao_binding_energy.png`](../10_results/fig2_mao_binding_energy.png) | 3.8 | MAO-A against MAO-B on-pose ΔG with replicate spread. **MAO-only by design** — see the axis rule below. |
+| 3 | [`../10_results/fig3_sem_vs_replicate.png`](../10_results/fig3_sem_vs_replicate.png) | 3.9 | Reported `MMPBSA.py` SEM against the spread measured from a second velocity seed, for all five replicate pairs. |
+| 4 | [`../05_validation/benchmark_mao_scatter.png`](../05_validation/benchmark_mao_scatter.png) | 2.2, 3.4 | MAO reference-ligand docking score against measured potency. **Label as mixed-species** — two of its points are rat-brain assays. |
 
-**Fit rationale.** Open access, cheminformatics-methods scope, and an established
-willingness to publish rigorous negative and cautionary methodological results. The
-Vinardo cross-check finding — that fine-grained docking rank order within a narrow
-high-scoring slice is not robust to scoring-function choice, negatively correlated at MAO-B
-— is a genuine contribution to virtual-screening practice and is squarely in scope. The
-BBB TPSA-floor result is a reusable constraint for anyone designing CNS-directed
-flavonoids. REINVENT4 is published in this journal, which helps the generative-design
-framing land.
+**Two figures still to draw**, both optional and neither load-bearing:
 
-**Positioning.** Lead with the methodology: a BBB-constrained generative pipeline with
-built-in anti-target counter-screening and cross-scoring-function validation, demonstrated
-on a novel dual-target hypothesis. The compound is the case study, not the headline.
+- **Filtering cascade / BBB ceiling** (§3.1–3.2): the TPSA-versus-WLogP plane with the BBB
+  region marked, showing the native-flavonol candidates sitting wholly outside it and the
+  7-deoxy set inside. This is the most publication-friendly way to show §3.1, which is currently
+  text-only. Data: `../08_analysis/filter_cascade_candidates_56.csv` and the 405-molecule pool
+  screen.
+- **Lead poses in both sites** (§3.3): the docked pose in the TTBK1 ATP pocket and the MAO-B
+  substrate cavity. The August draft had these rendered from `4NFM`; they must be **re-rendered
+  on `7JXX`** if used at all, and the caption must name the pose number, since §3.7 establishes
+  that pose identity matters.
 
-**Required before submission.** No wet-lab work needed. Complete the reference-14
-bibliographic details; consider adding the anti-target MM-GBSA calculations (Section 4.5),
-which would meaningfully strengthen the selectivity argument at modest compute cost.
+**Do not reuse any figure from the August draft.** All of them were rendered on the earlier
+receptor set (`4NFM`, `6U0K`, `2V60`) or from the 20 ns prior-phase MD, and several encode
+numbers that have since been withdrawn.
 
-## 2. *Molecules* (MDPI), section "Computational and Theoretical Chemistry" or "Medicinal Chemistry"
+### The one hard axis rule
 
-**Fit rationale.** Publishes natural-product CADD studies at this level of computational
-depth without requiring experimental validation, and both cited flavonoid/MAO-B precedents
-(ref. 13) appear there, so the audience is directly addressable. Rapid review. The
-*Evolvulus alsinoides* phytochemistry angle fits the journal's natural-products readership.
+**Never put TTBK and MAO binding energies on the same axis.** They carry protein-specific
+desolvation and surface terms that do not cancel; MAO-A's −44.22 against TTBK1's −31.36 compares
+a flavoenzyme to a kinase and means nothing. Figure 2 is MAO-only for exactly this reason.
+Figure 1 shares an axis legitimately, because ligand RMSD from the docked pose is the same
+quantity in every system.
 
-**Caveat.** This is the venue where the risk of the paper being read as a routine
-"docking + MD of a natural product hit" study is highest, since many such papers appear
-there. The negative findings and the selectivity liability must be foregrounded in the
-abstract and title, not deferred to the discussion, or the contribution will be
-misread as one more virtual-screening hit report.
+**And never plot or quote the −44.22** as a MAO-A binding energy. It is the most attractive
+number in the dataset, it is the only off-pose MAO-A value, and it inverted the MAO conclusion
+for two days. It appears in the manuscript once, in §4.3, as the cautionary case.
 
-## 3. *Frontiers in Chemistry* / *Frontiers in Molecular Biosciences*, computational section
+---
 
-**Fit rationale.** Explicitly accepts hypothesis-generating computational work and
-negative results; open review adds transparency that suits a paper whose main claim is
-methodological caution. Good venue for the "here is a target-pair hypothesis and here is
-exactly how far the computation supports it" framing.
+## Tables
 
-## 4. *International Journal of Molecular Sciences* (MDPI) — fallback
+| # | Section | Content | Source |
+|---|---|---|---|
+| 1 | 2.2 | The six receptors, their proteins and native ligands | `../03_receptors/README.md` |
+| 2 | 3.3 | Lead compound properties (MW, WLogP, TPSA, HBD/HBA, Lipinski, BBB, GI, alerts) | `../08_analysis/filter_cascade_candidates_56.csv` |
+| 3 | 3.4 | Redocking validation, all six receptors, best RMSD and verdict | `../05_validation/redock/` |
+| 4 | 3.5 | The 9IV calibration: docking margin, experimental ΔΔG, derived bias, interpretability floor | `../05_validation/calibration_9IV_margin.json` |
+| 5 | 3.7 | All seventeen MD systems: target, structure, starting pose, last-100 RMSD, verdict | `../07_mmgbsa/md_mmgbsa_summary.csv` |
+| 6 | 3.8 | On-pose MM-GBSA ΔG per system with SD, flagged for selectivity usability | same |
+| 7 | 3.9 | Five replicate pairs: mean ligand RMSD, measured spread, ratio to reported SEM | same |
 
-**Fit rationale.** Broad scope, accepts purely computational MTDL studies. Lower
-specificity of audience than the above; use if the methodological framing does not land at
-option 1.
+Tables 5–7 all read from one generated CSV. That is deliberate: it is the single file the whole
+Results section is written from, and `scripts/collect_md_summary.py --check` fails if it is stale
+relative to the primary `.dat` files.
 
-## Not recommended
+---
 
-- **Journal of Medicinal Chemistry / European Journal of Medicinal Chemistry.** Both
-  effectively require synthesis and biochemical assay data for a new chemical series. A
-  purely computational lead with unresolved isoform selectivity will not clear review.
-- **ACS Chemical Neuroscience.** Would require cellular or in vivo CNS data to support the
-  neurodegeneration framing.
-- **Any journal where the dual-target rationale must be presented as established.** The
-  PubMed result is zero records for a TTBK1 + MAO-B strategy; a venue that expects a
-  validated target-pair rationale in the introduction is a poor fit and would pressure the
-  manuscript toward overclaiming.
+## Supplementary data
 
-## Title options
+| Item | Location |
+|---|---|
+| Flavonoid library with provenance and confidence tiers | `../00_library/flavonoid_library.csv` |
+| Reference set with traced primary sources, assay format and species | `../01_smiles/references.csv` |
+| Full generative-run output and reward trace | `../00_library/reinvent4_output/`, `../generation/` |
+| Filtering cascade, 405-molecule pool and the final 56 | `../08_analysis/filter_cascade_*.csv` |
+| Docking consensus, every receptor–ligand pair | `../08_analysis/consensus_week2.csv` |
+| Selectivity margins per candidate, both pairs | `../08_analysis/selectivity_margins.csv` |
+| Water-shell test, candidates and references | `../08_analysis/water_test_*.csv` |
+| Prepared receptors (incl. dry / noFAD / bridging-water controls) | `../03_receptors/` |
+| Prepared ligands | `../02_ligands/` |
+| All docking runs | `../04_docking/` |
+| Per-system MD trajectories, RMSD/RMSF, raw `MMPBSA.py` output | `../06_md/systems/` |
+| MD + MM-GBSA summary table | `../07_mmgbsa/md_mmgbsa_summary.csv` |
+| Chronological record of every decision and defect | `../LOGBOOK.md` |
+| Protocol as specified, with divergences flagged | `../WORKFLOW.md` |
 
-1. "A blood-brain-barrier ceiling on the flavonol scaffold, and what survives a
-   scoring-function change: generative dual-target design against TTBK1 and MAO-B"
-   *(methodology-forward; best fit for option 1)*
-2. "Dual engagement without isoform selectivity: computational design and counter-screening
-   of 7-deoxyflavonol candidates against TTBK1 and MAO-B"
-   *(finding-forward, honest about the liability; best fit for options 2-3)*
-3. "Generative design of BBB-permeant 7-deoxyflavonols as dual TTBK1/MAO-B candidates:
-   consensus docking, molecular dynamics, MM-GBSA and anti-target counter-screening"
-   *(descriptive/conventional; safest for option 4)*
+**On quoting `selectivity_margins.csv` directly:** it carries all 56 rows and does not flag the
+eight candidates with no viable MAO-A pose, so a plain mean of its MAO column returns −3.89
+rather than the correct −3.28 over 48 quantifiable candidates. Use
+`scripts/analyze_selectivity.py`, which applies the exclusion.
+
+---
+
+## Target journals
+
+The contribution has shifted since the August assessment. It is now **as much a methods paper as
+a compound paper**: the two strongest results are that docking rank does not predict pose
+stability (3 of 4 targets) and that a single-trajectory SEM understates the true spread by 2–33×
+in proportion to pose instability. That changes which venues fit.
+
+| Venue | Fit | Notes |
+|---|---|---|
+| ***J Cheminformatics*** | **Recommended primary** | Publishes negative and methodological results; the two methods findings are the paper's strongest claims and this is the natural home for them. Open access, no wet-lab expectation. |
+| ***J Chem Inf Model*** | **Strong alternative** | Better reach for the pose-stability/SEM findings specifically. Expects methodological rigour, which the calibration and replicate design supply. |
+| ***Molecules*** / ***IJMS*** | Viable fallback | Fast and receptive to computational MTDL studies, but tends to reward positive framing — there is a real risk the negative findings get read as weaknesses rather than results. |
+| ***Frontiers in Chemistry*** / ***Mol Biosciences*** | Viable | Similar profile to the above. |
+| **Any medicinal-chemistry journal expecting synthesis and assay** | **Do not submit** | A purely computational lead with one target pair's selectivity unresolved will not clear review. |
+| **Any venue where the dual-target rationale must be presented as established** | **Do not submit** | It is a hypothesis with zero supporting literature, and the manuscript says so. |
+
+### Title options
+
+1. *(current)* **A generative 7-deoxyflavonol against TTBK1 and MAO-B: isoform selectivity
+   resolvable for one target pair and not the other, and why docking rank does not predict pose
+   stability**
+2. **Docking rank does not predict pose stability: lessons from a dual-target flavonol against
+   TTBK1 and MAO-B** — leads with the methods finding; best for *JCIM*.
+3. **What a docking-plus-MM-GBSA pipeline can and cannot resolve about isoform selectivity:
+   a calibrated case study on TTBK1/TTBK2 and MAO-A/MAO-B** — most honest framing of the
+   contribution; weakest as a discovery narrative.
+
+### Framing requirements, whichever venue
+
+These follow from §4 and are not stylistic preferences:
+
+1. **The abstract and title must foreground the negative and methodological findings.** Deferring
+   them to the Discussion misrepresents the contribution — and, on this dataset, the negatives
+   are better supported than the positives.
+2. **The two target pairs must never be summarised as one selectivity result.** They reach
+   opposite conclusions.
+3. **Any TTBK2 liability statement must be attributed to docking scores alone**, with the
+   explicit note that dynamics lacks the resolution to confirm or refute it.
+4. **Report the replicate spread, never the `MMPBSA.py` SEM**, as the uncertainty on any ΔΔG.
+5. **Quote the calibration bias as ~1.0, never 1.018.** Its inputs are two unreplicated IC50s
+   and do not support three significant figures.
+6. **State that the score-versus-potency correlation is mixed-species**, and that its two
+   rat-brain points are the two flavonoids.
+7. **Resolved limitations were deleted, not softened.** The August draft's "no replicate MD" and
+   "no anti-target validation" limitations are gone because the work was done, not because the
+   wording was weakened. Do not reinstate them.

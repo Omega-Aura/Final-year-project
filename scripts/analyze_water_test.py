@@ -13,17 +13,21 @@ not spun.
 import glob, os, re, sys
 import numpy as np
 import pandas as pd
+
+import project_paths          # receptor_file(): 03_receptors/<family>/<PDB>/, resolved by glob
 from scipy import stats
 
 
 def consensus(receptor, ligandset):
     """Mean over seeds of each ligand's best pose, using only logs newer than the receptor."""
-    rec = f"03_receptors/{receptor}/receptor.pdbqt"
+    rec = project_paths.receptor_file(receptor) or ""
+
     if not os.path.exists(rec):
         return pd.DataFrame(columns=["ligand", "score", "n"])
     rmt = os.path.getmtime(rec)
     rows = []
-    for log in glob.glob(f"04_docking/{receptor}_{ligandset}_seed*/*.log"):
+    # 04_docking/<group>/<run>/ -- see the note in analyze_selectivity.py
+    for log in glob.glob(f"04_docking/*/{receptor}_{ligandset}_seed*/*.log"):
         if os.path.getmtime(log) <= rmt:
             continue
         s = [float(x) for x in re.findall(r"^\s+\d+\s+(-?\d+\.\d+)", open(log).read(), re.M)]

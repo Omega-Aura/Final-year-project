@@ -9,31 +9,54 @@ if [ -n "${CONDA_PREFIX:-}" ]; then
 fi
 
 R=$1; SET=$2; SEED=$3
-BOX="03_receptors/$R/box.json"
+. "$(dirname "$0")/docking_paths.sh"
+. "$(dirname "$0")/receptor_paths.sh"
+RDIR=$(receptor_dir "$R") || { echo "[abort] no receptor directory for '$R'" >&2; exit 1; }
+
+# 02_ligands/pdbqt/ is grouped (candidates/, natives/, references/). Resolve a ligand by name
+# at EITHER depth: grouped, or loose at the top level as prep_ligands.py wrote them before the
+# grouping. Accepting both is deliberate -- a half-migrated tree must not silently resolve to
+# nothing, because the fallback below would then dock a different set entirely.
+# Prints nothing and returns 1 if the name does not resolve; aborts if it resolves twice.
+lig_path() {
+    local n=$1 hits
+    hits=$(ls "02_ligands/pdbqt/$n.pdbqt" "02_ligands/pdbqt"/*/"$n.pdbqt" 2>/dev/null)
+    case $(echo "$hits" | grep -c .) in
+        0) return 1 ;;
+        1) echo "$hits" ;;
+        *) echo "[abort] $n resolves to more than one file:" $hits >&2; exit 1 ;;
+    esac
+}
+BOX="$RDIR/box.json"
 CX=$(python -c "import json;print(json.load(open('$BOX'))['center'][0])")
 CY=$(python -c "import json;print(json.load(open('$BOX'))['center'][1])")
 CZ=$(python -c "import json;print(json.load(open('$BOX'))['center'][2])")
 SX=$(python -c "import json;print(json.load(open('$BOX'))['size'][0])")
 SY=$(python -c "import json;print(json.load(open('$BOX'))['size'][1])")
 SZ=$(python -c "import json;print(json.load(open('$BOX'))['size'][2])")
-OUT="04_docking/${R}_${SET}_seed${SEED}"; mkdir -p "$OUT"
+OUT=$(docking_out "$R" "$SET" "$SEED"); mkdir -p "$OUT"
 
-if [ -f "02_ligands/pdbqt/${SET}.pdbqt" ]; then
+if SET_FILE=$(lig_path "$SET"); then
     # single combined multi-mol file for this set
-    LIGS="02_ligands/pdbqt/${SET}.pdbqt"
+    LIGS="$SET_FILE"
 elif [ -f "01_smiles/${SET}.csv" ]; then
     # set membership comes from the SMILES CSV's id column (e.g. candidates_56.csv),
     # NOT a blind glob of 02_ligands/pdbqt/*.pdbqt -- that directory holds ligands
     # from every set (native_* references included), so an unscoped glob would
     # silently dock unrelated ligands alongside this set's candidates.
-    LIGS=$(python -c "
+    IDS=$(python -c "
 import pandas as pd
 df = pd.read_csv('01_smiles/${SET}.csv')
 for i in df['id'].astype(str):
-    print(f'02_ligands/pdbqt/{i}.pdbqt')
+    print(i)
 " | tr -d '\r')
+    LIGS=""
+    for I in $IDS; do
+        P=$(lig_path "$I") || { echo "[abort] no pdbqt for '$I' (set $SET)" >&2; exit 1; }
+        LIGS="$LIGS $P"
+    done
 else
-    LIGS=$(ls 02_ligands/pdbqt/*.pdbqt)
+    LIGS=$(ls 02_ligands/pdbqt/*.pdbqt 02_ligands/pdbqt/*/*.pdbqt 2>/dev/null)
 fi
 
 if command -v vina.exe >/dev/null 2>&1; then
@@ -57,11 +80,11 @@ for L in $LIGS; do
   # A ligand counts as done only if its log is newer than the receptor AND its SDF ends
   # in the SDF record terminator -- the terminator is the last thing written, so a job
   # killed mid-export leaves a truncated SDF that correctly fails this test and is redone.
-  if [ -f "$OUT/${N}.log" ] && [ "$OUT/${N}.log" -nt "03_receptors/$R/receptor.pdbqt" ] \
+  if [ -f "$OUT/${N}.log" ] && [ "$OUT/${N}.log" -nt "$RDIR/receptor.pdbqt" ] \
      && [ -s "$OUT/${N}_out.sdf" ] && [ "$(tail -n 1 "$OUT/${N}_out.sdf" | tr -d '\r')" = '$$$$' ]; then
       continue
   fi
-  $VINA_CMD --receptor "03_receptors/$R/receptor.pdbqt" --ligand "$L" \
+  $VINA_CMD --receptor "$RDIR/receptor.pdbqt" --ligand "$L" \
        --center_x $CX --center_y $CY --center_z $CZ \
        --size_x $SX --size_y $SY --size_z $SZ \
        --exhaustiveness 32 --num_modes 9 --seed $SEED \

@@ -6,10 +6,29 @@ Docked the 56 shortlisted candidates, the reference inhibitor set, and each rece
 ligand into every target site with AutoDock Vina, in triplicate (three independent seeds), across
 several deliberately varied receptor preparations.
 
-77 run directories, ~5,000 output files. The naming scheme is the experiment design:
+77 run directories, ~5,000 output files — 85% of every tracked file in the project. They sit in
+four groups by purpose, because as 77 siblings the listing was unreadable:
 
 ```
-04_docking/<RECEPTOR><variant>_<LIGAND SET>_seed<NN>/
+04_docking/candidates/    <RECEPTOR><variant>_candidates_56_seed<NN>/   24 runs — the production screen
+            references/     <RECEPTOR><variant>_references_seed<NN>/      18 runs — known-inhibitor benchmark
+            native_redock/  <RECEPTOR><variant>_native_<LIG>_seed<NN>/    30 runs — redocking validation
+            controls/       <RECEPTOR><variant>_<cand_NNN>_seed<NN>/       5 runs — single-ligand controls
+            prior_phase/                                                          — the phase 0–8 pass
+```
+
+**The run directory names themselves did not change**, and that is deliberate: every parser
+recovers receptor, ligand set and seed from the run directory's own name
+(`basename $(dirname <log>)`), so the grouping is invisible to them — readers just glob one extra
+level, `04_docking/*/<RECEPTOR>_<SET>_seed*/`. Only the *write* side needs to know which group a
+set belongs to, and that mapping lives in exactly one place,
+[`../scripts/docking_paths.sh`](../scripts/docking_paths.sh), sourced by all five scripts that
+create or locate run directories. A copy of it in each would drift.
+
+The full run name is still:
+
+```
+<RECEPTOR><variant>_<LIGAND SET>_seed<NN>
 ```
 
 | Component | Values | Meaning |
@@ -65,8 +84,8 @@ cavity.
 --exhaustiveness 32
 --num_modes 9
 --seed {11, 22, 33}
---receptor 03_receptors/<PDB>/receptor.pdbqt
---center/--size  from 03_receptors/<PDB>/box.json
+--receptor 03_receptors/<family>/<PDB>/receptor.pdbqt
+--center/--size  from 03_receptors/<family>/<PDB>/box.json
 ```
 
 Driver: [`../scripts/dock.sh`](../scripts/dock.sh). Batch runners:
@@ -119,10 +138,11 @@ TTBK1/TTBK2 selectivity margin is at or below the protocol's demonstrated bias.
 
 | Path | Role |
 |---|---|
-| `<RUN>/<ligand>.log` | Vina log per ligand, all 9 modes with scores |
+| `<group>/<RUN>/<ligand>.log` | Vina log per ligand, all 9 modes with scores |
 | `<RUN>/<ligand>_out.pdbqt` | docked poses |
 | `<RUN>/<ligand>_out.sdf`, `out.sdf` | poses converted for RMSD / profiling |
 | [`../scripts/dock.sh`](../scripts/dock.sh) | the docking call itself |
+| [`../scripts/docking_paths.sh`](../scripts/docking_paths.sh) | **the only place** the ligand-set → group mapping is defined |
 | [`../scripts/collect_results.py`](../scripts/collect_results.py) | log → score table |
 | [`prior_phase/`](prior_phase/) | phase 0–8 docking: baseline scores, interaction fingerprints, rendered poses, and the earlier receptor set (`4NFM`, `6U0K`, `2V60`) |
 

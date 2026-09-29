@@ -78,7 +78,8 @@ them. Read that directory before writing any of this up.
 
 ### Molecular dynamics — pose stability
 
-Ligand RMSD from the docked pose, mean over the final 100 frames of 10.1 ns:
+Ligand RMSD from the docked pose, mean over the final 100 frames of 10.1 ns, across all
+seventeen systems:
 
 | System | Pose | Last-100 RMSD | Verdict |
 |---|---|---|---|
@@ -88,7 +89,8 @@ Ligand RMSD from the docked pose, mean over the final 100 frames of 10.1 ns:
 | TTBK1 (7JXX) | 3 | 3.42 Å | drifts |
 | TTBK2 (7Q8Y) | 1, run 1 | 3.72 Å | drifts |
 | TTBK2 (7Q8Y) | 1, run 2 | 5.69 Å | dissociates |
-| TTBK2 (7Q8Y) | 2 | 1.99 Å | stable |
+| TTBK2 (7Q8Y) | 2, run 1 | 1.99 Å | stable |
+| TTBK2 (7Q8Y) | 2, run 2 | 1.89 Å | stable |
 | TTBK2 (7Q8Y) | 3 | 5.79 Å | dissociates |
 | MAO-A (2Z5X) | 1 | 3.24 Å | drifts off docked pose |
 | MAO-A (2Z5X) | 2 | 2.43 Å (1.79 core-fit) | holds, loose |
@@ -101,8 +103,9 @@ Ligand RMSD from the docked pose, mean over the final 100 frames of 10.1 ns:
 
 **TTBK1 holds the ligand in 1 of 3 docked poses; TTBK2 also in 1 of 3. There is no
 pose-stability difference between the two kinases.** Protein backbones were stable in every
-run (1.12–1.81 Å, and 1.06–1.77 Å core-fit for MAO), so the ligand motion is ligand motion,
-not a collapsing binding site.
+run (TTBK 1.34–1.90 Å; MAO 1.06–1.77 Å core-fit, its whole-protein figure running to 3.64 Å on
+the membrane-anchoring tail alone), so the ligand motion is ligand motion, not a collapsing
+binding site.
 
 **The MAO complexes are the more stable pair.** No MAO run left the site — the worst is 3.24 Å,
 against two TTBK runs past 5 Å. Counting strictly, MAO-A holds 1 of 3 and MAO-B 2 of 3.
@@ -118,7 +121,8 @@ one in **one of four** targets (TTBK1, the exception). The best-holding MAO-A po
 |---|---|---|---|
 | TTBK1 pose 1 run 1 | −31.36 | 3.82 | yes |
 | TTBK1 pose 1 run 2 | −33.44 | 2.63 | yes |
-| TTBK2 pose 2 | −30.95 | 3.81 | yes |
+| TTBK2 pose 2, run 1 | −30.95 | 3.81 | yes |
+| TTBK2 pose 2, run 2 | −34.92 | 3.14 | yes — its velocity replicate |
 | MAO-A pose 1 | −44.22 | 3.15 | **no** — ligand left the docked pose |
 | MAO-A pose 2 | −35.54 | 2.73 | direction only |
 | **MAO-A pose 3, run 1** | **−36.67** | 2.40 | yes — best on-pose MAO-A |
@@ -128,8 +132,13 @@ one in **one of four** targets (TTBK1, the exception). The best-holding MAO-A po
 | **MAO-B pose 2, run 2** | **−38.97** | 2.11 | yes — its velocity replicate |
 | MAO-B pose 3 | −39.04 | 2.86 | direction only |
 
-No MM-GBSA was computed for the runs that drifted or dissociated: an energy averaged over a
-trajectory that has left the docked pose describes a structure that was never docked.
+**No reported binding energy comes from an off-pose run**: an energy averaged over a trajectory
+that has left the docked pose describes a structure that was never docked. Three off-pose runs do
+carry computed values — MAO-A pose 1 (−44.22) and the two TTBK2 pose-1 runs (−29.78, −22.88) —
+and they exist precisely to make that point: the first inverted the MAO conclusion for two days,
+and the pair supplied the 33× SEM discrepancy in step 7. None of the three may be quoted as a
+binding energy. The three runs marked *not computed* in the summary table were never run through
+MM-GBSA at all.
 
 **The −44.22 is the cautionary number of this project.** It is the most favourable MAO-A value,
 it is the only off-pose one, and taking it at face value inverted the MAO selectivity conclusion
@@ -143,17 +152,19 @@ with the caveat that the shared FAD restraint damps that spread.
 
 | Evidence | TTBK1 vs TTBK2 | MAO-A vs MAO-B |
 |---|---|---|
-| Docking, water-symmetric | TTBK2 favoured by ~1.6 kcal/mol; 0/56 candidates favourable | MAO-B favoured, −3.89 mean, 48/48 favourable |
+| Docking, water-symmetric | TTBK2 favoured by ~1.6 kcal/mol; 0/56 candidates favourable | MAO-B favoured, −3.28 mean over the 48 quantifiable candidates, 48/48 favourable; 8 more sterically excluded from MAO-A |
 | Docking, validated pair | +0.12, confounded by a 0-vs-5 water asymmetry | — |
 | Protocol bias (known-answer calibration) | ~1.0 ± 0.25 kcal/mol toward TTBK2; interpretability floor ~1.3 | — |
 | MD pose stability | **no difference** — 1/3 poses each, symmetric test | MAO-A 1/3, MAO-B 2/3; no run left the site |
-| MM-GBSA | **no resolvable difference** (1.45 < 2.08 replicate spread) | MAO-B favoured by 2.55, **9.8× its 0.26 replicate spread** |
+| MM-GBSA | **no resolvable difference** (ΔΔG 0.53 against measured spreads of 2.08 and 3.97) | MAO-B favoured by 2.55, **9.8× its 0.26 replicate spread** |
 
 The two pairs now read differently, and the write-up must not treat them as one finding.
 
 **TTBK1 vs TTBK2 — no discrimination.** The manuscript's TTBK2 liability claim rests on docking
 scores alone. Dynamics neither confirms nor refutes it; it lacks the resolution to speak, and that
-is the honest outcome.
+is the honest outcome. Since 2026-09-28 **both** arms carry their own replicate spread — 2.08 and
+3.97 kcal/mol — and the ΔΔG computed from two replicate means is **0.53**, so the non-result is
+now symmetric rather than resting on one arm's error bar.
 
 **MAO-A vs MAO-B — a direction *and* a size.** Docking and MM-GBSA independently agree that MAO-B
 is favoured, and velocity replicates of both best-pose systems put the margin at 2.55 kcal/mol
@@ -165,13 +176,14 @@ protocol-bound: FAD is restrained in both arms, which damps the run-to-run varia
 
 1. **The SEM is not the error bar, and its failure scales with pose instability.** `MMPBSA.py`
    computes the standard error as if 200 frames sampled 10 ps apart were independent draws. Across
-   four replicate pairs the ratio of true spread to reported SEM climbs monotonically with ligand
-   RMSD — about 2× for the tightly held MAO poses, 8× for TTBK1, 33× for the TTBK2 pair that
-   drifted and dissociated. The reported SEM stays in a narrow 0.15–0.27 kcal/mol band while
-   the measured spread ranges from 0.24 to 6.89 — a 29-fold range. Quoting the SEM on a ΔΔG is
-   the easiest way to manufacture a significant selectivity result from this pipeline, and the
-   sharper rule is that **the SEM is only as good as the pose is stable** — which you cannot
-   know without running a replicate.
+   **five** replicate pairs the true spread climbs monotonically with ligand RMSD — about 2× the
+   reported SEM for the tightly held MAO poses, 8× for TTBK1, 15× for TTBK2 pose 2, 33× for the
+   TTBK2 pair that drifted and dissociated. The reported SEM stays in a narrow 0.15–0.27 kcal/mol
+   band while the measured spread ranges from 0.24 to 6.89 — a 29-fold range. Quoting the SEM on a
+   ΔΔG is the easiest way to manufacture a significant selectivity result from this pipeline, and
+   the sharper rule is that **the SEM is only as good as the pose is stable** — which you cannot
+   know without running a replicate. TTBK2 pose 2 makes the point twice: a *stable* pair
+   (1.99 and 1.89 Å) still returned a 3.97 kcal/mol spread against a 0.27 SEM.
 2. **Both arms of a comparison must be symmetric.** Three separate false positives this
    project produced all had the same root cause: an asymmetry between the two things being
    compared (a 0-vs-5 water shell; a pose scan against a replicate scan; an on-pose run against
@@ -193,7 +205,14 @@ AmberTools has no native Windows build, so parameterisation and MM-GBSA run in W
 OpenMM runs natively on the GPU. Scripts that cross this boundary (`scripts/run_mmgbsa.sh`)
 invoke `wsl -e bash -lc` and translate paths to `/mnt/c/...`.
 
-**The numbered directory names are load-bearing.** Over sixteen hardcoded references to
-`03_receptors/`, `01_smiles/`, `04_docking/`, `02_ligands/pdbqt/`, `06_md/system/`,
-`05_validation/` and `08_analysis/` live in `scripts/` and `generation/`. Renaming a step
-directory breaks reproducibility; add to the structure rather than rearranging it.
+**The numbered directory names are load-bearing.** 127 hardcoded references to
+`03_receptors/`, `01_smiles/`, `04_docking/`, `02_ligands/pdbqt/`, `06_md/systems/`,
+`05_validation/`, `08_analysis/` and `10_results/` live in `scripts/`, `generation/` and
+`10_results/` — 48 of them to `06_md` alone. Renaming a step directory breaks reproducibility;
+add to the structure rather than rearranging it.
+
+Inside `04_docking/` the 77 run directories are grouped by purpose — `candidates/`,
+`references/`, `native_redock/`, `controls/` — but **the run directory names are unchanged**, so
+every parser still reads receptor, ligand set and seed from the run name itself. The ligand-set
+→ group mapping is defined once, in
+[`scripts/docking_paths.sh`](scripts/docking_paths.sh).

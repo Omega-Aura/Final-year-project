@@ -6,8 +6,12 @@ Converted the SMILES sets from [step 1](../01_smiles/) into docking-ready 3D str
 generation, force-field minimisation, protonation at physiological pH, and conversion to PDBQT.
 
 ```
-02_ligands/sdf/     77 minimised 3D structures
-02_ligands/pdbqt/   77 docking-ready receptor-format ligands
+02_ligands/sdf/     77 minimised 3D structures      ─┐
+02_ligands/pdbqt/   77 docking-ready AutoDock ligands  ├─ each split candidates/ natives/ references/
+                                                     ─┘
+    candidates/   56   the shortlisted candidate set (cand_001 … cand_056)
+    natives/       5   per-set combined files for native redocking (native_9IV, native_SAG, …)
+    references/   16   known inhibitors and extracted crystal ligands (safinamide, 9IV_ttbk1, …)
 ```
 
 ## Why we did it

@@ -18,6 +18,7 @@
 #
 # Usage: bash scripts/run_mao_replicate_queue.sh
 set -u
+. "$(dirname "$0")/md_paths.sh"
 
 # Must go through `conda run`, NOT the env's python.exe directly. OpenMM loads its CUDA platform
 # from a plugin directory and needs the environment's DLL paths set; invoking the bare interpreter
@@ -30,36 +31,36 @@ cd "$(dirname "$0")/.." || exit 1
 SYSTEMS="system_MAOA_p3_r2 system_MAOB_p2_r2"
 
 for S in $SYSTEMS; do
-  if [ -f "06_md/$S/final_state.xml" ]; then
+  if [ -f "$(md_system_dir "$S")/final_state.xml" ]; then
     echo "[skip md] $S already has final_state.xml"
     continue
   fi
   echo "[start md] $S  $(date '+%Y-%m-%d %H:%M:%S')"
-  run_py 06_md/run_md_restrained.py "06_md/$S" FAD > "06_md/$S/run_md.log" 2>&1
+  run_py 06_md/run_md_restrained.py "$(md_system_dir "$S")" FAD > "$(md_system_dir "$S")/run_md.log" 2>&1
   rc=$?
   if [ $rc -ne 0 ]; then
-    echo "[FAIL md] $S exited $rc -- see 06_md/$S/run_md.log; stopping queue"
-    tail -15 "06_md/$S/run_md.log"
+    echo "[FAIL md] $S exited $rc -- see $(md_system_dir "$S")/run_md.log; stopping queue"
+    tail -15 "$(md_system_dir "$S")/run_md.log"
     exit $rc
   fi
-  echo "[done md]  $S  $(date '+%Y-%m-%d %H:%M:%S')  $(tail -1 "06_md/$S/production.log" 2>/dev/null)"
+  echo "[done md]  $S  $(date '+%Y-%m-%d %H:%M:%S')  $(tail -1 "$(md_system_dir "$S")/production.log" 2>/dev/null)"
 done
 
 for S in $SYSTEMS; do
-  if [ -f "06_md/$S/mmgbsa_results.dat" ]; then
+  if [ -f "$(md_system_dir "$S")/mmgbsa_results.dat" ]; then
     echo "[skip analysis] $S"
     continue
   fi
   echo "[start analysis] $S  $(date '+%Y-%m-%d %H:%M:%S')"
-  bash scripts/run_mmgbsa.sh "$S" > "06_md/$S/mmgbsa_run.log" 2>&1 \
-    || { echo "[FAIL mmgbsa] $S"; tail -15 "06_md/$S/mmgbsa_run.log"; exit 1; }
-  WSLDIR="/mnt/c/Users/aritr/OneDrive/Desktop/Final year project/06_md/$S"
+  bash scripts/run_mmgbsa.sh "$S" > "$(md_system_dir "$S")/mmgbsa_run.log" 2>&1 \
+    || { echo "[FAIL mmgbsa] $S"; tail -15 "$(md_system_dir "$S")/mmgbsa_run.log"; exit 1; }
+  WSLDIR="/mnt/c/Users/aritr/OneDrive/Desktop/Final year project/$(md_system_dir "$S")"
   wsl -e bash -lc "source ~/miniconda3/etc/profile.d/conda.sh && conda activate mdgbsa && cd '$WSLDIR' && \
     cpptraj -i lig_rmsd.cpptraj > cpptraj_rmsd.log 2>&1 && \
     cpptraj -i rmsf.cpptraj > rmsf.log 2>&1 && \
     cpptraj -i core_rmsd.cpptraj > core_rmsd.log 2>&1" \
     || { echo "[FAIL cpptraj] $S"; exit 1; }
-  echo "[done analysis]  $S  $(date '+%Y-%m-%d %H:%M:%S')  $(grep 'DELTA TOTAL' "06_md/$S/mmgbsa_results.dat")"
+  echo "[done analysis]  $S  $(date '+%Y-%m-%d %H:%M:%S')  $(grep 'DELTA TOTAL' "$(md_system_dir "$S")/mmgbsa_results.dat")"
 done
 
 echo "[replicate queue complete] $(date '+%Y-%m-%d %H:%M:%S')"
@@ -67,8 +68,8 @@ echo
 echo "Replicate spreads (run 1 vs run 2):"
 for pair in "system_MAOA_p3 system_MAOA_p3_r2" "system_MAOB_p2 system_MAOB_p2_r2"; do
   set -- $pair
-  a=$(grep 'DELTA TOTAL' "06_md/$1/mmgbsa_results.dat" 2>/dev/null | awk '{print $3}')
-  b=$(grep 'DELTA TOTAL' "06_md/$2/mmgbsa_results.dat" 2>/dev/null | awk '{print $3}')
+  a=$(grep 'DELTA TOTAL' "$(md_system_dir "$1")/mmgbsa_results.dat" 2>/dev/null | awk '{print $3}')
+  b=$(grep 'DELTA TOTAL' "$(md_system_dir "$2")/mmgbsa_results.dat" 2>/dev/null | awk '{print $3}')
   [ -n "$a" ] && [ -n "$b" ] && awk -v a="$a" -v b="$b" -v n="$1" \
     'BEGIN{d=a-b; if(d<0)d=-d; printf "  %-18s %8.2f vs %8.2f  spread %.2f kcal/mol\n", n, a, b, d}'
 done

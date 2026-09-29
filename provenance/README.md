@@ -31,7 +31,7 @@ in three groups:
   its surviving canonical copy immediately before deletion**, and the manifest names that copy, so
   no file was removed on the strength of an earlier session's claim. Three had been mislabelled as
   having no surviving twin because the canonical copy has a different filename
-  (`artifacts/2Z5X.pdb` → `03_receptors/2Z5X/raw.pdb`, and similarly for `7Q8Y.pdb` and
+  (`artifacts/2Z5X.pdb` → `03_receptors/mao/2Z5X/raw.pdb`, and similarly for `7Q8Y.pdb` and
   `phase0_flavonoid_library.csv`); all three were confirmed byte-identical before removal.
 - **4 × RL checkpoints, 379 MB.** The stage-1 model weights for generative campaigns 1 and 2, held
   as two unique files plus two exact duplicates. **This is the one deletion that lost something

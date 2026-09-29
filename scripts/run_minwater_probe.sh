@@ -17,6 +17,8 @@
 #
 # 12 dockings, a few minutes. GATE 1 threshold is 2.0 A.
 set -uo pipefail
+. "$(dirname "$0")/docking_paths.sh"
+. "$(dirname "$0")/receptor_paths.sh"   # docking_out / docking_glob: 04_docking layout
 
 if [ -n "${CONDA_PREFIX:-}" ]; then
     UNIX_PREFIX=$(cygpath -u "$CONDA_PREFIX" 2>/dev/null || echo "$CONDA_PREFIX")
@@ -33,14 +35,15 @@ PROBES="
 
 for P in $PROBES; do
     R="${P%%:*}"; REST="${P#*:}"; SET="${REST%%:*}"; REF="${REST##*:}"
-    [ -f "03_receptors/$R/receptor.pdbqt" ] || { echo "[skip] $R: no receptor"; continue; }
+    RDIR=$(receptor_dir "$R") || { echo "[skip] $R: no receptor directory"; continue; }
+    [ -f "$RDIR/receptor.pdbqt" ] || { echo "[skip] $R: no receptor"; continue; }
     for S in 11 22 33; do
         bash scripts/dock.sh "$R" "$SET" "$S" >/dev/null 2>&1 \
             || echo "[ERROR] $R $SET seed$S failed" >&2
     done
-    NW=$(grep -c 'HOH' "03_receptors/$R/receptor.pdbqt" 2>/dev/null | head -1)
+    NW=$(grep -c 'HOH' "$RDIR/receptor.pdbqt" 2>/dev/null | head -1)
     echo -n "$R (${NW:-0} water atoms): "
-    python scripts/rmsd_check.py --ref "03_receptors/$R/${REF}.sdf" \
-        --poses "04_docking/${R}_${SET}_seed*/${SET}_out.sdf" 2>/dev/null | tail -1
+    python scripts/rmsd_check.py --ref "$RDIR/${REF}.sdf" \
+        --poses "$(docking_glob "$R" "$SET")/${SET}_out.sdf" 2>/dev/null | tail -1
 done
 echo "=== PROBE DONE ==="

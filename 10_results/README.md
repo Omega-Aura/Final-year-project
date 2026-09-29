@@ -61,11 +61,11 @@ the computed gates, which for a CNS target is the precondition for anything else
 
 ![Pose stability across all fourteen MD systems](fig1_pose_stability.png)
 
-Sixteen systems, 10.1 ns each, ligand RMSD from the docked pose averaged over the final 100
+Seventeen systems, 10.1 ns each, ligand RMSD from the docked pose averaged over the final 100
 frames. Stability is judged on that window rather than the whole run, because a ligand that leaves
 late still shows a low whole-run average.
 
-**Eight of sixteen runs hold their pose; two leave the site entirely.** The immediate consequence
+**Nine of seventeen runs hold their pose; two leave the site entirely.** The immediate consequence
 is that a docking score is not evidence of binding: it ranks poses, and the ranking does not
 predict which pose is physically stable.
 
@@ -77,12 +77,15 @@ finding in the project, and it is why every energy below is tied to a named pose
 **The MAO complexes are the more stable pair.** No MAO run left the site — the worst is 3.24 Å,
 against two TTBK runs past 5 Å. Counting strictly, MAO-A holds 1 of 3 and MAO-B 2 of 3.
 
-Protein backbones were stable throughout (1.12–1.81 Å; 1.06–1.77 Å core-fit for MAO), so the
-ligand motion is ligand motion, not a collapsing binding site. (Core-fit RMSD across the eight
-MAO runs is 1.06–1.77 Å.) One apparent exception —
-`system_MAOA_p2` at 3.44 Å, the highest in the project — is the solvent-exposed C-terminal tail of
-the MAO-A construct flailing without a membrane to sit in, not an unstable fold; per-residue RMSF
-puts the maximum at residues 510–513 of 513, and the core is 1.28 Å.
+Protein backbones were stable throughout — **1.34–1.90 Å** across the eight TTBK runs and
+**1.06–1.77 Å** core-fit across the eight MAO runs — so the ligand motion is ligand motion, not a
+collapsing binding site. Two apparent exceptions, `system_MAOA_p3_r2` at 3.64 Å and
+`system_MAOA_p2` at 3.44 Å whole-protein (the two highest in the project), are the solvent-exposed
+C-terminal tail of the MAO-A construct flailing without a membrane to sit in, not unstable folds:
+per-residue RMSF puts the maximum at residues 506–513 of 513 in both, and the cores are 1.50 and
+1.28 Å. `p3_r2` carries the project's **most stable ligand** (1.07 Å) alongside its **highest
+backbone number**, which is the sharpest illustration that a whole-protein RMSD says nothing on
+its own about the binding site.
 
 ## Result 2 — For MAO, the intended selectivity is supported in direction
 
@@ -117,10 +120,18 @@ follows: never compute a binding energy on a trajectory that has left its docked
 
 ## Result 3 — For TTBK, there is no resolvable discrimination
 
-The best on-pose comparison is TTBK1 −31.36 / −33.44 against TTBK2 −30.95: a ΔΔG of about
-1.45 kcal/mol, *smaller* than the 2.08 kcal/mol spread between two TTBK1 runs that differed only
-in their random velocity seed. Pose stability says the same thing — 1 of 3 poses hold on each
-kinase, under a symmetric test.
+**As of 2026-09-28 both arms carry their own measured error bar**, and the comparison collapsed
+further. TTBK1's replicate mean is −32.40 (spread 2.08); TTBK2 pose 2's replicate mean is
+−32.93 (spread **3.97**). The ΔΔG computed from two replicate means rather than one single run
+is **0.53 kcal/mol** — down from the 1.45 quoted while TTBK2 had only one trajectory, and
+**7.4× smaller than the larger of the two spreads.** Pose stability says the same thing: 1 of 3
+poses hold on each kinase under a symmetric test, and TTBK2 pose 2 held in both replicates
+(1.99 and 1.89 Å).
+
+The earlier 1.45 figure was not wrong, but it was **asymmetric**: it judged a two-arm difference
+using one arm's uncertainty, because the TTBK2 arm had no replicate. Measuring that arm did not
+merely add an error bar, it moved the central value — which is the whole argument for measuring
+it.
 
 Three independent lines say the original TTBK2 liability claim does not survive:
 
@@ -133,27 +144,35 @@ Three independent lines say the original TTBK2 liability claim does not survive:
 - MD and MM-GBSA find no resolvable difference.
 
 **The honest outcome is that dynamics lacks the resolution to speak on TTBK1 vs TTBK2 at all.**
-That is not a null result to be buried — a 1.45 kcal/mol margin quoted against the reported SEM
-would have looked like a five-sigma selectivity finding.
+That is not a null result to be buried — a margin of 1.45 or 0.53 kcal/mol quoted against the
+reported SEM of 0.27 would have looked like a five-sigma selectivity finding either way.
 
 ## Result 4 — The reported SEM is not the error bar
 
 ![SEM against the spread measured by re-running with a new velocity seed](fig3_sem_vs_replicate.png)
 
 `MMPBSA.py` computes its standard error as if ~200 frames sampled 10 ps apart were independent
-draws. They are not. Across the project's four replicate pairs the reported SEM stays in a narrow
-0.15–0.27 kcal/mol band while the measured spread between two runs differing *only* in velocity
-seed ranges from 0.24 to 6.89 — a **29-fold** range.
+draws. They are not. Across the project's **five** replicate pairs the reported SEM stays in a
+narrow 0.15–0.27 kcal/mol band while the measured spread between two runs differing *only* in
+velocity seed ranges from 0.24 to 6.89 — a **29-fold** range.
 
-**And the discrepancy is not random: it tracks pose stability, monotonically across all four
+**And the discrepancy is not random: it tracks pose stability, monotonically across all five
 pairs.**
 
 | Pair | Mean ligand RMSD | Measured spread | Ratio to SEM |
 |---|---|---|---|
-| MAO-B pose 2 | 1.23 Å | 0.24 | 2× |
+| MAO-B pose 2 | 1.24 Å | 0.24 | 2× |
 | MAO-A pose 3 | 1.25 Å | 0.26 | 2× |
 | TTBK1 pose 1 | 1.63 Å | 2.08 | 8× |
-| TTBK2 pose 1 | 4.70 Å | 6.89 | 33× |
+| **TTBK2 pose 2** | **1.94 Å** | **3.97** | **15×** |
+| TTBK2 pose 1 | 4.71 Å | 6.89 | 33× |
+
+**The fifth pair, added 2026-09-28, landed where the trend predicted.** TTBK2 pose 2 was run as a
+replicate to give the TTBK2 arm its own error bar, not to test this relationship — and its spread
+of 3.97 kcal/mol sits between TTBK1's 2.08 and TTBK2 pose 1's 6.89, in the same order as its
+ligand RMSD. **Ordered by RMSD, the measured spread is now monotonic across all five pairs.** The
+ratio column is monotonic too, except that the two MAO pairs are tied within 0.01 Å of RMSD
+(1.6× at 1.24 Å against 1.5× at 1.25 Å), which is why both are quoted as 2×.
 
 The mechanism is straightforward once seen: a trajectory leaving the site samples structures that
 were never the complex, so its energy swings between seeds; a tightly held pose samples one basin
@@ -161,12 +180,14 @@ and returns nearly the same number twice.
 
 **Quoting the SEM as the uncertainty on a ΔΔG is the single easiest way to manufacture a
 significant selectivity result from this pipeline.** Without the second replicate, that is exactly
-what would have happened for TTBK.
+what would have happened for TTBK — and the TTBK2 replicate of 2026-09-28 sharpened the point
+again, because it moved the ΔΔG itself from 1.45 to 0.53 kcal/mol.
 
 The rule this yields is sharper than "never trust the SEM": **the SEM is only as good as the pose
 is stable, and you cannot tell which case you are in without running a replicate.** The MAO
 magnitude is quotable because the replicate was run — not because its poses looked stable. With
-n = 4 pairs across two protein families this is a consistent pattern, not a calibration curve.
+n = 5 pairs across two protein families and three proteins this is a consistent pattern, not a
+calibration curve.
 
 ---
 
@@ -177,14 +198,14 @@ This is the section to write the thesis and the manuscript Results from.
 | # | Claim | Status | Rests on |
 |---|---|---|---|
 | 1 | `cand_003` is drug-like and BBB-permeant on computed gates | **Supportable** | 0 Lipinski violations, BBB + GI pass, 0 structural alerts |
-| 2 | Docking rank does not predict which pose survives dynamics | **Supportable, strongly** | 1 of 4 targets, 3 poses each, 14 runs |
+| 2 | Docking rank does not predict which pose survives dynamics | **Supportable, strongly** | top-ranked pose most stable in 1 of 4 targets; 3 poses each, 16 runs |
 | 3 | `cand_003` forms a stable complex with MAO-B | **Supportable** | 2 of 3 poses hold (1.10, 2.28 Å); no MAO-B run left the site |
 | 4 | `cand_003` forms a stable complex with TTBK1 | **Supportable, pose-specific** | pose 1 holds in both replicates (1.88, 1.38 Å); poses 2–3 drift |
 | 5 | The compound favours MAO-B over MAO-A — the intended direction | **Supportable** | all 12 on-pose pairings agree; docking agrees independently |
 | 6 | …by about 2.55 kcal/mol | **Supportable, protocol-bound** | 9.8× the measured 0.24–0.26 replicate spread; both arms share the FAD restraint that damps it |
-| 7 | The compound is selective for TTBK1 over TTBK2 | **Not supportable** | 1.45 < 2.08 replicate spread; no pose-stability difference |
+| 7 | The compound is selective for TTBK1 over TTBK2 | **Not supportable** | ΔΔG 0.53 against measured spreads of 2.08 (TTBK1) and 3.97 (TTBK2); no pose-stability difference |
 | 8 | TTBK2 is an off-target liability for this series | **Docking only** | reverses under a symmetric water shell; inside the ~1.0 protocol bias |
-| 9 | The reported SEM is not a usable error bar, and its failure scales with pose instability | **Supportable, strongly** | 4 replicate pairs, ratio 2× to 33×, monotonic in ligand RMSD |
+| 9 | The reported SEM is not a usable error bar, and its failure scales with pose instability | **Supportable, strongly** | 5 replicate pairs, ratio 2× to 33×, spread monotonic in ligand RMSD |
 | 10 | Absolute ΔG values are comparable between targets | **Not supportable** | protein-specific desolvation/surface terms do not cancel |
 
 ### Two things not to write
@@ -216,9 +237,9 @@ Stated plainly, because each one bounds a claim above.
 5. **FAD is a restrained GAFF2 residue, not the covalent 8α-S-cysteinyl cofactor it really is.**
    Beyond the induced-fit point below, this is also why the MAO replicate spread is so tight — the
    restraint removes receptor motion that would otherwise vary between seeds.
-   The flavin wall of the cavity is reproduced and validated (0.46–0.73 Å from crystal across six
-   systems), but FAD cannot relax in response to the ligand, so induced fit involving the flavin is
-   suppressed. Defensible for ligand MM-GBSA, where FAD is part of the receptor on both sides of
+   The flavin wall of the cavity is reproduced and validated (0.46–0.73 Å from crystal across all
+   eight MAO systems), but FAD cannot relax in response to the ligand, so induced fit involving the
+   flavin is suppressed. Defensible for ligand MM-GBSA, where FAD is part of the receptor on both sides of
    the subtraction; not a substitute for covalent parameterisation.
 6. **No experimental validation.** Everything here is computational. The IC50 values in
    [`../01_smiles/`](../01_smiles/) are literature anchors for reference compounds, not measurements
@@ -231,12 +252,15 @@ Stated plainly, because each one bounds a claim above.
   [`../scripts/run_mao_replicate_queue.sh`](../scripts/run_mao_replicate_queue.sh). They measured
   the MAO arms' own spread — 0.26 and 0.24 kcal/mol — and moved claim 6 from unsupportable to
   supportable.
-- **The obvious next replicate is TTBK2 pose 2**, the one on-pose TTBK2 trajectory. Its ΔG
-  (−30.95) currently carries no error bar of its own, and it is the number the TTBK1-vs-TTBK2
-  comparison rests on.
+- **Done 2026-09-28:** the TTBK2 pose 2 velocity replicate (`system_TTBK2_p2_r2`) via
+  [`../scripts/run_ttbk2_replicate.sh`](../scripts/run_ttbk2_replicate.sh). Every arm in the
+  project now has a measured replicate spread. It gave the TTBK2 arm a spread of 3.97 kcal/mol,
+  moved the TTBK ΔΔG from 1.45 to **0.53**, reproduced the pose stability (1.89 Å against
+  1.99 Å), and supplied a fifth point to claim 9.
 - **To support claim 7 either way**, the TTBK arm needs either much longer sampling or an
-  alternative free-energy method. The current pipeline's resolution floor (~2 kcal/mol) is above
-  the effect size (~1.45), so more of the same will not settle it.
+  alternative free-energy method. With both arms now replicated the picture is worse, not better,
+  for more of the same: the resolution floor is ~4 kcal/mol (the larger measured spread) against
+  an effect size of ~0.53, and the ~1.3 kcal/mol calibration floor sits between them.
 - **To generalise beyond `cand_003`**, MD the next two or three shortlisted candidates. Pose
   stability has been the discriminating filter at every step and is cheap relative to its value.
 

@@ -56,7 +56,7 @@ Reward components:
 
 | Component | Weight | Detail |
 |---|---|---|
-| `TTBK1_dock` | 0.35 | Vina into `03_receptors/7JXX/receptor.pdbqt`, box 18³ at (178.93, 19.64, 46.21) |
+| `TTBK1_dock` | 0.35 | Vina into `03_receptors/ttbk/7JXX/receptor.pdbqt`, box 18³ at (178.93, 19.64, 46.21) |
 | `MAOB_dock` | 0.35 | Vina into the MAO-B site |
 | `SA_score` | 0.15 | synthetic accessibility |
 | `BBB_signed_dist` | 0.15 | BOILED-Egg signed distance |

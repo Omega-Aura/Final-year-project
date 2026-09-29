@@ -7,8 +7,8 @@ import sys
 from openmm import app, unit, LangevinMiddleIntegrator, MonteCarloBarostat, Platform
 from openmm.app import AmberPrmtopFile, AmberInpcrdFile, PDBReporter, StateDataReporter, DCDReporter
 
-prmtop = AmberPrmtopFile('06_md/system/complex.prmtop')
-inpcrd = AmberInpcrdFile('06_md/system/complex.inpcrd')
+prmtop = AmberPrmtopFile('06_md/systems/system/complex.prmtop')
+inpcrd = AmberInpcrdFile('06_md/systems/system/complex.inpcrd')
 
 system = prmtop.createSystem(nonbondedMethod=app.PME, nonbondedCutoff=1.0*unit.nanometer,
                               constraints=app.HBonds, rigidWater=True)
@@ -32,16 +32,16 @@ simulation.reporters.append(StateDataReporter(sys.stdout, 5000, step=True, tempe
 simulation.step(50000)  # 100 ps NVT-ish equilibration (barostat active throughout, standard NPT equil practice)
 
 print('Production run...', flush=True)
-simulation.reporters.append(DCDReporter('06_md/system/production.dcd', 5000))  # every 10 ps
-simulation.reporters.append(StateDataReporter('06_md/system/production.log', 5000, step=True,
+simulation.reporters.append(DCDReporter('06_md/systems/system/production.dcd', 5000))  # every 10 ps
+simulation.reporters.append(StateDataReporter('06_md/systems/system/production.log', 5000, step=True,
                                                time=True, potentialEnergy=True, temperature=True,
                                                volume=True, speed=True))
 
 PRODUCTION_STEPS = int(sys.argv[1]) if len(sys.argv) > 1 else 500000  # default 1 ns @ 2 fs
 simulation.step(PRODUCTION_STEPS)
 
-simulation.saveState('06_md/system/final_state.xml')
+simulation.saveState('06_md/systems/system/final_state.xml')
 positions = simulation.context.getState(getPositions=True).getPositions()
-with open('06_md/system/final.pdb', 'w') as f:
+with open('06_md/systems/system/final.pdb', 'w') as f:
     app.PDBFile.writeFile(simulation.topology, positions, f)
 print('Done.', flush=True)

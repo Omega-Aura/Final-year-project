@@ -1,0 +1,132 @@
+--- stripping solvent from trajectory ---
+
+CPPTRAJ: Trajectory Analysis. V7.6.2 (AmberTools)
+    ___  ___  ___  ___
+     | \/ | \/ | \/ | 
+    _|_/\_|_/\_|_/\_|_
+
+| Date/time: 09/27/26 20:19:57
+| Available memory: 5.798 GB
+
+INPUT: Reading input from 'strip_traj.cpptraj'
+  [parm complex.prmtop]
+	Reading 'complex.prmtop' as Amber Topology
+	Radius Set: modified Bondi radii (mbondi)
+  [trajin production.dcd]
+	Reading 'production.dcd' as Charmm DCD
+	NAMD unit cell detected.
+  [autoimage]
+    AUTOIMAGE: To box center based on center of mass, anchor is first molecule.
+	Auto-imaging using molecule distances.
+  [strip :WAT,Na+,Cl- outprefix stripped]
+    STRIP: Stripping atoms in mask [:WAT,Na+,Cl-]
+	Writing 'stripped' topology file with prefix 'stripped'
+  [trajout production_full_stripped.nc netcdf]
+	Writing 'production_full_stripped.nc' as Amber NetCDF
+  [run]
+---------- RUN BEGIN -------------------------------------------------
+
+PARAMETER FILES (1 total):
+ 0: complex.prmtop, 48152 atoms, 14742 res, box: Truncated octahedron, 14449 mol, 14436 solvent
+
+INPUT TRAJECTORIES (1 total):
+ 0: 'production.dcd' is a CHARMM DCD file (coords) Little Endian 32 bit, Parm complex.prmtop (Truncated octahedron box) (reading 1000 of 1000)
+  Coordinate processing will occur on 1000 frames.
+
+OUTPUT TRAJECTORIES (1 total):
+  'production_full_stripped.nc' (1000 frames) is a NetCDF (NetCDF3) AMBER trajectory
+
+BEGIN TRAJECTORY PROCESSING:
+Warning: CHARMM version is >= 22 but an option other than 'shape' was specified.
+.....................................................
+ACTION SETUP FOR PARM 'complex.prmtop' (2 actions):
+  0: [autoimage]
+	Original box is truncated octahedron, turning on 'familiar'.
+	Using first molecule as anchor.
+	1 molecules are fixed to anchor: 2
+	14447 molecules are mobile.
+  1: [strip :WAT,Na+,Cl- outprefix stripped]
+	Stripping 43319 atoms.
+	Stripped topology: 4833 atoms, 295 res, box: Truncated octahedron, 2 mol
+	Writing topology 0 (complex.prmtop) to 'stripped.complex.prmtop' with format Amber Topology
+	Memory used by full exclusion list: 105.528 kB
+Warning: Setting NetCDF variable compression requires compiling with HDF5 support.
+Warning: Setting NetCDF variable compression requires compiling with HDF5 support.
+Warning: Setting NetCDF frame chunk size requires compiling with HDF5 support.
+Warning: Setting NetCDF variable compression requires compiling with HDF5 support.
+Warning: Setting NetCDF frame chunk size requires compiling with HDF5 support.
+Warning: Setting NetCDF variable compression requires compiling with HDF5 support.
+Warning: Setting NetCDF frame chunk size requires compiling with HDF5 support.
+.....................................................
+ACTIVE OUTPUT TRAJECTORIES (1):
+  production_full_stripped.nc (coordinates, time, box)
+----- production.dcd (1-1000, 1) -----
+ 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% Complete.
+
+Read 1000 frames and processed 1000 frames.
+TIME: Avg. throughput= 41.6259 frames / second.
+
+ACTION OUTPUT:
+TIME: Analyses took 0.0000 seconds.
+
+RUN TIMING:
+TIME:		Init               : 0.0000 s (  0.00%)
+TIME:		Trajectory Process : 24.0235 s (100.00%)
+TIME:		Action Post        : 0.0000 s (  0.00%)
+TIME:		Analysis           : 0.0000 s (  0.00%)
+TIME:		Data File Write    : 0.0000 s (  0.00%)
+TIME:		Other              : 0.0011 s (  0.00%)
+TIME:	Run Total 24.0246 s
+---------- RUN END ---------------------------------------------------
+  [quit]
+TIME: Total execution time: 26.2873 seconds.
+--------------------------------------------------------------------------------
+To cite CPPTRAJ use:
+Daniel R. Roe and Thomas E. Cheatham, III, "PTRAJ and CPPTRAJ: Software for
+  Processing and Analysis of Molecular Dynamics Trajectory Data". J. Chem.
+  Theory Comput., 2013, 9 (7), pp 3084-3095.
+
+--- building GB topologies ---
+Stripping :WAT,Na+,Cl- (solvent) from original topology, output is gb_complex.prmtop
+Done stripping solvent!
+
+Creating receptor topology file by stripping :MOL from gb_complex.prmtop
+Done creating receptor topology file!
+
+Creating ligand topology file by stripping !(:MOL) from gb_complex.prmtop
+Done creating ligand topology file!
+
+--- MM-GBSA ---
+Loading and checking parameter files for compatibility...
+cpptraj found! Using /home/aritr/miniconda3/envs/mdgbsa/bin/cpptraj
+mmpbsa_py_energy found! Using /home/aritr/miniconda3/envs/mdgbsa/bin/mmpbsa_py_energy
+Preparing trajectories for simulation...
+200 frames were processed by cpptraj for use in calculation.
+
+Running calculations on normal system...
+
+Beginning GB calculations with /home/aritr/miniconda3/envs/mdgbsa/bin/mmpbsa_py_energy
+  calculating complex contribution...
+  calculating receptor contribution...
+  calculating ligand contribution...
+
+Timing:
+Total setup time:                           0.007 min.
+Creating trajectories with cpptraj:         0.081 min.
+Total calculation time:                    10.734 min.
+
+Total GB calculation time:                 10.734 min.
+
+Statistics calculation & output writing:    0.001 min.
+Total time taken:                          10.823 min.
+
+
+MMPBSA.py Finished! Thank you for using. Please cite us if you publish this work with this paper:
+   Miller III, B. R., McGee Jr., T. D., Swails, J. M. Homeyer, N. Gohlke, H. and Roitberg, A. E.
+   J. Chem. Theory Comput., 2012, 8 (9) pp 3314--3321
+--- result ---
+DELTA TOTAL                -34.9183                3.1412              0.2221
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------

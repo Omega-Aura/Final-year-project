@@ -13,6 +13,8 @@ import glob, os, re, sys
 import numpy as np
 import pandas as pd
 
+import project_paths          # receptor_file(): 03_receptors/<family>/<PDB>/, resolved by glob
+
 SHORTLIST_N = 15
 
 # A Vina run that cannot place the ligand still reports a "best" mode -- often near zero or
@@ -24,12 +26,15 @@ FAIL_THRESHOLD = -5.0
 
 
 def consensus(receptor, ligandset="candidates_56"):
-    rec = f"03_receptors/{receptor}/receptor.pdbqt"
+    rec = project_paths.receptor_file(receptor) or ""
+
     if not os.path.exists(rec):
         return None
     rmt = os.path.getmtime(rec)
     rows, stale = [], 0
-    for log in glob.glob(f"04_docking/{receptor}_{ligandset}_seed*/*.log"):
+    # 04_docking/<group>/<run>/: the extra level is the purpose grouping. Matching it with
+    # a wildcard keeps this group-agnostic, so reclassifying a set cannot hide its runs.
+    for log in glob.glob(f"04_docking/*/{receptor}_{ligandset}_seed*/*.log"):
         if os.path.getmtime(log) <= rmt:
             stale += 1
             continue

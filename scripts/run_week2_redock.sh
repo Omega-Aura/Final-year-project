@@ -14,6 +14,8 @@
 #
 # Usage: bash scripts/run_week2_redock.sh [--dry-run]
 set -uo pipefail
+. "$(dirname "$0")/docking_paths.sh"
+. "$(dirname "$0")/receptor_paths.sh"   # docking_out / docking_glob: 04_docking layout
 
 DRY=0
 WITH_PARALOG=0
@@ -69,7 +71,7 @@ expected_count() {
 total_run=0; total_skip=0
 for J in $JOBS; do
     R="${J%%:*}"; SET="${J##*:}"
-    REC="03_receptors/$R/receptor.pdbqt"
+    REC=$(receptor_file "$R" receptor.pdbqt) || REC="03_receptors/$R/receptor.pdbqt"
     [ -f "$REC" ] || { echo "[skip] $R: no receptor.pdbqt"; continue; }
     N_EXP=$(expected_count "$SET")
     # Never let an unreadable count degrade into "re-run everything": that is the one
@@ -79,7 +81,7 @@ for J in $JOBS; do
         0)           echo "[abort] $R $SET: ligand set is empty" >&2; exit 1 ;;
     esac
     for S in $SEEDS; do
-        OUT="04_docking/${R}_${SET}_seed${S}"
+        OUT=$(docking_out "$R" "$SET" "$S")
         # a run is current if it has the expected number of logs AND every one of them is
         # newer than the receptor file it was supposedly docked against
         N_FRESH=0

@@ -33,22 +33,23 @@ OUT = os.path.join(ROOT, "07_mmgbsa", "md_mmgbsa_summary.csv")
 
 # (system_dir, target, structure, start). Order is the reporting order, not disk order.
 SYSTEMS = [
-    ("06_md/system",            "TTBK1", "7JXX", "pose 1, run 1"),
-    ("06_md/system_TTBK1_r2",   "TTBK1", "7JXX", "pose 1, run 2"),
-    ("06_md/system_TTBK1_p2",   "TTBK1", "7JXX", "pose 2"),
-    ("06_md/system_TTBK1_p3",   "TTBK1", "7JXX", "pose 3"),
-    ("06_md/system_TTBK2",      "TTBK2", "7Q8Y", "pose 1, run 1"),
-    ("06_md/system_TTBK2m",     "TTBK2", "7Q8Y", "pose 1, run 2"),
-    ("06_md/system_TTBK2_p2",   "TTBK2", "7Q8Y", "pose 2"),
-    ("06_md/system_TTBK2_p3",   "TTBK2", "7Q8Y", "pose 3"),
-    ("06_md/system_MAOA",       "MAO-A", "2Z5X", "pose 1"),
-    ("06_md/system_MAOA_p2",    "MAO-A", "2Z5X", "pose 2"),
-    ("06_md/system_MAOA_p3",    "MAO-A", "2Z5X", "pose 3, run 1"),
-    ("06_md/system_MAOA_p3_r2", "MAO-A", "2Z5X", "pose 3, run 2"),
-    ("06_md/system_MAOB",       "MAO-B", "2V5Z", "pose 1"),
-    ("06_md/system_MAOB_p2",    "MAO-B", "2V5Z", "pose 2, run 1"),
-    ("06_md/system_MAOB_p2_r2", "MAO-B", "2V5Z", "pose 2, run 2"),
-    ("06_md/system_MAOB_p3",    "MAO-B", "2V5Z", "pose 3"),
+    ("06_md/systems/system",            "TTBK1", "7JXX", "pose 1, run 1"),
+    ("06_md/systems/system_TTBK1_r2",   "TTBK1", "7JXX", "pose 1, run 2"),
+    ("06_md/systems/system_TTBK1_p2",   "TTBK1", "7JXX", "pose 2"),
+    ("06_md/systems/system_TTBK1_p3",   "TTBK1", "7JXX", "pose 3"),
+    ("06_md/systems/system_TTBK2",      "TTBK2", "7Q8Y", "pose 1, run 1"),
+    ("06_md/systems/system_TTBK2m",     "TTBK2", "7Q8Y", "pose 1, run 2"),
+    ("06_md/systems/system_TTBK2_p2",   "TTBK2", "7Q8Y", "pose 2, run 1"),
+    ("06_md/systems/system_TTBK2_p2_r2", "TTBK2", "7Q8Y", "pose 2, run 2"),
+    ("06_md/systems/system_TTBK2_p3",   "TTBK2", "7Q8Y", "pose 3"),
+    ("06_md/systems/system_MAOA",       "MAO-A", "2Z5X", "pose 1"),
+    ("06_md/systems/system_MAOA_p2",    "MAO-A", "2Z5X", "pose 2"),
+    ("06_md/systems/system_MAOA_p3",    "MAO-A", "2Z5X", "pose 3, run 1"),
+    ("06_md/systems/system_MAOA_p3_r2", "MAO-A", "2Z5X", "pose 3, run 2"),
+    ("06_md/systems/system_MAOB",       "MAO-B", "2V5Z", "pose 1"),
+    ("06_md/systems/system_MAOB_p2",    "MAO-B", "2V5Z", "pose 2, run 1"),
+    ("06_md/systems/system_MAOB_p2_r2", "MAO-B", "2V5Z", "pose 2, run 2"),
+    ("06_md/systems/system_MAOB_p3",    "MAO-B", "2V5Z", "pose 3"),
 ]
 
 # Verdict thresholds on the last-100-frame ligand RMSD, in Angstrom. The <=2.3 / >=3.2 bands are
@@ -118,7 +119,7 @@ def fmt(v, nd=2):
 def build():
     rows = []
     for rel, target, structure, start in SYSTEMS:
-        sysdir = os.path.join(ROOT, rel.replace("06_md/", "06_md" + os.sep))
+        sysdir = os.path.join(ROOT, rel.replace("/", os.sep))
         lig = read_series(os.path.join(sysdir, "lig_rmsd.dat"))
         if lig is None:
             sys.exit(f"missing primary data: {rel}/lig_rmsd.dat")

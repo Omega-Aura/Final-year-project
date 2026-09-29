@@ -17,6 +17,10 @@ Every step of the workflow is re-runnable from here. Scripts are grouped by the 
 | Script | Drives | Notes |
 |---|---|---|
 | [`dock.sh`](dock.sh) | [step 4](../04_docking/) | the Vina call; `--exhaustiveness 32 --num_modes 9 --seed N` |
+| [`docking_paths.sh`](docking_paths.sh) | [step 4](../04_docking/) | sourced, not run: the **only** definition of which `04_docking/` group a ligand set writes into |
+| [`receptor_paths.sh`](receptor_paths.sh) | [step 3](../03_receptors/) | sourced, not run: resolves a receptor by PDB id under `03_receptors/<family>/`, and holds the **only** family rule |
+| [`project_paths.py`](project_paths.py) | [step 3](../03_receptors/) | the same receptor resolution for Python readers — glob only, **no** family rule, so nothing can drift against the shell copy |
+| [`md_paths.sh`](md_paths.sh) | [step 6](../06_md/) | sourced, not run: resolves an MD system name under `06_md/systems/` |
 | [`run_week2_redock.sh`](run_week2_redock.sh) | [step 4](../04_docking/) | production re-dock, **resumable** |
 | [`run_water_test.sh`](run_water_test.sh) | [step 4](../04_docking/) | paired wet/dry docking |
 | [`run_minwater_probe.sh`](run_minwater_probe.sh) | [step 4](../04_docking/) | minimal-water probe |
@@ -43,6 +47,7 @@ Every step of the workflow is re-runnable from here. Scripts are grouped by the 
 | [`../06_md/run_md.py`](../06_md/) | [step 6](../06_md/) | minimise → equilibrate → produce |
 | [`../06_md/run_md_extend.py`](../06_md/) | [step 6](../06_md/) | continues from `final_state.xml` |
 | [`../06_md/run_md_restrained.py`](../06_md/) | [step 6](../06_md/) | FAD-restrained variant for MAO systems |
+| [`run_ttbk2_replicate.sh`](run_ttbk2_replicate.sh) | [step 6](../06_md/) | velocity replicate of `system_TTBK2_p2`, the only on-pose TTBK2 trajectory; **aborts** unless its inputs are byte-identical to run 1 |
 | [`run_mmgbsa.sh`](run_mmgbsa.sh) | [step 7](../07_mmgbsa/) | strip → `ante-MMPBSA.py` → `MMPBSA.py`, inside WSL2 |
 
 ## Two environments, one pipeline
@@ -55,7 +60,7 @@ environment. Scripts that cross the boundary call `wsl -e bash -lc` and translat
 ## Path dependencies — read before reorganising
 
 These scripts hardcode the numbered step directories in **16+ places**: `03_receptors/`,
-`01_smiles/`, `04_docking/`, `02_ligands/pdbqt/`, `06_md/system/`, `05_validation/`,
+`01_smiles/`, `04_docking/`, `02_ligands/pdbqt/`, `06_md/systems/`, `05_validation/`,
 `08_analysis/`, `00_library/reinvent4_output/campaign2_v2/`.
 
 **Renaming or moving a numbered directory breaks reproducibility.** Add to the structure rather than
@@ -70,7 +75,9 @@ Worth knowing about before writing new ones:
   failure that reads like a score. `dock.sh` catches it.
 - **Truncated SDF.** Detected by checking for the record terminator, which is the last thing
   written, so a partially written file is distinguishable from a complete one.
-- **No blind globbing of `02_ligands/pdbqt/`.** That directory holds more ligands than any single run
+- **No blind globbing of `02_ligands/pdbqt/`.** It is now split into `candidates/`, `natives/` and
+  `references/`, and `dock.sh` resolves a ligand by name at either depth via its `lig_path` helper,
+  so a half-migrated tree cannot silently resolve to nothing. The directory still holds more ligands than any single run
   should use; ligand lists are explicit.
 - **`MMPBSA.py -sp` is wrong for a stripped trajectory.** `-sp` expects the solvated topology and
   aborts on an atom-count mismatch. `run_mmgbsa.sh` omits it deliberately, with the reasoning in a

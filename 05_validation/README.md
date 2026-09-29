@@ -101,7 +101,7 @@ only barely, and subtracting the bias leaves ~0.6. The MAO benchmark in
 
 | File | Role |
 |---|---|
-| `*_redock.txt` | per-receptor redocking, all seeds and poses, with the PASS/FAIL verdict |
+| `redock/*_redock.txt` | per-receptor redocking, all seeds and poses, with the PASS/FAIL verdict |
 | [`calibration_9IV.csv`](calibration_9IV.csv) | per-seed consensus scores for the 9IV pair |
 | [`calibration_9IV_margin.json`](calibration_9IV_margin.json) | the margin, the experimental ΔΔG, and the derived systematic bias |
 | [`benchmark_mao.csv`](benchmark_mao.csv) | MAO reference-ligand scores vs measured affinity |

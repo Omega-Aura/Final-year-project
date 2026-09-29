@@ -1,0 +1,15 @@
+[ok] inputs byte-identical to system_TTBK2_p2
+[start md] system_TTBK2_p2_r2  2026-09-28 00:05:05  (~1.9 h at 131 ns/day)
+[done md]  system_TTBK2_p2_r2  2026-09-28 01:49:52  5050000,10100.00000114014,-621849.9043404413,299.9309822976667,480.01422775559877,139
+[start analysis] system_TTBK2_p2_r2  2026-09-28 01:49:52
+[done analysis]  system_TTBK2_p2_r2  2026-09-28 02:01:24  DELTA TOTAL                -34.9183                3.1412              0.2221
+
+[complete] 2026-09-28 02:01:24
+
+TTBK2 pose 2 replicate spread: -30.95 vs -34.92  =  3.97 kcal/mol
+Compare: TTBK ddG is 1.45 kcal/mol (TTBK1 replicate mean -32.40 vs TTBK2 -30.95)
+  -> spread EXCEEDS the ddG: no resolvable discrimination, now with a symmetric error bar.
+
+Then regenerate the summary table and figures:
+  conda run -n docking_project python scripts/collect_md_summary.py
+  cd 10_results && conda run -n docking_project python make_figures.py

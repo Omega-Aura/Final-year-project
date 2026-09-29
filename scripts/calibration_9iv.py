@@ -49,9 +49,16 @@ SEEDS = [11, 22, 33]
 
 def per_seed_best(receptor, seed):
     """Best (most negative) Vina score for 9IV in one receptor at one seed."""
-    log = f"04_docking/{receptor}_native_9IV_seed{seed}/native_9IV.log"
-    if not os.path.exists(log):
+    # Globbed rather than hardcoded to 04_docking/native_redock/ so that regrouping the
+    # run directories cannot silently turn this calibration into a no-op. More than one
+    # match means two groups hold the same run, which must not be averaged over silently.
+    hits = glob.glob(f"04_docking/*/{receptor}_native_9IV_seed{seed}/native_9IV.log")
+    if len(hits) > 1:
+        raise SystemExit(f"[abort] {receptor} seed{seed}: {len(hits)} copies of "
+                         f"native_9IV.log across groups: {hits}")
+    if not hits:
         return None
+    log = hits[0]
     scores = [float(x) for x in
               re.findall(r"^\s+\d+\s+(-?\d+\.\d+)", open(log).read(), re.M)]
     return min(scores) if scores else None

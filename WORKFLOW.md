@@ -11,7 +11,7 @@ modes. Self-contained, so any step can be picked up from this document alone.
 >
 > | Planned here | What was actually done |
 > |---|---|
-> | 4 MD systems, 3 × 20 ns replicates at 310 K | **16 systems**, 10.1 ns each at 300 K — three docked poses per target, plus velocity replicates of the best pose |
+> | 4 MD systems, 3 × 20 ns replicates at 310 K | **17 systems**, 10.1 ns each at 300 K — three docked poses per target, plus a velocity replicate of the best on-pose trajectory in every one of the four arms |
 > | replicates as the only error estimate | pose scan *and* velocity replicates; the two measure different variance and must not be conflated |
 > | FAD stated as covalently attached in Methods | FAD parameterised as a **positionally restrained GAFF2 residue**; the 8α-S-cysteinyl bond is not modelled |
 > | GATE 1 on 7JXX alone | all six receptors passed redocking, 0.27–1.45 Å |
@@ -42,13 +42,18 @@ project/
 │   ├── references.csv
 │   └── native_ligands.csv      ← extracted from crystal structures
 ├── 02_ligands/         PREPARED 3D ligands (rebuilt from scratch)
-│   ├── sdf/  pdbqt/
-├── 03_receptors/       PREPARED receptors (rebuilt from scratch)
-│   ├── 7JXX/ 4BTK/ 2V5Z/ 7Q8V/ 7Q8Y/ 2Z5X/
+│   ├── sdf/  pdbqt/      each split: candidates/ natives/ references/
+├── 03_receptors/       PREPARED receptors (rebuilt from scratch), grouped by target family
+│   ├── ttbk/            7JXX/ 7JXXdry/ 7Q8V/ 7Q8Y/ 7Q8Ybrg/ 7Q8Ydry/ 4BTK/
+│   ├── mao/             2V5Z/ 2V5Zdry/ 2Z5X/ 2Z5Xdry/ 2Z5XnoFAD/
 │   │   ├── raw.pdb  clean.pdb  receptor.pdbqt  box.json  native_ligand.sdf
-├── 04_docking/         one subfolder per (receptor × ligandset × seed)
-├── 05_validation/      redocking RMSDs, calibration, benchmark plots
-├── 06_md/              one subfolder per system per replicate
+│   ├── _cofactors/      shared cofactor parameters
+├── 04_docking/         one subfolder per (receptor × ligandset × seed), grouped by purpose:
+│   ├── candidates/ references/ native_redock/ controls/
+├── 05_validation/      calibration, benchmark plots
+│   ├── redock/          per-receptor redocking logs
+├── 06_md/              run scripts, params/, queue_logs/
+│   ├── systems/         one subfolder per system per replicate (16)
 ├── 07_mmgbsa/
 ├── 08_analysis/        final tables and figures
 ├── 09_manuscript/
@@ -155,11 +160,11 @@ itself before five weeks of results depend on it.
 
 ```bash
 bash scripts/prep_receptor.sh 2V5Z A SAG "FAD"
-python scripts/prep_ligands.py --native 03_receptors/2V5Z/native_SAG.sdf -o 02_ligands
+python scripts/prep_ligands.py --native 03_receptors/mao/2V5Z/native_SAG.sdf -o 02_ligands
 bash scripts/dock.sh 2V5Z native_SAG 11
 python scripts/rmsd_check.py \
-    --ref 03_receptors/2V5Z/native_SAG.sdf \
-    --poses 04_docking/2V5Z_native_SAG_seed11/out.sdf
+    --ref 03_receptors/mao/2V5Z/native_SAG.sdf \
+    --poses 04_docking/native_redock/2V5Z_native_SAG_seed11/out.sdf
 ```
 
 **Expected: ≈1.57 Å.** If it does not reproduce, stop and fix it today.
@@ -192,7 +197,7 @@ fall inside or near the binding pocket.
 
 Two specific checks:
 
-1. **Does 2Z5X actually contain FAD?** `grep " FAD " 03_receptors/2Z5X/raw.pdb | head` — the entry
+1. **Does 2Z5X actually contain FAD?** `grep " FAD " 03_receptors/mao/2Z5X/raw.pdb | head` — the entry
    lists FAD in chain B. *(This mattered: the prepared MAO-A receptor was initially built without
    its FAD. The flavin forms one wall of the substrate cavity, so docking into a site lacking it is
    docking into the wrong site, and every MAO-A docking before this was caught is invalid.)*
@@ -232,7 +237,7 @@ for R in 7JXX 4BTK; do
   python scripts/prep_ligands.py --native 03_receptors/$R/$L.sdf -o 02_ligands
   for S in 11 22 33; do bash scripts/dock.sh $R $L $S; done
   python scripts/rmsd_check.py --ref 03_receptors/$R/$L.sdf \
-      --poses "04_docking/${R}_${L}_seed*/out.sdf" | tee 05_validation/${R}_redock.txt
+      --poses "04_docking/*/${R}_${L}_seed*/out.sdf" | tee 05_validation/redock/${R}_redock.txt
 done
 ```
 
@@ -330,7 +335,7 @@ The test case: 9IV is crystallised in **both** proteins with nearly identical me
 (TTBK1 330–530 nM, TTBK2 490 nM). The true ΔΔG is close to zero — roughly 0.0–0.25 kcal/mol.
 
 ```bash
-python scripts/prep_ligands.py --native 03_receptors/7Q8V/native_9IV.sdf -o 02_ligands
+python scripts/prep_ligands.py --native 03_receptors/ttbk/7Q8V/native_9IV.sdf -o 02_ligands
 for R in 7Q8V 7Q8Y; do
   for S in 11 22 33; do bash scripts/dock.sh $R native_9IV $S; done
   python scripts/rmsd_check.py --ref 03_receptors/$R/native_9IV.sdf \
@@ -415,7 +420,7 @@ RMSD and RMSF per replicate; ProLIF interaction fingerprints; the corrected sele
 **honest error bars**.
 
 > **The SEM `MMPBSA.py` reports is not the error bar.** It treats ~200 frames sampled 10 ps apart as
-> independent draws. Across this project's four replicate pairs the reported SEM stayed in a narrow
+> independent draws. Across this project's five replicate pairs the reported SEM stayed in a narrow
 > 0.15–0.27 kcal/mol band while the measured spread between two runs differing *only* in velocity
 > seed ranged from 0.24 to 6.89 — a 29-fold range.
 >

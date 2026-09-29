@@ -12,6 +12,8 @@ for the rare case where you really do want everything on disk.
 import argparse, glob, os, re, sys
 import pandas as pd
 
+import project_paths          # receptor_file(): 03_receptors/<family>/<PDB>/, resolved by glob
+
 p = argparse.ArgumentParser()
 p.add_argument("root")
 p.add_argument("-o", required=True)
@@ -26,7 +28,10 @@ rows = []
 stale = {}      # run -> count of logs older than their receptor
 no_receptor = set()
 
-for log in glob.glob(f"{a.root}/*/*.log"):
+# 04_docking/<group>/<run>/*.log since the runs were grouped by purpose; the older flat
+# 04_docking/<run>/*.log layout still matches, so this reads either. The run name -- and
+# with it receptor, ligandset and seed -- always comes from the log's immediate parent.
+for log in sorted(glob.glob(f"{a.root}/*/*.log") + glob.glob(f"{a.root}/*/*/*.log")):
     run = os.path.basename(os.path.dirname(log))
     m = re.match(r"(.+?)_(.+)_seed(\d+)$", run)
     if not m:
@@ -34,8 +39,8 @@ for log in glob.glob(f"{a.root}/*/*.log"):
     rec, lset, seed = m.groups()
 
     if not a.allow_stale:
-        rpath = os.path.join(a.receptors, rec, "receptor.pdbqt")
-        if not os.path.exists(rpath):
+        rpath = project_paths.receptor_file(rec, root=a.receptors)
+        if rpath is None or not os.path.exists(rpath):
             no_receptor.add(rec)
             continue
         if os.path.getmtime(log) <= os.path.getmtime(rpath):
