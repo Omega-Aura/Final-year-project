@@ -1,0 +1,21 @@
+{
+ "id": "rasagiline",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "C#CCN[C@@H]1CCc2ccccc21",
+ "formal_charge_pH74": 1,
+ "charged_atoms": [
+  "N3"
+ ],
+ "heavy_atoms": 13,
+ "pdbqt_atoms": 15,
+ "pdbqt_types": {
+  "C": 6,
+  "N": 1,
+  "HD": 2,
+  "A": 6
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": 0.998,
+ "mmff_energy": 12.21,
+ "failures": []
+}

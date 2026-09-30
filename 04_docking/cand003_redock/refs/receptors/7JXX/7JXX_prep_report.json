@@ -1,0 +1,127 @@
+{
+ "pdb": "7JXX",
+ "chain": "A",
+ "hetero_and_water_removed": [
+  "HOH",
+  "NA",
+  "VP7"
+ ],
+ "nonstandard_replaced": [],
+ "missing_residues_not_built": {
+  "0:0": [
+   "GLY",
+   "HIS",
+   "MET",
+   "SER",
+   "GLY",
+   "GLY",
+   "GLY",
+   "GLU",
+   "GLN",
+   "ALA"
+  ],
+  "0:22": [
+   "GLY"
+  ],
+  "0:164": [
+   "THR",
+   "GLY"
+  ],
+  "0:288": [
+   "ALA",
+   "GLY",
+   "THR",
+   "ASP",
+   "ALA",
+   "LEU",
+   "LEU",
+   "SER",
+   "THR",
+   "SER",
+   "THR",
+   "SER",
+   "THR",
+   "PRO",
+   "PRO",
+   "GLN",
+   "GLN",
+   "ASN",
+   "THR",
+   "ARG",
+   "GLN",
+   "THR",
+   "ALA",
+   "ALA",
+   "MET",
+   "PHE",
+   "GLY",
+   "VAL",
+   "VAL",
+   "ASN",
+   "VAL"
+  ]
+ },
+ "missing_heavy_atoms_rebuilt": 38,
+ "missing_terminal_atoms_rebuilt": 1,
+ "missing_atoms_detail": {
+  "ASP22": [
+   "CG",
+   "OD1",
+   "OD2"
+  ],
+  "PHE45": [
+   "CG",
+   "CD1",
+   "CE1",
+   "CZ",
+   "CE2",
+   "CD2"
+  ],
+  "LYS75": [
+   "CG",
+   "CD",
+   "CE",
+   "NZ"
+  ],
+  "ARG98": [
+   "CG",
+   "CD",
+   "NE",
+   "CZ",
+   "NH1",
+   "NH2"
+  ],
+  "GLU100": [
+   "CG",
+   "CD",
+   "OE1",
+   "OE2"
+  ],
+  "LYS101": [
+   "CG",
+   "CD",
+   "CE",
+   "NZ"
+  ],
+  "ASN195": [
+   "CG",
+   "OD1",
+   "ND2"
+  ],
+  "ARG200": [
+   "CD",
+   "NE",
+   "CZ",
+   "NH1",
+   "NH2"
+  ],
+  "LYS212": [
+   "CD",
+   "CE",
+   "NZ"
+  ]
+ },
+ "residues": 288,
+ "atoms_with_H": 4747,
+ "expected_net_charge": 12
+}

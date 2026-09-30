@@ -6,7 +6,8 @@ Collected every quantitative result the pipeline produced into one place and ask
 question that matters for the project: **what can this study actually claim about `cand_003`, and
 with what confidence?**
 
-Nothing new was computed here. Every number is read from the primary files in steps 4–8 — mostly
+Nothing new was computed here **except Result 6** (a strict-preparation redock run on 2026-09-29;
+see its section). Every other number is read from the primary files in steps 4–8 — mostly
 from [`../07_mmgbsa/md_mmgbsa_summary.csv`](../07_mmgbsa/md_mmgbsa_summary.csv), which is itself
 regenerated from the `.dat` files by
 [`../scripts/collect_md_summary.py`](../scripts/collect_md_summary.py). The figures here are drawn
@@ -245,6 +246,51 @@ adjudicated by a third of the same kind.
 
 ---
 
+## Result 6 — Strip every water and heteroatom, and two of four receptors change meaning
+
+`cand_003` was redocked on all four receptors after the strictest preparation: chain A only, **all
+waters and all heteroatoms removed** (native ligand, FAD, ions, glycerol, phosphate), missing atoms
+rebuilt with PDBFixer, hydrogens added at pH 7.4, Gasteiger charges (whole-number per residue; totals
+−3 / +2 / +12 / +11 match the protonation exactly), AutoDock Vina 1.2.7 on the native-ligand box,
+exhaustiveness 32, seeds 11/22/33. This is deliberately the opposite of the project's standard
+preparation, which keeps the pocket water shell and FAD, and it is kept apart from it in
+`../04_docking/cand003_redock/` and `cand_003_redock_clean/`.
+
+| Receptor | Best Vina (kcal/mol) | Pose | Earlier, same ligand: no water, cofactor kept |
+|---|---|---|---|
+| MAO-B 2V5Z | **−11.15** | 0.8 Å from native SAG; 4.7 Å from FAD | −11.42 |
+| MAO-A 2Z5X | **−8.77** (raw top mode −11.44) | raw top pose sits **inside the deleted FAD** | −8.24 |
+| TTBK1 7JXX | **−8.49** | 1.5 Å from native VP7 | −8.41 |
+| TTBK2 7Q8Y | **−9.87** | 3.5 Å off the crystal mode; 17 ligand atoms in crystal-water positions | −9.89 |
+
+Seeds agree within 0.06 kcal/mol on every receptor, so none of what follows is sampling noise.
+
+**MAO-B and TTBK1 are insensitive to the stripping** (shifts of 0.27 and 0.08). Their poses sit in the
+crystal site and do not touch a removed atom that matters, so their scores are the most trustworthy
+numbers in this result.
+
+**MAO-A's headline score is an artefact.** Modes 1–5 of every seed put 4–12 ligand atoms within 2.5 Å
+of where FAD sits in the crystal (closest 0.3–0.56 Å): with the cofactor deleted, nothing penalised the
+CF₃ end of the ligand for occupying the flavin. The best mode that avoids FAD scores **−8.77** in all
+three seeds, within 0.53 of the FAD-kept run. Taken at face value, the raw numbers would put MAO-A
+(−11.44) ahead of MAO-B (−11.15) — the *reverse* of claim 5. With the clash removed, MAO-B is ahead by
+2.38 kcal/mol (3.18 in the FAD-kept run), so **the direction of claim 5 is preserved and the raw reversal
+is entirely the artefact.** This is a further case of the failure this project keeps meeting — a
+number that looked like a result until its arm was checked for comparability — and is not counted in
+the five above.
+
+**TTBK2's score is unchanged but its pose is not the crystal one.** −9.87 matches the earlier dry
+run, yet the pose lands 3.5 Å from 9IV with 17 of 24 heavy atoms over crystal waters. The
+project already established that 9IV binds both TTBK paralogs through a bridging water and that the
+dry TTBK2 native redock fails (5.6 Å); this is the same sensitivity seen from the candidate side.
+TTBK2 scoring 1.38 better than TTBK1 here is the same dry-receptor direction that **reverses under a
+symmetric water shell** (claim 8). It is not evidence for TTBK2 preference, and claim 7 is unchanged.
+
+Poses and figures: `cand_003_redock_clean/` — the MAO-A file kept is the FAD-clash-free pose; the raw
+top pose was deleted on purpose. Provenance: LOGBOOK 2026-09-29, entry O.
+
+---
+
 
 ## What the project can and cannot claim
 
@@ -263,6 +309,7 @@ This is the section to write the thesis and the manuscript Results from.
 | 9 | The reported SEM is not a usable error bar, and its failure scales with pose instability | **Supportable, strongly** | 5 replicate pairs, ratio 2× to 33×, spread monotonic in ligand RMSD |
 | 10 | Absolute ΔG values are comparable between targets | **Not supportable** | protein-specific desolvation/surface terms do not cancel |
 | 11 | Fine-grained docking rank is not reproducible across scoring functions | **Supportable, strongly** | top-15 Pearson +0.354 (p 0.20) and +0.142 (p 0.62); different best compound in both arms; 56 ligands × 2 targets × 3 seeds |
+| 12 | Deleting every heteroatom is not a neutral preparation for these targets | **Supportable, one ligand** | MAO-A raw top score −11.44 vs −8.77 clash-free, top 5 modes all overlap deleted FAD (all 3 seeds); TTBK2 pose 3.5 Å off crystal with 17 atoms over crystal waters; MAO-B and TTBK1 shift ≤0.27 |
 
 ### Two things not to write
 
@@ -307,6 +354,12 @@ Stated plainly, because each one bounds a claim above.
    favourability is reproduced across functions but fine-grained rank is not, so the shortlist
    should be treated as a set of plausible candidates rather than an ordered list. This bounds
    every rank quoted in this file, including `cand_003`'s own 8 of 56 and 2 of 56.
+8. **Result 6 is one ligand, one protocol, and its MAO-A number is selected after the fact.** The
+   −8.77 pose is the best of the surviving modes under a geometric filter (no ligand atom within
+   2.5 Å of crystal FAD), not the product of a rerun with FAD excluded from the search; and it is
+   scored as if FAD were absent, so it carries no ligand–flavin term. It agrees with the FAD-kept run
+   to 0.53 kcal/mol, which is why it is quoted, but it is not that run. Unresolved residues (7JXX
+   gaps at 22 and 164 and a 31-residue C-terminal segment, 2V5Z's C-terminal tail) were not built.
 
 ## What would change the answer
 
@@ -338,6 +391,8 @@ Stated plainly, because each one bounds a claim above.
 | [`../08_analysis/vinardo_crosscheck.csv`](../08_analysis/vinardo_crosscheck.csv) | **result 5's source table** — per-ligand Vina and Vinardo scores and ranks, both receptors |
 | [`../scripts/audit_vinardo.py`](../scripts/audit_vinardo.py) | recomputes every number in result 5 from that table; 66 checks |
 | [`../08_analysis/filter_cascade_candidates_56.csv`](../08_analysis/filter_cascade_candidates_56.csv) | the ADMET/BBB properties in the lead table above |
+| [`cand_003_redock_clean/`](cand_003_redock_clean/) | **result 6's files** — Discovery Studio PDBs, report PDF, `all_modes_scores.csv`, FAD/water overlap scans |
+| [`../04_docking/cand003_redock/`](../04_docking/cand003_redock/) | result 6's prepared receptors, Vina logs and pose files |
 | [`../LOGBOOK.md`](../LOGBOOK.md) | the chronological record, and the authoritative account of *why* — including every defect found |
 | [`../09_manuscript/README.md`](../09_manuscript/README.md) | which manuscript claims need revising, section by section |
 

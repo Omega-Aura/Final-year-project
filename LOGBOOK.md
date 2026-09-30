@@ -3707,3 +3707,49 @@ is a forward-looking list. Nothing was lost — every number they carried (0.26,
 Verified by `scripts/audit_results_readme.py` — 50 checks, recomputing the Vinardo statistics and
 the pose-verdict counts from the primary files rather than comparing text to text, and asserting
 the README agrees with the manuscript on the shared numbers.
+
+## 2026-09-29 — O (cand_003 redocked against all four receptors with every heteroatom stripped; MAO-A's top score is a FAD-deletion artefact)
+
+Requested protocol: no water, no heteroatoms, missing atoms rebuilt, polar H, charges, AutoDock Vina on the known
+site (exhaustiveness 32, 3 seeds). **Deliberately the opposite of `prep_receptor.sh`**, which keeps the 5 A water
+shell and the FAD cofactor; outputs live apart in `04_docking/cand003_redock/` and
+`10_results/cand_003_redock_clean/` and are not seen by any collector.
+
+| receptor | best (kcal/mol) | notes |
+|---|---|---|
+| 2V5Z MAO-B | -11.15 | 0.8 A from native SAG; no FAD/water overlap |
+| 2Z5X MAO-A | -11.44 raw, **-8.77** FAD-clash-free | modes 1-5 of every seed sit inside the deleted FAD |
+| 7JXX TTBK1 | -8.49 | 1.5 A from native VP7 |
+| 7Q8Y TTBK2 | -9.87 | 3.5 A off the native pose; 17 ligand atoms overlap crystal waters |
+
+- PDBFixer for missing atoms/H (`scripts/prep_receptor_strict.py`, WSL env `recprep`). Missing *residues* not built.
+- **MGLTools `prepare_receptor4.py` rejected**: it perceived no bond for PDBFixer's Ser/Thr/Tyr hydroxyl H and gave
+  some Asn/Arg residues +1/0 (2V5Z summed to -13.95 against an expected -3). Meeko gives whole-number charges per
+  residue and totals of -3/+2/+12/+11, exactly as protonated.
+- **Parser bug caught before it shipped**: Vina prints mode 1's RMSD as a bare `0`; the first regex required a decimal
+  and skipped mode 1, so the "best pose" exported was mode 2. Found because the table disagreed with the Vina log.
+- The MAO-A artefact: with FAD deleted nothing penalised the CF3 end sitting in the flavin. -8.77 agrees with the
+  earlier FAD-kept dry run (-8.24). The TTBK2 result is consistent with the dry-vs-water finding already on record.
+Scripts: `cand003_redock_export.py`, `cand003_redock_pdf.py`. Report: `10_results/cand_003_redock_clean/cand_003_redock_report.pdf`.
+
+### Propagated to the results document (same day)
+
+`10_results/README.md`: **new Result 6**, **new claim 12** ("deleting every heteroatom is not a neutral
+preparation for these targets", supportable, one ligand), **new limitation 8**, two rows in "Relevant
+files", and "Nothing new was computed here" qualified to except Result 6. Claims were not renumbered.
+
+- The MAO-A artefact is stated against claim 5 explicitly: taken at face value the raw scores would put
+  MAO-A (-11.44) ahead of MAO-B (-11.15), the reverse of the claim. With the FAD clash removed MAO-B leads
+  by 2.38 kcal/mol (3.18 in the FAD-kept run), so the direction holds and the reversal is the artefact.
+- TTBK2 scoring 1.38 better than TTBK1 is the dry-receptor direction that reverses under a symmetric water
+  shell (claim 8); claim 7 is unchanged.
+- The manuscript was **not** touched: its "five documented instances" count is cross-checked against the
+  README by the audit, and the FAD case is described in the README as a further instance not counted in
+  the five. Whether to fold it into the manuscript is a decision for the author.
+- `scripts/audit_results_readme.py` extended with Result 6 checks that recompute every quoted score from
+  the Vina logs and the per-mode FAD overlap from the docked poses and crystal coordinates.
+
+NOT VERIFIED AT WRITING: the shell tool's safety classifier was returning no verdict when this was
+written, so the extended audit could not be run. Run `python scripts/audit_results_readme.py` (via the
+`docking_project` env) before relying on this entry; a failing check is a hypothesis about a defect, not a
+defect.

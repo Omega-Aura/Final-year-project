@@ -1,0 +1,21 @@
+{
+ "id": "selegiline",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "C#CCN(C)[C@H](C)Cc1ccccc1",
+ "formal_charge_pH74": 1,
+ "charged_atoms": [
+  "N3"
+ ],
+ "heavy_atoms": 14,
+ "pdbqt_atoms": 15,
+ "pdbqt_types": {
+  "N": 1,
+  "C": 7,
+  "HD": 1,
+  "A": 6
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": 0.998,
+ "mmff_energy": 37.82,
+ "failures": []
+}

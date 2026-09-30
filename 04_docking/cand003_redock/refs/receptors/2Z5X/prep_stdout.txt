@@ -1,0 +1,18 @@
+{
+ "pdb": "2Z5X",
+ "chain": "A",
+ "hetero_and_water_removed": [
+  "DCX",
+  "FAD",
+  "GOL",
+  "HOH",
+  "HRM"
+ ],
+ "nonstandard_replaced": [],
+ "missing_residues_not_built": {},
+ "missing_heavy_atoms_rebuilt": 0,
+ "missing_terminal_atoms_rebuilt": 1,
+ "residues": 513,
+ "atoms_with_H": 8200,
+ "expected_net_charge": 2
+}

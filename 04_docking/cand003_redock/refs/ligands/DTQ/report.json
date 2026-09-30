@@ -1,0 +1,21 @@
+{
+ "id": "DTQ",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "COc1cc2ncnc(Nc3cccc(O)c3)c2cc1OC",
+ "formal_charge_pH74": 0,
+ "charged_atoms": [],
+ "heavy_atoms": 22,
+ "pdbqt_atoms": 24,
+ "pdbqt_types": {
+  "N": 1,
+  "HD": 2,
+  "A": 14,
+  "NA": 2,
+  "OA": 3,
+  "C": 2
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": -0.004,
+ "mmff_energy": 11.18,
+ "failures": []
+}

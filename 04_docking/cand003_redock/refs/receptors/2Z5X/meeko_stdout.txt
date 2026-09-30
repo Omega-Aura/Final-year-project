@@ -1,0 +1,4 @@
+@> 8200 atoms and 1 coordinate set(s) were parsed in 0.08s.
+
+Files written:
+04_docking/cand003_redock/refs/receptors/2Z5X/2Z5X.pdbqt <-- static (i.e., rigid) receptor input file

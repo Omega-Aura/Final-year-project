@@ -1,0 +1,18 @@
+{
+ "id": "kaempferol",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "O=c1c(O)c(-c2ccc(O)cc2)oc2cc(O)cc(O)c12",
+ "formal_charge_pH74": 0,
+ "charged_atoms": [],
+ "heavy_atoms": 21,
+ "pdbqt_atoms": 25,
+ "pdbqt_types": {
+  "OA": 6,
+  "A": 15,
+  "HD": 4
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": -0.001,
+ "mmff_energy": 46.37,
+ "failures": []
+}

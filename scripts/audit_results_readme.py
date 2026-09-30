@@ -102,6 +102,83 @@ sec = R.split("## What would change the answer")[1].split("## Relevant files")[0
 check("no completed work left in 'What would change the answer'",
       "Done 2026" not in sec and "DONE" not in sec)
 
+# ---- Result 6 (strict-preparation redock): recomputed from the Vina logs and crystal coordinates ----
+import glob
+import re
+
+import numpy as np
+
+CD = "04_docking/cand003_redock"
+
+
+def top_score(log):
+    for l in io.open(log, encoding="utf-8", errors="replace"):
+        m = re.match(r"\s+1\s+(-?\d+\.\d+)\s", l)
+        if m:
+            return float(m.group(1))
+
+
+best6 = {}
+for r in ("2V5Z", "2Z5X", "7JXX", "7Q8Y"):
+    sc = [top_score(f) for f in sorted(glob.glob("%s/%s_seed*.log" % (CD, r)))]
+    check("Result 6: %s has 3 seed logs with a mode-1 score" % r, len(sc) == 3 and None not in sc, str(sc))
+    best6[r] = min(sc)
+    check("Result 6: %s seeds within 0.06 kcal/mol" % r, max(sc) - min(sc) <= 0.061, str(sc))
+for r, want in (("2V5Z", -11.15), ("2Z5X", -11.44), ("7JXX", -8.49), ("7Q8Y", -9.87)):
+    check("Result 6: %s best %.2f" % (r, want), round(best6[r], 2) == want, "got %.3f" % best6[r])
+
+# earlier same-ligand dry (cofactor-kept) scores that the table quotes
+for d, want in (("2V5Zdry", -11.42), ("2Z5Xdry", -8.24), ("7JXXdry", -8.41), ("7Q8Ydry", -9.89)):
+    sc = [top_score("04_docking/candidates/%s_candidates_56_seed%d/cand_003.log" % (d, s)) for s in (11, 22, 33)]
+    check("Result 6: earlier dry %s = %.2f" % (d, want), round(min(sc) - 1e-9, 2) == want or round(min(sc), 2) == want,
+          str(sc))
+
+# MAO-A: per-mode overlap with the crystal FAD, recomputed from the docked poses
+fad = np.array([[float(l[30:38]), float(l[38:46]), float(l[46:54])]
+                for l in io.open("03_receptors/mao/2Z5X/raw.pdb", encoding="utf-8")
+                if l.startswith("HETATM") and l[17:20] == "FAD" and l[21] == "A" and l[16] in " A"])
+modes = []
+for f in sorted(glob.glob(CD + "/2Z5X_seed*_out.pdbqt")):
+    seed, xs, aff, mode = int(re.search(r"seed(\d+)", f).group(1)), [], None, None
+
+    def flush():
+        if xs:
+            d = np.linalg.norm(np.array(xs)[:, None] - fad[None], axis=2).min(1)
+            modes.append((seed, mode, aff, int((d < 2.5).sum()), float(d.min())))
+    for l in io.open(f, encoding="utf-8", errors="replace"):
+        if l.startswith("MODEL"):
+            flush(); mode, xs = int(l.split()[1]), []
+        elif l.startswith("REMARK VINA RESULT"):
+            aff = float(l.split()[3])
+        elif l.startswith(("ATOM", "HETATM")) and l[77:79].strip() not in ("H", "HD"):
+            xs.append([float(l[30:38]), float(l[38:46]), float(l[46:54])])
+    flush()
+top5 = [m for m in modes if m[1] <= 5]
+check("Result 6: MAO-A modes 1-5 of every seed overlap FAD", len(top5) == 15 and all(m[3] > 0 for m in top5),
+      "n=%d" % len(top5))
+check("Result 6: overlap counts span 4-12 atoms", min(m[3] for m in top5) == 4 and max(m[3] for m in top5) == 12,
+      str(sorted(set(m[3] for m in top5))))
+check("Result 6: closest FAD approach 0.3-0.56 A", 0.25 < min(m[4] for m in top5) < 0.35 and max(m[4] for m in top5) < 0.57,
+      "%.2f..%.2f" % (min(m[4] for m in top5), max(m[4] for m in top5)))
+free = min((m for m in modes if m[3] == 0), key=lambda m: m[2])
+check("Result 6: best FAD-clash-free MAO-A mode is -8.77", round(free[2], 2) == -8.77, str(free))
+seeds_free = {m[0] for m in modes if m[3] == 0 and round(m[2], 2) == -8.77}
+check("Result 6: -8.77 clash-free in all 3 seeds", seeds_free == {11, 22, 33}, str(seeds_free))
+check("Result 6: MAO-B leads clean MAO-A by 2.38", round(best6["2V5Z"] - free[2], 2) == -2.38,
+      "%.3f" % (best6["2V5Z"] - free[2]))
+check("Result 6: raw ranking would reverse claim 5", best6["2Z5X"] < best6["2V5Z"])
+check("Result 6: TTBK2 leads TTBK1 by 1.38", round(best6["7Q8Y"] - best6["7JXX"], 2) == -1.38,
+      "%.3f" % (best6["7Q8Y"] - best6["7JXX"]))
+
+# README wording for Result 6
+check("Result 6 section exists", "## Result 6" in R)
+check("claim 12 present", "| 12 |" in R)
+check("limitation 8 present", "8. **Result 6 is one ligand" in R)
+check("Result 6 says the MAO-A top score is an artefact", "headline score is an artefact" in R)
+check("Result 6 states the −8.77 / 2.38 / 3.18 figures",
+      all(s in R for s in (u"−8.77", "2.38", "3.18")))
+check("'Nothing new was computed' is qualified", "except Result 6" in R)
+
 print("checks run: %d" % checks)
 if fails:
     print("\nFAILED (%d):" % len(fails))

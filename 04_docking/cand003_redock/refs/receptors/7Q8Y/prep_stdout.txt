@@ -1,0 +1,25 @@
+{
+ "pdb": "7Q8Y",
+ "chain": "A",
+ "hetero_and_water_removed": [
+  "9IV",
+  "HOH",
+  "PO4"
+ ],
+ "nonstandard_replaced": [],
+ "missing_residues_not_built": {
+  "0:0": [
+   "SER",
+   "MET",
+   "SER",
+   "GLY",
+   "GLY",
+   "GLY"
+  ]
+ },
+ "missing_heavy_atoms_rebuilt": 4,
+ "missing_terminal_atoms_rebuilt": 0,
+ "residues": 294,
+ "atoms_with_H": 4798,
+ "expected_net_charge": 11
+}

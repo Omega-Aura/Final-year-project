@@ -1,0 +1,24 @@
+{
+ "id": "lazabemide",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "NCCNC(=O)c1ccc(Cl)cn1",
+ "formal_charge_pH74": 1,
+ "charged_atoms": [
+  "N0"
+ ],
+ "heavy_atoms": 13,
+ "pdbqt_atoms": 17,
+ "pdbqt_types": {
+  "C": 3,
+  "N": 2,
+  "HD": 4,
+  "OA": 1,
+  "A": 5,
+  "NA": 1,
+  "Cl": 1
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": 1.0,
+ "mmff_energy": 55.3,
+ "failures": []
+}

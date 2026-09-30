@@ -1,0 +1,18 @@
+{
+ "id": "quercetin",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12",
+ "formal_charge_pH74": 0,
+ "charged_atoms": [],
+ "heavy_atoms": 22,
+ "pdbqt_atoms": 27,
+ "pdbqt_types": {
+  "OA": 7,
+  "A": 15,
+  "HD": 5
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": -0.001,
+ "mmff_energy": 43.38,
+ "failures": []
+}

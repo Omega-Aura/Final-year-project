@@ -1,0 +1,33 @@
+2V5Z
+   [ok] no water / HETATM in cleaned PDB (0 found)
+   [ok] all residues kept in PDBQT (499 in, 499 out, dropped [])
+   [ok] polar hydrogens present (HD) (HD=874, atoms=4849)
+   [ok] each residue charge is a whole number (non-integer: [])
+   [ok] ARG/LYS/ASP/GLU carry the expected charge (termini allowed +/-1) ({})
+   [ok] total charge = protonation-implied net charge (pdbqt -3.00, expected -3)
+   [ok] native ligand inside the box, protein around it (centroid [51.9, 156.5, 28.6], box centre [51.89, 156.45, 28.56], 84 protein heavy atoms within 8 A)
+2Z5X
+   [ok] no water / HETATM in cleaned PDB (0 found)
+   [ok] all residues kept in PDBQT (513 in, 513 out, dropped [])
+   [ok] polar hydrogens present (HD) (HD=910, atoms=5011)
+   [ok] each residue charge is a whole number (non-integer: [])
+   [ok] ARG/LYS/ASP/GLU carry the expected charge (termini allowed +/-1) ({})
+   [ok] total charge = protonation-implied net charge (pdbqt 2.00, expected 2)
+   [ok] native ligand inside the box, protein around it (centroid [40.6, 26.9, -14.5], box centre [40.58, 26.93, -14.54], 96 protein heavy atoms within 8 A)
+7JXX
+   [ok] no water / HETATM in cleaned PDB (0 found)
+   [ok] all residues kept in PDBQT (288 in, 288 out, dropped [])
+   [ok] polar hydrogens present (HD) (HD=560, atoms=2921)
+   [ok] each residue charge is a whole number (non-integer: [])
+   [ok] ARG/LYS/ASP/GLU carry the expected charge (termini allowed +/-1) ({})
+   [ok] total charge = protonation-implied net charge (pdbqt 12.00, expected 12)
+   [ok] native ligand inside the box, protein around it (centroid [178.9, 19.6, 46.2], box centre [178.93, 19.64, 46.21], 69 protein heavy atoms within 8 A)
+7Q8Y
+   [ok] no water / HETATM in cleaned PDB (0 found)
+   [ok] all residues kept in PDBQT (294 in, 294 out, dropped [])
+   [ok] polar hydrogens present (HD) (HD=572, atoms=2962)
+   [ok] each residue charge is a whole number (non-integer: [])
+   [ok] ARG/LYS/ASP/GLU carry the expected charge (termini allowed +/-1) ({})
+   [ok] total charge = protonation-implied net charge (pdbqt 11.00, expected 11)
+   [ok] native ligand inside the box, protein around it (centroid [21.2, -26.5, 40.8], box centre [21.17, -26.47, 40.85], 69 protein heavy atoms within 8 A)
+RECEPTORS VALIDATED

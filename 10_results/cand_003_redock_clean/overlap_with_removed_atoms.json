@@ -1,0 +1,94 @@
+{
+ "2V5Z": {
+  "FAD": {
+   "n_atoms": 53,
+   "min_dist": 4.68,
+   "lig_atoms_within_2p5": 0,
+   "lig_atoms_within_3p5": 0
+  },
+  "SAG": {
+   "n_atoms": 22,
+   "min_dist": 0.38,
+   "lig_atoms_within_2p5": 24,
+   "lig_atoms_within_3p5": 24
+  },
+  "water": {
+   "n_atoms": 351,
+   "min_dist": 3.04,
+   "lig_atoms_within_2p5": 0,
+   "lig_atoms_within_3p5": 3
+  }
+ },
+ "2Z5X": {
+  "FAD": {
+   "n_atoms": 53,
+   "min_dist": 0.53,
+   "lig_atoms_within_2p5": 7,
+   "lig_atoms_within_3p5": 9
+  },
+  "HRM": {
+   "n_atoms": 16,
+   "min_dist": 0.21,
+   "lig_atoms_within_2p5": 16,
+   "lig_atoms_within_3p5": 18
+  },
+  "DCX": {
+   "n_atoms": 28,
+   "min_dist": 18.24,
+   "lig_atoms_within_2p5": 0,
+   "lig_atoms_within_3p5": 0
+  },
+  "GOL": {
+   "n_atoms": 18,
+   "min_dist": 9.81,
+   "lig_atoms_within_2p5": 0,
+   "lig_atoms_within_3p5": 0
+  },
+  "water": {
+   "n_atoms": 182,
+   "min_dist": 0.61,
+   "lig_atoms_within_2p5": 8,
+   "lig_atoms_within_3p5": 14
+  }
+ },
+ "7JXX": {
+  "VP7": {
+   "n_atoms": 25,
+   "min_dist": 0.45,
+   "lig_atoms_within_2p5": 24,
+   "lig_atoms_within_3p5": 24
+  },
+  " NA": {
+   "n_atoms": 3,
+   "min_dist": 9.62,
+   "lig_atoms_within_2p5": 0,
+   "lig_atoms_within_3p5": 0
+  },
+  "water": {
+   "n_atoms": 291,
+   "min_dist": 2.62,
+   "lig_atoms_within_2p5": 0,
+   "lig_atoms_within_3p5": 3
+  }
+ },
+ "7Q8Y": {
+  "PO4": {
+   "n_atoms": 10,
+   "min_dist": 13.71,
+   "lig_atoms_within_2p5": 0,
+   "lig_atoms_within_3p5": 0
+  },
+  "9IV": {
+   "n_atoms": 24,
+   "min_dist": 0.41,
+   "lig_atoms_within_2p5": 11,
+   "lig_atoms_within_3p5": 13
+  },
+  "water": {
+   "n_atoms": 381,
+   "min_dist": 0.49,
+   "lig_atoms_within_2p5": 17,
+   "lig_atoms_within_3p5": 21
+  }
+ }
+}

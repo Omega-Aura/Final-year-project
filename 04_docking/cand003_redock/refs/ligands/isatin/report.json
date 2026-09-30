@@ -1,0 +1,20 @@
+{
+ "id": "isatin",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "O=C1Nc2ccccc2C1=O",
+ "formal_charge_pH74": 0,
+ "charged_atoms": [],
+ "heavy_atoms": 11,
+ "pdbqt_atoms": 12,
+ "pdbqt_types": {
+  "OA": 2,
+  "C": 2,
+  "N": 1,
+  "A": 6,
+  "HD": 1
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": 0.0,
+ "mmff_energy": 56.86,
+ "failures": []
+}

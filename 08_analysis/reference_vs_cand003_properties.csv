@@ -1,0 +1,14 @@
+id,MW,WLogP,TPSA,HBD,HBA,Lipinski_violations,BBB_pass,GIA_pass,n_structural_alerts,smiles
+safinamide,302.34900000000005,2.3681,64.35,2,3,0,True,True,0,C[C@H](NCc1ccc(OCc2cccc(F)c2)cc1)C(N)=O
+selegiline,187.286,2.1826,3.24,0,1,0,True,False,1,C#CCN(C)[C@H](C)Cc1ccccc1
+rasagiline,171.243,1.8967,12.03,1,1,0,True,True,1,C#CCN[C@@H]1CCc2ccccc21
+lazabemide,199.641,0.4234999999999998,68.00999999999999,2,3,0,False,True,0,NCCNC(=O)c1ccc(Cl)cn1
+kaempferol,286.23900000000003,2.2824000000000004,111.13000000000001,4,6,0,False,True,0,O=c1c(O)c(-c2ccc(O)cc2)oc2cc(O)cc(O)c12
+quercetin,302.23800000000006,1.988,131.36,5,7,0,False,True,2,O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12
+isatin,147.13299999999995,0.8213999999999999,46.17,1,2,0,True,True,1,O=C1Nc2ccccc2C1=O
+clorgyline,272.175,3.327300000000002,12.47,0,2,0,True,True,2,C#CCN(C)CCCOc1ccc(Cl)cc1Cl
+harmine,212.25199999999998,3.033120000000001,37.91,1,2,0,True,True,0,COc1ccc2c(c1)[nH]c1c(C)nccc12
+VP7,332.40700000000015,2.818200000000001,87.82,3,4,0,False,True,1,CC(C)(O)C#Cc1ccc2[nH]c3c(c2c1)-c1nc(N)ncc1CCC3
+DTQ,297.3140000000001,3.0962000000000014,76.50000000000001,2,6,0,True,True,0,COc1cc2ncnc(Nc3cccc(O)c3)c2cc1OC
+9IV_ttbk1,336.78200000000004,5.147200000000002,62.83,2,4,1,True,True,0,Clc1ccccc1Oc1ccc(Nc2ncnc3[nH]ccc23)cc1
+cand_003,336.265,4.198420000000002,70.67,2,4,0,True,True,0,Cc1cc(-c2oc3cccc(O)c3c(=O)c2O)ccc1C(F)(F)F

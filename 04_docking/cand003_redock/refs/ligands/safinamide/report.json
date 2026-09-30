@@ -1,0 +1,23 @@
+{
+ "id": "safinamide",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "C[C@H](NCc1ccc(OCc2cccc(F)c2)cc1)C(N)=O",
+ "formal_charge_pH74": 1,
+ "charged_atoms": [
+  "N2"
+ ],
+ "heavy_atoms": 22,
+ "pdbqt_atoms": 26,
+ "pdbqt_types": {
+  "A": 12,
+  "C": 5,
+  "N": 2,
+  "HD": 4,
+  "OA": 2,
+  "F": 1
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": 0.997,
+ "mmff_energy": 49.02,
+ "failures": []
+}

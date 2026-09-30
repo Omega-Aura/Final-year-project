@@ -1,0 +1,42 @@
+{
+ "pdb": "2V5Z",
+ "chain": "A",
+ "hetero_and_water_removed": [
+  "FAD",
+  "HOH",
+  "SAG"
+ ],
+ "nonstandard_replaced": [],
+ "missing_residues_not_built": {
+  "0:0": [
+   "MET",
+   "SER"
+  ],
+  "0:499": [
+   "PHE",
+   "SER",
+   "ALA",
+   "THR",
+   "ALA",
+   "LEU",
+   "GLY",
+   "PHE",
+   "LEU",
+   "ALA",
+   "HIS",
+   "LYS",
+   "ARG",
+   "GLY",
+   "LEU",
+   "LEU",
+   "VAL",
+   "ARG",
+   "VAL"
+  ]
+ },
+ "missing_heavy_atoms_rebuilt": 3,
+ "missing_terminal_atoms_rebuilt": 1,
+ "residues": 499,
+ "atoms_with_H": 7955,
+ "expected_net_charge": -3
+}

@@ -1,0 +1,23 @@
+{
+ "id": "VP7",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "CC(C)(O)C#Cc1ccc2[nH]c3c(c2c1)-c1nc(N)ncc1CCC3",
+ "formal_charge_pH74": 0,
+ "charged_atoms": [],
+ "heavy_atoms": 25,
+ "pdbqt_atoms": 31,
+ "pdbqt_types": {
+  "C": 6,
+  "A": 12,
+  "N": 2,
+  "HD": 4,
+  "OA": 1,
+  "NA": 2,
+  "CG": 2,
+  "G0": 2
+ },
+ "pseudo_atoms": 2,
+ "pdbqt_charge_sum": -0.004,
+ "mmff_energy": -72.38,
+ "failures": []
+}

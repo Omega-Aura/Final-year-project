@@ -1,0 +1,4 @@
+@> 4798 atoms and 1 coordinate set(s) were parsed in 0.08s.
+
+Files written:
+04_docking/cand003_redock/refs/receptors/7Q8Y/7Q8Y.pdbqt <-- static (i.e., rigid) receptor input file

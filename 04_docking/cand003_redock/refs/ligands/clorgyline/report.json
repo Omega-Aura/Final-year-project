@@ -1,0 +1,23 @@
+{
+ "id": "clorgyline",
+ "source": "01_smiles/references.csv",
+ "smiles_in": "C#CCN(C)CCCOc1ccc(Cl)cc1Cl",
+ "formal_charge_pH74": 1,
+ "charged_atoms": [
+  "N3"
+ ],
+ "heavy_atoms": 17,
+ "pdbqt_atoms": 18,
+ "pdbqt_types": {
+  "C": 7,
+  "N": 1,
+  "HD": 1,
+  "OA": 1,
+  "A": 6,
+  "Cl": 2
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": 0.999,
+ "mmff_energy": 27.82,
+ "failures": []
+}

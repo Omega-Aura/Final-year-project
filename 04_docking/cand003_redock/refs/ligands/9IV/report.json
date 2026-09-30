@@ -1,0 +1,21 @@
+{
+ "id": "9IV",
+ "source": "01_smiles/references.csv (9IV_ttbk1)",
+ "smiles_in": "Clc1ccccc1Oc1ccc(Nc2ncnc3[nH]ccc23)cc1",
+ "formal_charge_pH74": 0,
+ "charged_atoms": [],
+ "heavy_atoms": 24,
+ "pdbqt_atoms": 26,
+ "pdbqt_types": {
+  "A": 18,
+  "OA": 1,
+  "Cl": 1,
+  "N": 2,
+  "HD": 2,
+  "NA": 2
+ },
+ "pseudo_atoms": 0,
+ "pdbqt_charge_sum": -0.0,
+ "mmff_energy": 32.66,
+ "failures": []
+}
